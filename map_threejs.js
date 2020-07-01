@@ -1,7 +1,6 @@
-var THREE = require("three-js")();
-  const MAX_POINTS=500;
-  let scene, camera, renderer, plane, road, line;
+  let scene, camera, renderer, plane, road;
   let EECS, Library, CC, SS, Admin, PA, Bus, Hum, Law, School;
+
   let rayCast = new THREE.Raycaster();
   let mouse = new THREE.Vector2(), INTERSECTED;
   let Schools = new THREE.Group();
@@ -9,6 +8,7 @@ var THREE = require("three-js")();
   let ADD = 0.005;
   let theta = 0;
   let change = true;
+  let parab1,parab2,parab3;
   //let BuildingMaterial = new THREE.MeshLambertMaterial({
   //color: 0xdf846e
   //})
@@ -16,115 +16,6 @@ var THREE = require("three-js")();
     color: 0xf9f0ce,
     side: THREE.DoubleSide
   })
-
-  // EECS
-  let createEECS = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(20, py * 2, 20)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    EECS = new THREE.Mesh(geometry, material);
-    EECS.position.set(px, py, pz)
-    EECS.castShadow = true;
-    EECS.receiveShadow = true;
-    scene.add(EECS);
-  }
-  // Library
-  let createLibrary = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(20, py * 2, 10)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    Library = new THREE.Mesh(geometry, material)
-    Library.position.set(px, py, pz)
-    Library.castShadow = true;
-    Library.receiveShadow = true
-    scene.add(Library);
-  }
-  // ComputerCenter
-  let createCC = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(15, py * 2, 10)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    CC = new THREE.Mesh(geometry, material)
-    CC.position.set(px, py, pz)
-    CC.castShadow = true;
-    CC.receiveShadow = true
-    scene.add(CC);
-  }
-  // SS
-  let createSS = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(20, py * 2, 25)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    SS = new THREE.Mesh(geometry, material)
-    SS.position.set(px, py, pz)
-    SS.castShadow = true;
-    SS.receiveShadow = true
-    scene.add(SS);
-  }
-  // AdminCenter
-  let createAdmin = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(20, py * 2, 25)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    Admin = new THREE.Mesh(geometry, material)
-    Admin.position.set(px, py, pz)
-    Admin.castShadow = true;
-    Admin.receiveShadow = true
-    scene.add(Admin);
-  }
-  // PA
-  let createPA = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(20, py * 2, 25)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    PA = new THREE.Mesh(geometry, material)
-    PA.position.set(px, py, pz)
-    PA.castShadow = true;
-    PA.receiveShadow = true
-    scene.add(PA);
-  }
-  // Business
-  let createBus = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(20, py * 2, 25)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    Bus = new THREE.Mesh(geometry, material)
-    Bus.position.set(px, py, pz)
-    Bus.castShadow = true;
-    Bus.receiveShadow = true
-    scene.add(Bus);
-  }
-  // Humanities
-  let createHum = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(25, py * 2, 15)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    Hum = new THREE.Mesh(geometry, material)
-    Hum.position.set(px, py, pz)
-    Hum.castShadow = true;
-    Hum.receiveShadow = true
-    scene.add(Hum);
-  }
-  // Law
-  let createLaw = function (px, py, pz) {
-    geometry = new THREE.BoxGeometry(20, py * 2, 35)
-    material = new THREE.MeshLambertMaterial({
-      color: 0xdf846e
-    })
-    Law = new THREE.Mesh(geometry, material)
-    Law.position.set(px, py, pz)
-    Law.castShadow = true;
-    Law.receiveShadow = true
-    scene.add(Law);
-  }
   // 校園
   let createSchool = function () {
     // 地板
@@ -183,13 +74,12 @@ var THREE = require("three-js")();
     rayCast.setFromCamera(mouse, camera);
     let intersects = rayCast.intersectObjects(scene.children);
     if (intersects.length > 0) {
-      if (INTERSECTED != intersects[0].object) {
+      if (INTERSECTED != intersects[0].object && "emissive" in intersects[0].object.material) {
+          if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
-        if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-
-        INTERSECTED = intersects[0].object;
-        INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-        INTERSECTED.material.emissive.setHex(0xff00ff);
+          INTERSECTED = intersects[0].object;
+          INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+          INTERSECTED.material.emissive.setHex(0xff00ff);
       }
 
     } else {
@@ -200,6 +90,7 @@ var THREE = require("three-js")();
 
     }
   };
+
   let onMouseClick = function (e) {
    
   };
@@ -219,9 +110,9 @@ var THREE = require("three-js")();
     camera.position.set(100, 130, 100)
     camera.lookAt(scene.position)
 
-    spotLight = new THREE.SpotLight(0xffffff, 1);
+    spotLight = new THREE.SpotLight(0x666666, 1);
     //spotLight.position.set(15, 50, -15);
-    spotLight.position.set(0, 50, 0);
+    spotLight.position.set(0, 500, 0);
     spotLight.angle = Math.PI;
     spotLight.penumbra = 0.05;
     spotLight.decay = 1;
@@ -237,19 +128,33 @@ var THREE = require("three-js")();
 
     scene.add(spotLight);
     //drawline();
-
+    //圖書館
+    createBox("LIB",  scene, new THREE.Vector3(-8,8,-30),  new THREE.Vector3(20, 16 ,10), 0x08aeff);
+    //電機資訊
+    createBox("EECS", scene, new THREE.Vector3(-35,9,-35), new THREE.Vector3(20, 18 ,20), 0x08aeff);
+    //資中
+    createBox("CC",   scene, new THREE.Vector3(-8,4,-45),  new THREE.Vector3(15, 8 ,10), 0x08aeff);
+    //社科
+    createBox("SS",   scene, new THREE.Vector3(20,8,-37),  new THREE.Vector3(20, 16 ,25), 0x08aeff);
+    //行政
+    createBox("ADM",  scene, new THREE.Vector3(20,7,-5),   new THREE.Vector3(20, 14 ,25), 0x08aeff);
+    //公共
+    createBox("PA",   scene, new THREE.Vector3(-35,9,-5),  new THREE.Vector3(20, 18 ,25), 0x08aeff);
+    //法院
+    createBox("LAW",  scene, new THREE.Vector3(-37,8,32), new THREE.Vector3(20, 16 ,35),  0x08aeff);
+    //商院
+    createBox("BUS",  scene, new THREE.Vector3(20,9,32), new THREE.Vector3(20, 18 ,25),  0x08aeff);
+    //人文
+    createBox("HUM",  scene, new THREE.Vector3(50,13,22), new THREE.Vector3(25, 26 ,15),  0x08aeff);
+    parab1 = initParabola(scene);
+    setParabola(parab1, new THREE.Vector3(-8,8,-30), new THREE.Vector3(-35,9,-35), -0.003 );
+    parab2 = initParabola(scene);
+    setParabola(parab2, new THREE.Vector3(-8,4,-45), new THREE.Vector3(20,8,-37), -0.003 );
+    parab3 = initParabola(scene);
+    setParabola(parab3, new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003 );
+  
     // 建立物體
-    createEECS(-35, 9, -35);
-    createLibrary(-8, 8, -30);
-    createCC(-8, 4, -45);
-    createSS(20, 4, -37);
-    createAdmin(20, 7, -5);
-    createPA(-35, 9, -5);
-    createBus(20, 9, 32);
-    createHum(50, 13, 22);
-    createLaw(-37, 8, 32);
     createSchool();
-
     mouse.x = mouse.y = -1;
 
     // 建立渲染器
@@ -269,52 +174,14 @@ var THREE = require("three-js")();
     document.addEventListener("mousemove", onMouseMove, false);
     //document.addEventListener("click", onMouseClick, false);
   }
-  function drawline()
-  {
-    	// geometry
-	  let geometry = new THREE.BufferGeometry();
-    // attributes
-    let positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
-    geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-
-    // drawcalls
-    let drawCount = 2; // draw the first 2 points, only
-    geometry.setDrawRange( 0, drawCount );
-
-    // material
-    material = new THREE.MeshLambertMaterial({
-      color: 0xffffff,
-    });
-
-    // line
-    line = new THREE.Line( geometry,  material );
-    scene.add( line );
-  }
-  function updatePositions() {
-
-    let positions = line.geometry.attributes.position.array;
-  
-    let x = y = z = index = 0;
-    for ( let i = 0, l = MAX_POINTS; i < l; i ++ ) {
-  
-      positions[ index ++ ] = x;
-      positions[ index ++ ] = y;
-      positions[ index ++ ] = z;
-  
-      x += ( Math.random() - 0.5 ) * 30;
-    }
-  }
   // 渲染場景
   let mainLoop = function () {
 
-    //spotLight.position.x = 100 * Math.sin(theta)
-    //spotLight.position.z = 100 * Math.cos(theta)
-    //theta += ADD
-    //spotLight.lookAt(0, 0, 0)
-
     cameraControl.update()
     requestAnimationFrame(mainLoop)
-    updatePositions()
+    updateParabola(parab1);
+    updateParabola(parab2);
+    updateParabola(parab3);
     renderer.render(scene, camera)
   }
 
@@ -326,5 +193,4 @@ var THREE = require("three-js")();
   })
 
   init();
-  drawline();
   mainLoop();
