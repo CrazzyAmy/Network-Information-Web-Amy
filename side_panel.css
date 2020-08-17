@@ -1,0 +1,28 @@
+/*側邊攔格式*/
+.wrapper {
+    display: inside;
+    position: relative;
+    height: 100%;
+  }
+.grid-container{
+    display: grid;
+    widows: 100%;
+    grid-template-columns: 250px auto 250px;
+    grid-gap: 10px;
+    padding: 0px;
+    position: relative;
+    top :45px;
+    height: 100%;
+}
+.scene-container{
+    max-width: 800px;
+    height: 100%;
+    z-index: 0;
+}
+.wrapper .sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    background: #5341a3;
+    z-index: 1;
+}

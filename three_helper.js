@@ -1,21 +1,24 @@
 
 let MAX_POINTS = 200;
 let drawCount;
-function createBox(name,scene ,p, size, c) 
+function createBox(name,scene ,p, size, c, floor) 
 {
-    geometry = new THREE.BoxGeometry(size.x, size.y, size.z)
-    material = new THREE.MeshLambertMaterial({
+  for(let i =0;i < floor; i++)
+  {
+    var geometry = new THREE.BoxGeometry(size.x, size.y / floor, size.z)
+    var material = new THREE.MeshLambertMaterial({
       color: c,
       opacity : 0.9,
       transparent : true
     });
-    Mesh = new THREE.Mesh(geometry, material);
+    var Mesh = new THREE.Mesh(geometry, material);
     Mesh.Name = name;
-    Mesh.position.set(p.x, p.y, p.z);
+    Mesh.position.set(p.x, p.y + i * size.y / floor - floor, p.z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
     console.log(Mesh.Name + " Added");
     scene.add(Mesh);
+  }
 }
 function initParabola(scene)
 {
@@ -41,6 +44,7 @@ function initParabola(scene)
   return parab;
 }
 // update positions
+//建立拋物線(參考, 起點, 終點, 加速度參數)
 function setParabola(parab,start,end,a) 
 {
 	//y equation: y = -ky^2
@@ -61,13 +65,14 @@ function setParabola(parab,start,end,a)
 		positions[ index ++ ] = start.z + v.z*i;
 	}
 }
+///更新拋物線方程
 function updateParabola(parab)
 {
   drawCount = ( drawCount + 1 ) % MAX_POINTS;
 	draw_min = Math.max(drawCount - 100, 0 );
 	parab.geometry.setDrawRange( draw_min, drawCount );
 
-  if ( drawCount === 0 ) 
+  if ( drawCount == 0 ) 
   {
 		parab.geometry.attributes.position.needsUpdate = true; // required after the first render
     parab.material.color.setHSL( Math.random(), 1, 0.5 );
