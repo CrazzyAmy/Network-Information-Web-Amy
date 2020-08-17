@@ -1,0 +1,11 @@
+{
+    "buildings" : [ {"id":"LIB","title":"圖書館","location":[-8,8,-30], "size" :[20, 16 ,10] , "color":"0x08aeff", "floor":8 }, 
+                    {"id":"EECS","title":"電機資訊學院","location":[-35,9,-35], "size" :[20, 18 ,20] , "color":"0x08aeff", "floor":9 }, 
+                    {"id":"CC","title":"資訊中心","location":[-8,4,-45], "size" :[15, 8 ,10] , "color":"0x08aeff", "floor":4 }, 
+                    {"id":"SS","title":"社會科學學院","location":[20,8,-37], "size" :[20, 16 ,25] , "color":"0x08aeff", "floor":8 }, 
+                    {"id":"ADM","title":"行政大樓","location":[20,7,-5], "size" :[20, 14 ,25] , "color":"0x08aeff", "floor":7 },
+                    {"id":"PA","title":"公共事務學院","location":[-35,9,-5], "size" :[20, 18 ,25] , "color":"0x08aeff", "floor":9 }, 
+                    {"id":"LAW","title":"法律學院","location":[-37,8,32], "size" :[20, 16 ,35] , "color":"0x08aeff", "floor":8 } ,
+                    {"id":"BUS","title":"商學院","location":[20,9,32], "size" :[20, 18 ,25] , "color":"0x08aeff", "floor":9 } ,
+                    {"id":"HUM","title":"人文學院","location":[50,13,22], "size" :[25, 26 ,15] , "color":"0x08aeff", "floor":13 }  ]
+}

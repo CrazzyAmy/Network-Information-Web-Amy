@@ -1,7 +1,8 @@
 
 let MAX_POINTS = 200;
 let drawCount;
-function createBox(name,scene ,p, size, c, floor) 
+
+function createBox(id,scene ,location, size, c, floor) 
 {
   for(let i =0;i < floor; i++)
   {
@@ -12,8 +13,8 @@ function createBox(name,scene ,p, size, c, floor)
       transparent : true
     });
     var Mesh = new THREE.Mesh(geometry, material);
-    Mesh.Name = name;
-    Mesh.position.set(p.x, p.y + i * size.y / floor - floor, p.z );
+    Mesh.Name = id;
+    Mesh.position.set(location.x, location.y + i * size.y / floor - floor, location.z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
     console.log(Mesh.Name + " Added");

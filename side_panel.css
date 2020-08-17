@@ -1,9 +1,5 @@
-/*側邊攔格式*/
-.wrapper {
-    display: inside;
-    position: relative;
-    height: 100%;
-  }
+/*主容器格式*/
+/*wrapper(250px)| scene(auto) | wrapper(250px)*/
 .grid-container{
     display: grid;
     widows: 100%;
@@ -14,11 +10,18 @@
     top :45px;
     height: 100%;
 }
+/*側邊攔外容器*/
+.wrapper {
+    display: inside;
+    position: relative;
+    height: 100%;
+}
+/*three.js 主畫面視窗*/
 .scene-container{
-    max-width: 800px;
     height: 100%;
     z-index: 0;
 }
+/*側邊攔格式*/
 .wrapper .sidebar {
     position: fixed;
     width: 250px;
