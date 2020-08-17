@@ -94,6 +94,15 @@
   let onMouseClick = function (e) {
    
   };
+  let scene_init_buildings = function () {
+    for(let i=0;i<buildings.length;i++)
+    {
+      let b = buildings.list[i];
+      let location = new THREE.Vector3(b.location[0],b.location[1],b.location[2]);
+      let size = new THREE.Vector3(b.size[0],b.size[1],b.size[2]);
+      createBox(b.id,scene,location, size, b.color, b.floor);
+    }
+  }
 
   // 初始化場景、渲染器、相機、物體
   let init = function () {
@@ -127,25 +136,8 @@
     spotLight.shadow.mapSize.height = 1024;
 
     scene.add(spotLight);
-    //drawline();
-    //圖書館
-    createBox("LIB",  scene, new THREE.Vector3(-8,8,-30),  new THREE.Vector3(20, 16 ,10), 0x08aeff, 8);
-    //電機資訊
-    createBox("EECS", scene, new THREE.Vector3(-35,9,-35), new THREE.Vector3(20, 18 ,20), 0x08aeff, 9);
-    //資中
-    createBox("CC",   scene, new THREE.Vector3(-8,4,-45),  new THREE.Vector3(15, 8 ,10), 0x08aeff, 4);
-    //社科
-    createBox("SS",   scene, new THREE.Vector3(20,8,-37),  new THREE.Vector3(20, 16 ,25), 0x08aeff, 8);
-    //行政
-    createBox("ADM",  scene, new THREE.Vector3(20,7,-5),   new THREE.Vector3(20, 14 ,25), 0x08aeff, 7);
-    //公共
-    createBox("PA",   scene, new THREE.Vector3(-35,9,-5),  new THREE.Vector3(20, 18 ,25), 0x08aeff, 9);
-    //法院
-    createBox("LAW",  scene, new THREE.Vector3(-37,8,32), new THREE.Vector3(20, 16 ,35),  0x08aeff, 8);
-    //商院
-    createBox("BUS",  scene, new THREE.Vector3(20,9,32), new THREE.Vector3(20, 18 ,25),  0x08aeff, 9);
-    //人文
-    createBox("HUM",  scene, new THREE.Vector3(50,13,22), new THREE.Vector3(25, 26 ,15),  0x08aeff, 13);
+    
+    
     parab1 = initParabola(scene);
     setParabola(parab1, new THREE.Vector3(-8,8,-30), new THREE.Vector3(-35,9,-35), -0.003 );
     parab2 = initParabola(scene);

@@ -10,9 +10,9 @@ class JsonReader
             if ( request.readyState === 4 && request.status === 200 ) 
             {
                 let json = JSON.parse(request.responseText);
-                let array = new Array();
                 for (let i = 0; i < json.buildings.length;i++)
                     buildings_ref.add(Building.fromJson(json.buildings[i]));
+                scene_init_buildings();
             }
         }
     }
@@ -20,16 +20,16 @@ class JsonReader
 class Buildings 
 {
     constructor() {
-      this.buildings = []
+      this.list = []
     }
     add(building){
-        this.buildings.push(building);
+        this.list.push(building);
     }
     get array(){
-        return this.buildings;
+        return this.list;
     }
     get length(){
-        return this.buildings.length;
+        return this.list.length;
     }
 }
 
@@ -53,10 +53,10 @@ class Building
                 "\"color\":" + this.color + "," +
                 "\"floor\":" + this.floor + "}");
         };
-        
     }
     static fromJson = function (obj){
-        return new Building (obj.id, obj.title, obj.location, obj.size, obj.color, obj.floor);
+        let color = parseInt(obj.color.replace(/^#/, ''), 16)
+        return new Building (obj.id, obj.title, obj.location, obj.size, color, obj.floor);
     };
 }
 class Decoration
