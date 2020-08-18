@@ -1,23 +1,25 @@
 
 class JsonReader
 {
-    static load_buildings(buildings_ref ,path)
+    static load_array(array_ref ,path, func_format , func_call_back)
     {
         var request = new XMLHttpRequest();
         request.open("GET", path, true);
         request.send(null)
-        request.onreadystatechange = function() {
+        request.onreadystatechange = function() 
+        {
             if ( request.readyState === 4 && request.status === 200 ) 
             {
-                let json = JSON.parse(request.responseText);
-                for (let i = 0; i < json.buildings.length;i++)
-                    buildings_ref.add(Building.fromJson(json.buildings[i]));
-                scene_init_buildings();
+                let listdata = JSON.parse(request.responseText);
+                let array = listdata[Object.keys(listdata)[0]]; // first array element
+                for (let i = 0; i < array.length;i++)
+                    array_ref.add(func_format(array[i]));
+                func_call_back();
             }
         }
     }
 }
-class Buildings 
+class ListData 
 {
     constructor() {
       this.list = []
@@ -61,5 +63,25 @@ class Building
 }
 class Decoration
 {
-
+    constructor(id, title, type ,location ,size, color)
+    {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.location = location
+        this.size = size;
+        this.color = color;
+        this.toJson = function (){
+            return ("{" +
+                "\"id\":\"" + this.id + "\"," +
+                "\"title\":\"" + this.title + "\"," +
+                "\"type\":\"" + this.type + "\"," +
+                "\"size\":\"" + this.size + "\"," +
+                "\"color\":" + this.color + "}");
+        };
+    }
+    static fromJson = function (obj){
+        let color = parseInt(obj.color.replace(/^#/, ''), 16)
+        return new Decoration (obj.id, obj.title, obj.type ,obj.location, obj.size, color);
+    };
 }

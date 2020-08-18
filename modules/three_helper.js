@@ -2,26 +2,48 @@
 let MAX_POINTS = 200;
 let drawCount;
 
-function createBox(id,scene ,location, size, c, floor) 
+//建立平面
+function createPlane(plane, group)
 {
+  let PlaneMaterial = new THREE.MeshLambertMaterial({
+    color: plane.color,
+    side: THREE.DoubleSide
+  });
+  let x = plane.location[0], y = plane.location[1], z = plane.location[2];  //location
+  let width = plane.size[0], depth = plane.size[1];
+  geometry = new THREE.PlaneGeometry(width, depth);
+  plane = new THREE.Mesh(geometry, PlaneMaterial);
+  plane.position.set(x, y, z);
+  plane.rotation.x = -0.5 * Math.PI; //修正size[1]為深度(depth) width, height -> width, depth 
+  plane.receiveShadow = true;
+  group.add(plane);
+} 
+//建立長方立方體
+function createBuilding(building, group) 
+{
+  let width = building.size[0], height = building.size[1], depth = building.size[2]; //size
+  let x = building.location[0], y = building.location[1], z = building.location[2];  //location
+  let floor = building.floor, c = building.color;
+  //依照層數建立每層的立方體 註: Mesh.position為中心位置
   for(let i =0;i < floor; i++)
   {
-    var geometry = new THREE.BoxGeometry(size.x, size.y / floor, size.z)
+    var geometry = new THREE.BoxGeometry(width, height / floor, depth)
     var material = new THREE.MeshLambertMaterial({
       color: c,
       opacity : 0.9,
       transparent : true
     });
     var Mesh = new THREE.Mesh(geometry, material);
-    Mesh.Name = id;
-    Mesh.position.set(location.x, location.y + i * size.y / floor - floor, location.z );
+    Mesh.Name = building.id;
+    Mesh.position.set(x, y + i * height / floor - floor, z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
-    console.log(Mesh.Name + " Added");
-    scene.add(Mesh);
+    console.log("BoxGeometry" + Mesh.Name + "Added");
+    group.add(Mesh);
   }
 }
-function initParabola(scene)
+//建立拋物線(scene參考)
+function initParabola(group)
 {
   	// geometry
 	var geometry = new THREE.BufferGeometry();
@@ -41,11 +63,10 @@ function initParabola(scene)
   });
 	// line
   var	parab = new THREE.Line( geometry,  material );
-  scene.add( parab );
+  group.add( parab );
   return parab;
 }
-// update positions
-//建立拋物線(參考, 起點, 終點, 加速度參數)
+//設定拋物線參數(參考, 起點, 終點, 加速度參數)
 function setParabola(parab,start,end,a) 
 {
 	//y equation: y = -ky^2

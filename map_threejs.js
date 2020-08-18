@@ -1,23 +1,23 @@
   let scene, camera, renderer, plane, road;
-  let EECS, Library, CC, SS, Admin, PA, Bus, Hum, Law, School;
 
   let rayCast = new THREE.Raycaster();
   let mouse = new THREE.Vector2(), INTERSECTED;
-  let Schools = new THREE.Group();
+  let t_decorations = new THREE.Group();
+  let t_buildings = new THREE.Group();
   let geometry, material;
   let ADD = 0.005;
   let theta = 0;
   let change = true;
-  let parab1,parab2,parab3;
-  //let BuildingMaterial = new THREE.MeshLambertMaterial({
-  //color: 0xdf846e
-  //})
+  let parab1, parab2, parab3;
+
   let RoadMaterial = new THREE.MeshLambertMaterial({
     color: 0xf9f0ce,
     side: THREE.DoubleSide
   })
+  /*
   // 校園
   let createSchool = function () {
+
     // 地板
     geometry = new THREE.PlaneGeometry(150, 150);
     material = new THREE.MeshLambertMaterial({
@@ -27,7 +27,7 @@
     plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -0.5 * Math.PI;
     plane.receiveShadow = true;
-    Schools.add(plane);
+    t_decorations.add(plane);
 
     // 法政路
     geometry = new THREE.PlaneGeometry(5, 150);
@@ -35,7 +35,7 @@
     road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
     road.position.set(-21, 1, 0)
     road.receiveShadow = true
-    Schools.add(road);
+    t_decorations.add(road);
 
     // 公政大道
     geometry = new THREE.PlaneGeometry(150, 5);
@@ -43,7 +43,7 @@
     road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
     road.position.set(0, 1, -21)
     road.receiveShadow = true
-    Schools.add(road);
+    t_decorations.add(road);
 
     // 中央大道
     geometry = new THREE.PlaneGeometry(5, 150);
@@ -51,7 +51,7 @@
     road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
     road.position.set(6, 1, 0)
     road.receiveShadow = true
-    Schools.add(road);
+    t_decorations.add(road);
 
     // 法商大道
     geometry = new THREE.PlaneGeometry(150, 5);
@@ -59,49 +59,48 @@
     road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
     road.position.set(0, 1, 11)
     road.receiveShadow = true
-    Schools.add(road);
-
-    scene.add(Schools);
-  }
+    t_decorations.add(road);
+    
+    scene.add(t_decorations);
+  }*/
 
   let onMouseMove = function (e) {
-
     e.preventDefault();
-
     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
     rayCast.setFromCamera(mouse, camera);
-    let intersects = rayCast.intersectObjects(scene.children);
-    if (intersects.length > 0) {
-      if (INTERSECTED != intersects[0].object && "emissive" in intersects[0].object.material) {
-          if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-
+    let intersects = rayCast.intersectObjects(scene.children, true);
+    if (intersects.length > 0) 
+    {
+      if (  intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
+            "emissive" in intersects[0].object.material && //指定材質可高亮
+            INTERSECTED != intersects[0].object)           //重複事件確認
+      {
+          INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
           INTERSECTED = intersects[0].object;
           INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-          INTERSECTED.material.emissive.setHex(0xff00ff);
+          INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
       }
-
-    } else {
-
-      if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-
+    } 
+    else 
+    {
+      INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
       INTERSECTED = null;
-
     }
   };
 
   let onMouseClick = function (e) {
    
   };
-  let scene_init_buildings = function () {
-    for(let i=0;i<buildings.length;i++)
-    {
-      let b = buildings.list[i];
-      let location = new THREE.Vector3(b.location[0],b.location[1],b.location[2]);
-      let size = new THREE.Vector3(b.size[0],b.size[1],b.size[2]);
-      createBox(b.id,scene,location, size, b.color, b.floor);
-    }
+  let scene_init_meshes = function(name, listdata, t_ref, func_create)
+  {
+    //設定並重置THREE.Group
+    t_ref.Name = name;
+    t_ref.remove(...t_buildings.children); // clear
+    for(let i=0;i<listdata.length;i++)
+      func_create(listdata.list[i], t_ref);
+    scene.add(t_ref);
   }
 
   // 初始化場景、渲染器、相機、物體
@@ -137,7 +136,6 @@
 
     scene.add(spotLight);
     
-    
     parab1 = initParabola(scene);
     setParabola(parab1, new THREE.Vector3(-8,8,-30), new THREE.Vector3(-35,9,-35), -0.003 );
     parab2 = initParabola(scene);
@@ -146,7 +144,6 @@
     setParabola(parab3, new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003 );
   
     // 建立物體
-    createSchool();
     mouse.x = mouse.y = -1;
 
     // 建立渲染器
