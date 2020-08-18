@@ -35,7 +35,7 @@ function createBuilding(building, group)
     });
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.Name = building.id;
-    Mesh.position.set(x, y + i * height / floor - floor, z );
+    Mesh.position.set(x, y + i * height / floor - floor + 1, z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
     console.log("BoxGeometry" + Mesh.Name + "Added");

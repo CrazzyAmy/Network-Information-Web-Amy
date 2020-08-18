@@ -1,68 +1,11 @@
-  let scene, camera, renderer, plane, road;
+  let scene, camera, renderer;
 
   let rayCast = new THREE.Raycaster();
   let mouse = new THREE.Vector2(), INTERSECTED;
   let t_decorations = new THREE.Group();
   let t_buildings = new THREE.Group();
-  let geometry, material;
-  let ADD = 0.005;
-  let theta = 0;
-  let change = true;
+
   let parab1, parab2, parab3;
-
-  let RoadMaterial = new THREE.MeshLambertMaterial({
-    color: 0xf9f0ce,
-    side: THREE.DoubleSide
-  })
-  /*
-  // 校園
-  let createSchool = function () {
-
-    // 地板
-    geometry = new THREE.PlaneGeometry(150, 150);
-    material = new THREE.MeshLambertMaterial({
-      color: 0xffffff,
-      side: THREE.DoubleSide
-    });
-    plane = new THREE.Mesh(geometry, material);
-    plane.rotation.x = -0.5 * Math.PI;
-    plane.receiveShadow = true;
-    t_decorations.add(plane);
-
-    // 法政路
-    geometry = new THREE.PlaneGeometry(5, 150);
-    road = new THREE.Mesh(geometry, RoadMaterial)
-    road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
-    road.position.set(-21, 1, 0)
-    road.receiveShadow = true
-    t_decorations.add(road);
-
-    // 公政大道
-    geometry = new THREE.PlaneGeometry(150, 5);
-    road = new THREE.Mesh(geometry, RoadMaterial)
-    road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
-    road.position.set(0, 1, -21)
-    road.receiveShadow = true
-    t_decorations.add(road);
-
-    // 中央大道
-    geometry = new THREE.PlaneGeometry(5, 150);
-    road = new THREE.Mesh(geometry, RoadMaterial)
-    road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
-    road.position.set(6, 1, 0)
-    road.receiveShadow = true
-    t_decorations.add(road);
-
-    // 法商大道
-    geometry = new THREE.PlaneGeometry(150, 5);
-    road = new THREE.Mesh(geometry, RoadMaterial)
-    road.rotation.x = -0.5 * Math.PI // 使平面與 y 軸垂直，並讓正面朝上
-    road.position.set(0, 1, 11)
-    road.receiveShadow = true
-    t_decorations.add(road);
-    
-    scene.add(t_decorations);
-  }*/
 
   let onMouseMove = function (e) {
     e.preventDefault();
