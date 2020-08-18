@@ -1,0 +1,5 @@
+Event Type,Event Name,Incident Reporting Device,Event Severity Category,Event Severity,COUNT(Matched Events)
+PAN-IDP-55852,PAN-IDP-55852,,HIGH,9,28
+PAN-IDP-57897,PAN-IDP-57897,,HIGH,9,2
+PAN-IDP-38771,PAN-IDP-38771,,HIGH,9,1
+PAN-OS-THREAT-spyware-12544-deny,PAN-OS-THREAT-spyware-12544-deny,,HIGH,9,1

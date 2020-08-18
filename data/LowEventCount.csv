@@ -1,0 +1,61 @@
+Event Type,Event Name,Incident Reporting Device,Event Severity Category,Event Severity,COUNT(Matched Events)
+PAN-OS-TRAFFIC-end-allow,Permitted traffic flow ended,,LOW,1,1587371
+PAN-OS-TRAFFIC-deny,Traffic denied by policy,,LOW,1,165604
+FortiGate-traffic-forward,Forwarded traffic,,LOW,3,25021
+PH_DEV_MON_NET_INTF_UTIL,Network Interface utilization stats for a device,,LOW,1,11318
+SonicOS-537,Connection closed,,LOW,1,5126
+SonicOS-98,Connection opened,,LOW,1,4382
+SonicOS-524,Web access request dropped,,LOW,2,2231
+SonicOS-36,TCP connection dropped,,LOW,2,941
+FortiGate-traffic-denied,Denied traffic,,LOW,3,785
+SonicOS-37,UDP packet dropped,,LOW,2,711
+PH_DEV_MON_HW_TEMP,Temperature measurement,,LOW,1,650
+SonicOS-805,Interface statistics report,,LOW,1,476
+SonicOS-526,Web management request allowed,,LOW,2,429
+PH_DEV_MON_SYS_PER_CPU_UTIL,System per CPU Utilization for a device,,LOW,1,405
+PAN-OS-THREAT-url-9999-deny,URL inspected traffic denied,,LOW,1,161
+FortiGate-traffic-timeout,Timeout traffic,,LOW,3,150
+PH_DEV_MON_SYS_MEM_FREE,Free system memory stats for a device,,LOW,1,140
+PH_DEV_MON_VM_PER_CPU_UTIL,Physical CPU utilization for a Virtual Machine's virtual CPU,,LOW,1,140
+PH_DEV_MON_SYS_UPTIME,System uptime for a device,,LOW,1,117
+PH_DEV_MON_INTF_USAGE_TOTAL,Aggregate Interface Usage,,LOW,1,112
+PH_DEV_MON_PING_STAT,Ping Statistics,,LOW,1,63
+PH_DEV_MON_SNMP_PING_STAT,SNMP Ping Statistics,,LOW,1,56
+SonicOS-806,SonicPoint statistics report,,LOW,1,56
+PH_DEV_MON_VM_NET_INTF_UTIL,Network IO stats for a Virtual Machine,,LOW,1,50
+PH_DEV_MON_CBQOS_CMSTAT,Cisco Class-Based QoS ClassMap related metrics,,LOW,1,48
+PH_DEV_MON_CBQOS_POLICESTAT,Cisco Class-Based QoS Police Action related metrics,,LOW,1,48
+FortiGate-traffic-close,Session closed,,LOW,3,45
+PH_DEV_MON_HW_STATUS,Hardware health status,,LOW,1,45
+PH_DEV_MON_SYS_CPU_UTIL,System CPU Utilization for a device,,LOW,1,45
+PH_DEV_MON_SYS_MEM_UTIL,System memory Utilization stats for a device,,LOW,1,45
+PH_DEV_MON_HW_FAN_SPEED,Fan Speed measurement,,LOW,1,30
+SonicOS-38,ICMP packet dropped due to policy,,LOW,2,27
+PH_DEV_MON_DATASTORE_UTIL,Datastore utilization,,LOW,1,20
+PH_DEV_MON_ESX_DATASTORE_IO,ESX Datastore IO stats,,LOW,1,20
+PH_DEV_MON_ESX_DISK_IO,ESX Disk IO stats,,LOW,1,20
+PH_DEV_MON_ESX_DISK_UTIL,ESX datastore utilization,,LOW,1,20
+PH_DEV_MON_VM_DATASTORE_IO,Datastore IO stats for a Virtual Machine,,LOW,1,20
+PH_DEV_MON_VM_DISK_IO,Disk IO stats for a Virtual Machine,,LOW,1,20
+PH_DEV_MON_VM_DISK_UTIL,VM datastore utilization,,LOW,1,20
+PAN-OS-THREAT-spyware-13274-alert,PAN-OS-THREAT-spyware-13274-alert,,LOW,3,17
+SonicOS-1197,SonicOS-1197,,LOW,2,15
+PH_DEV_MON_HOST_PERF_STATE,Host performance monitoring state,,LOW,1,14
+PH_DEV_MON_HW_CURRENT,Current measurement,,LOW,1,10
+PH_DEV_MON_HW_VOLTAGE,Voltage measurement,,LOW,1,10
+PH_DEV_MON_VM_CPU_UTIL,Physical CPU usage for a Virtual Machine,,LOW,1,10
+PH_DEV_MON_VM_MEM_UTIL,Physical memory usage for a Virtual Machine,,LOW,1,10
+PH_DEV_MON_VM_STATE,Virtual Machine State,,LOW,1,10
+PH_DEV_MON_VM_TOOLS_STATUS,VMware tools status,,LOW,1,10
+PH_DEV_MON_VM_UPTIME,Virtual Machine's up time,,LOW,1,10
+VMware_UserLoginSessionEvent,User logon,,LOW,1,10
+FortiGate-traffic-server-rst,FortiGate-traffic-server-rst,,LOW,3,8
+VMware_UserLogoutSessionEvent,User logoff,,LOW,1,8
+FortiGate-traffic-client-rst,Session closed since client sent a reset,,LOW,3,6
+PH_DEV_MON_ESX_STATE,Physical Machine State,,LOW,1,5
+PH_DEV_MON_VM_SNAPSHOT,Virtual Machine Snapshot,,LOW,1,5
+Generic_Unix_ntpd_Generic,Generic_Unix_ntpd_Generic,,LOW,1,4
+FortiGate-event-performance-stats,FortiGate unit performance statistics,,LOW,3,3
+SonicOS-518,802.11b Management,,LOW,1,3
+FortiGate-traffic-accept-multicast,Permitted multicast traffic,,LOW,3,1
+SonicOS-1110,SonicOS-1110,,LOW,1,1

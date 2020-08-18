@@ -1,0 +1,12 @@
+Event Type,Event Name,Incident Reporting Device,Event Severity Category,Event Severity,COUNT(Matched Events)
+PAN-IDP-32796,UNIX Portmapper Remote Infomation Retrieving Attempt,,MEDIUM,5,936
+FortiGate-traffic-forward,Forwarded traffic,,MEDIUM,5,599
+PAN-IDP-39587,PAN-IDP-39587,,MEDIUM,7,284
+PH_DEV_MON_HW_STATUS_TEMP_WARN,Temperature sensor hardware health: Warning,,MEDIUM,5,50
+PH_DEV_MON_DGA_DETECTED,FortiSIEM detected host names created via Domain Generation Algorithm,,MEDIUM,5,24
+PAN-IDP-56693,PAN-IDP-56693,,MEDIUM,5,14
+PAN-IDP-40015,SSH User Authentication Brute-force Attempt,,MEDIUM,7,4
+PAN-IDP-54482,PAN-IDP-54482,,MEDIUM,5,2
+PAN-IDP-31339,Microsoft Windows NAT Helper DNS Query Denial of Service,,MEDIUM,7,1
+PAN-IDP-57955,PAN-IDP-57955,,MEDIUM,5,1
+PAN-OS-THREAT-spyware-14638-alert,PAN-OS-THREAT-spyware-14638-alert,,MEDIUM,5,1

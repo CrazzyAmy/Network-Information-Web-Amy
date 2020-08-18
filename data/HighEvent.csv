@@ -1,0 +1,5 @@
+Event Receive Time,Event ID,Event Type,Event Name,Incident Reporting Device,Incident Source,Source IP,Source TCP/UDP Port,Incident Target,Destination IP,Destination TCP/UDP Port,Event Severity Category,Event Severity,Count
+2020/7/13 16:53,1.84366E+16,PAN-OS-THREAT-spyware-13974-deny,PAN-OS-THREAT-spyware-13974-deny,,,190.4.202.123,58486,,120.126.133.233,23,HIGH,9,1
+2020/7/13 17:16,1.84366E+16,PAN-OS-THREAT-spyware-13974-deny,PAN-OS-THREAT-spyware-13974-deny,,,103.216.63.71,48268,,120.126.134.230,23,HIGH,9,1
+2020/7/13 17:31,1.84366E+16,PAN-OS-THREAT-spyware-13974-deny,PAN-OS-THREAT-spyware-13974-deny,,,113.20.108.120,50791,,120.126.134.230,23,HIGH,9,1
+2020/7/13 17:31,1.84366E+16,PAN-OS-THREAT-spyware-13974-deny,PAN-OS-THREAT-spyware-13974-deny,,,190.4.202.123,47277,,120.126.133.233,23,HIGH,9,1
