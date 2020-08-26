@@ -54,7 +54,7 @@ function initParabola(group)
 	drawCount = 2; // draw the first 2 points, only
 	geometry.setDrawRange( 0, drawCount );
 	// material
-  var material = new THREE.LineDashedMaterial( {
+  var material = new THREE.LineMaterial( {
     color: 0xff0000,
     linewidth: 2,
     scale: 3,

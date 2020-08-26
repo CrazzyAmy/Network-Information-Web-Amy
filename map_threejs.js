@@ -32,7 +32,12 @@
       INTERSECTED = null;
     }
   };
-
+  function opencsvFile()
+  {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.click();
+  }
   let onMouseClick = function (e) {
    
   };

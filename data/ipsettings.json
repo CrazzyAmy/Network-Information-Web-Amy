@@ -1,3 +1,4 @@
 {
-    "ipsettings": {"id":"", "title":"" ,  }
+    "ipsettings": [{ "id":"", "title":"" , "location_id":"", "site_id":"" ,"group":"C", "ip":"", "mask":"", "gateway":""}
+                   ]
 }
