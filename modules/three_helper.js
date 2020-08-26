@@ -1,7 +1,8 @@
 
+import { LineGeometry } from './lines/LineGeometry.js';
+export { MAX_POINTS, drawCount, createPlane, createBuilding, initParabola, setParabola, updateParabola };
 let MAX_POINTS = 200;
 let drawCount;
-
 //建立平面
 function createPlane(plane, group)
 {
@@ -46,7 +47,7 @@ function createBuilding(building, group)
 function initParabola(group)
 {
   	// geometry
-	var geometry = new THREE.BufferGeometry();
+	var geometry = new LineGeometry();
 	// attributes
 	var positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
@@ -54,15 +55,14 @@ function initParabola(group)
 	drawCount = 2; // draw the first 2 points, only
 	geometry.setDrawRange( 0, drawCount );
 	// material
-  var material = new THREE.LineMaterial( {
+  var material = new LineMaterial( {
     color: 0xff0000,
-    linewidth: 2,
-    scale: 3,
-    dashSize: 3,
-    gapSize: 3,
+    linewidth: 5,
+    vertexColors: true,
+    dashed: false
   });
 	// line
-  var	parab = new THREE.Line( geometry,  material );
+  var	parab = new Line2( geometry,  material );
   group.add( parab );
   return parab;
 }

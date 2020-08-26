@@ -1,3 +1,5 @@
+  export {scene_init_meshes}
+  import * as THREE from './modules/three.module.js' 
   let scene, camera, renderer;
 
   let rayCast = new THREE.Raycaster();
@@ -74,7 +76,7 @@
     spotLight.decay = 1;
     spotLight.distance = 0;
     spotLight.lookAt(0, 0, 0)
-
+    
     // shadow
     spotLight.castShadow = true;
     spotLight.shadow = new THREE.LightShadow(new THREE.PerspectiveCamera(50, 1, 10, 2500));
@@ -83,7 +85,6 @@
     spotLight.shadow.mapSize.height = 1024;
 
     scene.add(spotLight);
-    
     parab1 = initParabola(scene);
     setParabola(parab1, new THREE.Vector3(-8,8,-30), new THREE.Vector3(-35,9,-35), -0.003 );
     parab2 = initParabola(scene);
