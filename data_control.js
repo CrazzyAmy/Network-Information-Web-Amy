@@ -1,3 +1,5 @@
+import {scene_init_meshes, t_buildings, t_decorations} from './map_three.js'
+import {createBuilding, createPlane} from './modules/three_helper.js';
 import * as ObjClass from './modules/object_class.js'  
 let buildings = new ObjClass.ListData();
 let decorations = new ObjClass.ListData();

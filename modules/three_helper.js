@@ -1,5 +1,4 @@
-
-import { LineGeometry } from './lines/LineGeometry.js';
+import * as THREE from '../node_modules/three/build/three.module.js';
 export { MAX_POINTS, drawCount, createPlane, createBuilding, initParabola, setParabola, updateParabola };
 let MAX_POINTS = 200;
 let drawCount;
@@ -12,7 +11,7 @@ function createPlane(plane, group)
   });
   let x = plane.location[0], y = plane.location[1], z = plane.location[2];  //location
   let width = plane.size[0], depth = plane.size[1];
-  geometry = new THREE.PlaneGeometry(width, depth);
+  var geometry = new THREE.PlaneGeometry(width, depth);
   plane = new THREE.Mesh(geometry, PlaneMaterial);
   plane.position.set(x, y, z);
   plane.rotation.x = -0.5 * Math.PI; //修正size[1]為深度(depth) width, height -> width, depth 
@@ -47,22 +46,23 @@ function createBuilding(building, group)
 function initParabola(group)
 {
   	// geometry
-	var geometry = new LineGeometry();
+	var geometry = new THREE.BufferGeometry();
 	// attributes
 	var positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
-	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+	geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
 	// drawcalls
 	drawCount = 2; // draw the first 2 points, only
 	geometry.setDrawRange( 0, drawCount );
 	// material
-  var material = new LineMaterial( {
+  var material = new THREE.MeshBasicMaterial( {
     color: 0xff0000,
-    linewidth: 5,
-    vertexColors: true,
-    dashed: false
+    linewidth: 2,
+    scale: 3,
+    dashSize: 3,
+    gapSize: 3,
   });
 	// line
-  var	parab = new Line2( geometry,  material );
+  var	parab = new THREE.Line( geometry,  material );
   group.add( parab );
   return parab;
 }
@@ -76,8 +76,8 @@ function setParabola(parab,start,end,a)
   v.add(end);
   v.addScaledVector(start, -1.0);
   v.multiplyScalar(1.0 / MAX_POINTS);
-  tk = (MAX_POINTS-1);
-  yv0 = end.y - start.y - (a * tk * tk / 2.0);
+  var tk = (MAX_POINTS-1);
+  var yv0 = end.y - start.y - (a * tk * tk / 2.0);
   yv0 /= tk;
   console.log(yv0);
   for ( var i = 0, l = MAX_POINTS; i < l; i ++ ) 
@@ -91,7 +91,7 @@ function setParabola(parab,start,end,a)
 function updateParabola(parab)
 {
   drawCount = ( drawCount + 1 ) % MAX_POINTS;
-	draw_min = Math.max(drawCount - 100, 0 );
+  let	draw_min = Math.max(drawCount - 100, 0 );
 	parab.geometry.setDrawRange( draw_min, drawCount );
 
   if ( drawCount == 0 ) 
