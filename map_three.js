@@ -101,7 +101,7 @@
 
     // 建立渲染器
     renderer = new THREE.WebGLRenderer()
-    renderer.setSize(window.innerWidth, window.innerHeight) // 場景大小
+    renderer.setSize(document.getElementById("scene").clientWidth, document.getElementById("scene").clientHeight) // 場景大小
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
 
@@ -129,9 +129,12 @@
 
   // 監聽螢幕寬高來做簡單 RWD 設定
   window.addEventListener('resize', function () {
-    camera.aspect = window.innerWidth / window.innerHeight
+    let height = document.getElementById("scene").offsetHeight
+    let width = document.getElementById("scene").offsetWidth 
+    
+    camera.aspect = width / height
     camera.updateProjectionMatrix()
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(width, height)
   })
 
   init();
