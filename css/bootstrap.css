@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
@@ -10799,68 +10798,4 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
-
-html {
-  margin: 0;
-  height: 100vh;
-  width: 100vw;
-}
-
-body {
-  margin: 0;
-  height: 100vh;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.scene-container {
-  width: inherit;
-  height: 100%;
-}
-
-/*左右兩側列表*/
-.sidebar {
-  background-color: #3f3a37;
-  color: white;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  border-radius: 12px;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  height: 100%;
-}
-
-.sidebar .left {
-  width: 20%;
-}
-
-.sidebar .right {
-  width: 80%;
-}
-
-.status {
-  height: 39%;
-}
-
-.info {
-  height: 59%;
-}
-
-@media (min-width: 768px) {
-  .sidebar .left {
-    width: auto;
-  }
-  .sidebar .right {
-    width: auto;
-  }
-}
-/*# sourceMappingURL=all.css.map */
+/*# sourceMappingURL=bootstrap.css.map */
