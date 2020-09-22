@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>專案</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+  <!-- 上方導覽列Navbar -->
+  <nav class="navbar navbar-expand-md navbar-light bg-primary">
+    <!-- 導覽列左側選單，md消失 -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- 導覽列LOGO -->
+    <a class="navbar-brand" href="#">
+      <img src="/picture/Logo.jpg" height="35px" alt="Logo">
+    </a>
+    <!-- 導覽列右側按鈕，md消失 -->
+    <button class="navbar-toggler btn" onclick="alert('設定')">
+      <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
+    </button>
+    <button class="navbar-toggler btn" onclick="alert('Super')">Super</button>
+
+  </nav>
+
+
+
+  <!-- Logo/Banner/AD 和右方按鈕 -->
+  <div class="container-fluid">
+    <div class="row bg-secondary">
+      <div class="col-12 col-md-8">
+        <div style="background-color:  rgb(227, 164, 129); height: 100%; width: 100%; border-radius: 12px;">
+          Logo/Banner/AD</div>
+      </div>
+      <div class="col-md-4 d-none d-md-flex">
+        <button class="navbar-toggler btn btn-dark" onclick="alert('設定')">
+          <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
+          <span>設定</span>
+        </button>
+        <button class="navbar-toggler btn btn-dark" onclick="alert('Super')">Super</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- 主容器，包含左右資訊列、中間3D場景 -->
+  <div class="container-fluid d-flex flex-column flex-md-row flex-grow-1" id="container">
+    <div class="row flex-grow-1">
+
+      <!-- 左側資訊列，md以上顯示 -->
+      <div class="col-12 col-md-2 order-1 d-none d-md-block p-0">
+        <div class="sidebar status p-2">
+          <div>狀態-目前顯示</div>
+          <div>Incident</div>
+          <div>Name</div>
+          <div>[事件名稱]</div>
+          <div>Severity Category</div>
+          <div>[嚴重等級]</div>
+          <div>發生時間</div>
+          <div>[日期時間]</div>
+        </div>
+        <div class="sidebar info p-2">
+          <div>詳細資料</div>
+          <div>地點</div>
+          <div>[大樓/數位講桌]</div>
+          <div>Target</div>
+          <div>[圖示][IP]</div>
+          <div>Source</div>
+          <div>[圖示][IP]</div>
+          <div>節點</div>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3D場景容器 -->
+      <div class="col-12 col-md-8 order-2 order-md-2 p-0">
+        <div class="scene-container" id="scene"></div>
+      </div>
+      
+      <!-- 右側資訊列，xs、sm顯示在上方，md以上顯示在右方 -->
+      <div class="col-12 col-md-2 order-1 order-md-3 p-0">
+        <div class="sidebar p-2 d-flex flex-row flex-wrap d-md-block">
+          <div class="left">目前範圍</div>
+          <div class="right">!!!共<span id="event-num">N</span>筆</div>
+          <div class="left">時間</div>
+          <div class="right">[日期時間]</div>
+          <div class="left">地點</div>
+          <div class="right">[ALL]</div>
+          <div class="left">事件</div>
+          <div class="right">[嚴重等級][事件名稱]</div>
+          <div class="left">IP</div>
+          <div class="right">[目前顯示IP]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+    <script type="module" src = "./data_control.js"></script>
+    <script type="module" src = "./map_three.js"></script>
+
+</body>
+
+</html>
