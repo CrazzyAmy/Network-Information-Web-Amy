@@ -1,0 +1,22 @@
+<dashboardFolders>
+    <customers>all</customers>
+    <timeFrom>2019-03-01</timeFrom>
+    <timeTo>2019-03-31</timeTo>
+    <dashboardFolder name="Application Server">
+        <dashboard type="Widget">
+            <name>My Dashboard</name>
+            <widgets>
+                <widget>
+                    <name>Top VMs By Least CPU</name>
+                    <report name="Top VMs By Least CPU"/>
+                    <dataParam>twIndex:1;dtIndex:1;barType:clustered;numResults:1;timeInterval:300000;bizSvcId:0;
+                    </dataParam>
+                </widget>
+                <widget>
+                    <name>Top Devices By CPU Util</name>
+                    <report name="Top Devices By CPU Util"/>
+                </widget>
+            </widgets>
+        </dashboard>
+    </dashboardFolder>
+</dashboardFolders>
