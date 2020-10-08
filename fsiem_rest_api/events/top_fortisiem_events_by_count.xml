@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Reports>
+    <Report baseline="" rsSync="">
+        <CustomerScope groupByEachCustomer="false">
+        </CustomerScope>
+        <SelectClause>
+            <AttrList>eventType,deviceTime,durationMSec,eventSeverity,eventSeverityCat,srcIpAddr,destIpAddr</AttrList>
+        </SelectClause>
+        <PatternClause>
+            <SubPattern name="Filter_Auth_1">
+                <SingleEvtConstr>
+                </SingleEvtConstr>
+            </SubPattern>
+        </PatternClause>
+        <SyncOrgs/>
+    </Report>
+</Reports>
