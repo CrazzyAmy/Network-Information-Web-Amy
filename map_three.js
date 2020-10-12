@@ -2,7 +2,7 @@
   import * as THelper from './modules/three_helper.js';
   import * as THREE from './node_modules/three/build/three.module.js';
   import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
-
+  import { Parabola }from './modules/Parabola.js';
   let scene, camera, renderer, orbitControl, spotLight;
 
   let rayCast = new THREE.Raycaster();
@@ -95,7 +95,9 @@
     THelper.setParabola(parab2, new THREE.Vector3(-8,4,-45), new THREE.Vector3(20,8,-37), -0.003 );
     parab3 = THelper.initParabola(scene);
     THelper.setParabola(parab3, new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003 );
-  
+    let p = new Parabola();
+    p.init(scene);
+    p.set(new THREE.Vector3(30,7,-5), new THREE.Vector3(-45,9,-5), -0.003);
     // 建立物體
     mouse.x = mouse.y = -1;
 
@@ -124,6 +126,8 @@
     THelper.updateParabola(parab1);
     THelper.updateParabola(parab2);
     THelper.updateParabola(parab3);
+    renderer.clearDepth(); // important!
+
     renderer.render(scene, camera)
   }
 
