@@ -1,0 +1,9 @@
+<configureMonitoring>
+    <systemMonitors>
+        <systemMonitor ip = "92.68.4.18" method = "SNMP" type = "CPU Util" enable = "true" interval = "120"/>
+    </systemMonitors>
+    <eventPullingObjs>
+        <eventPullingObj ip="92.68.4.23" method="WMI" enable="true"/>
+        <eventPullingObj ip="92.68.4.24" method="WMI" enable="true"/>
+    </eventPullingObjs>
+</configureMonitoring>
