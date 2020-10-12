@@ -51,17 +51,17 @@ def dumpXML(xml):
 
 
 def generateResult(param):
-    print "Org Name,Org Id,Disabled,Initialized,IncludeRange, ExcludeRange\n\n"
+    print ("Org Name,Org Id,Disabled,Initialized,IncludeRange, ExcludeRange\n\n")
     for item in param:
-        print "%s,%s,%s,%s,%s,%s\n" % (
-            item['name'], item['domainId'], item['disabled'], item['initialized'], item['include'], item['exclude'])
+        print ("%s,%s,%s,%s,%s,%s\n" % (
+            item['name'], item['domainId'], item['disabled'], item['initialized'], item['include'], item['exclude']))
 
 
 if __name__ == '__main__':
     import sys
 if len(sys.argv) != 4:
-    print "Usage: getMonitoredOrganizations.py appServer user password"
-    print "Example: python getMonitoredOrganizations.py 192.168.20.116 super/admin adm1n"
+    print ("Usage: getMonitoredOrganizations.py appServer user password")
+    print ("Example: python getMonitoredOrganizations.py 192.168.20.116 super/admin adm1n")
     exit()
 param = getMonitoredOrganizations(sys.argv[1], sys.argv[2], sys.argv[3])
 generateResult(param)
