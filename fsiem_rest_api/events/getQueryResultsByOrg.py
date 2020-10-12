@@ -5,8 +5,6 @@ import re
 from xml.dom.minidom import Node, parseString, parse
 import mysql.connector
 import xml.etree.ElementTree as xet
-import time
-import datetime
 
 cases=0
 
@@ -33,14 +31,14 @@ def getQueryResultByOrg(appServer, user, password, inXml):
     resp, content = h.request(urlfirst, "POST", t2, header)
     queryId = content.decode("utf-8")
     if 'error code="255"' in queryId:
-        print "Query Error, check sending XML file."
+        print ("Query Error, check sending XML file.")
         exit()
 
     urlSecond = url + "progress/" + queryId
     if resp['status'] == '200':
         resp, content = h.request(urlSecond)
     else:
-        print "appServer doesn't return query. Error code is %s" % resp['status']
+        print ("appServer doesn't return query. Error code is %s" % resp['status'])
         exit()
 
     while content.decode("utf-8") != '100':
@@ -74,7 +72,7 @@ def getQueryResultByOrg(appServer, user, password, inXml):
                 pr="i = "+str(i+2)+"   "+pr
                 print(pr)
     else:
-        print "no info in this report."
+        print ("no info in this report.")
         exit()
     data = dumpXML3(outXML)
     return data

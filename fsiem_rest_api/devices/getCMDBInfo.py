@@ -33,10 +33,10 @@ def getCMDBInfo(appServer, user, password):
         urllib2.install_opener(opener)
         handle = urllib2.urlopen(request)
         outXML = handle.read()
-        print outXML
+        print (outXML)
     except urllib2.HTTPError, error:
         if (error.code != 204):
-            print error
+            print (error)
 
 
 if __name__ == '__main__':

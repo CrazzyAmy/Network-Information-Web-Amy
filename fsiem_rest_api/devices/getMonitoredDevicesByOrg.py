@@ -90,18 +90,18 @@ def dumpXML(xml, name):
                         print(moniPair)
                 mapping['monitors'] = monitors
                 param.append(mapping)
-    print "deviceName,accessIp,deviceType,Organization,Monitors\n\n"
+    print ("deviceName,accessIp,deviceType,Organization,Monitors\n\n")
     for item in param:
         monitors = item['monitors']
         mon = ','.join(monitors)
-        print "%s,%s,%s,%s,%s\n" % (item['deviceName'], item['accessIp'],
-                                    item['deviceType'], item['organization'], mon)
+        print ("%s,%s,%s,%s,%s\n" % (item['deviceName'], item['accessIp'],
+                                    item['deviceType'], item['organization'], mon))
 
 
 if __name__ == '__main__':
     import sys
 
     if len(sys.argv) != 5:
-        print "Usage: getMonitoredDevicesByOrg.py appServer user password orgName"
+        print ("Usage: getMonitoredDevicesByOrg.py appServer user password orgName")
         exit()
     getMonitoredDevicesByOrg(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])

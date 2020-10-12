@@ -22,12 +22,12 @@ def restPost(appServer, user, password, file):
         print('Response HTTP Code: %s' % handle.getcode())
     except urllib2.HTTPError, error:
         if (error.code != 204):
-            print error
+            print (error)
 
 
 if __name__ == '__main__':
     if len(sys.argv) != 5:
-        print "Usage: addOrg.py appServer user password orgDefFile"
-        print "Example: python addOrg.py 192.168.20.116 super/admin adm1n orgDef.xml"
+        print ("Usage: addOrg.py appServer user password orgDefFile")
+        print ("Example: python addOrg.py 192.168.20.116 super/admin adm1n orgDef.xml")
         sys.exit()
     restPost(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
