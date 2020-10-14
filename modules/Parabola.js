@@ -14,7 +14,7 @@ class Parabola{
     constructor(){
         this.now_animate_id = 0;
     }
-    init(group){
+    init(group, linewidth = 5){
         this.geometry = new LineGeometry();
         // 最大200點
         this.positions = []; // 3 vertices per point
@@ -24,7 +24,7 @@ class Parabola{
         //geometry.setDrawRange( 0, drawCount );
         // material
         this.material = new LineMaterial({
-            linewidth: 4,
+            linewidth: linewidth,
             vertexColors: false,
             //resolution:  // to be set by renderer, eventually
             dashed: false
