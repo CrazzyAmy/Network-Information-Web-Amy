@@ -11,7 +11,7 @@
   let t_buildings = new THREE.Group();
 
   let parab1, parab2, parab3;
-
+  let p1;
   let onMouseMove = function (e) {
     e.preventDefault();
     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -95,10 +95,9 @@
     THelper.setParabola(parab2, new THREE.Vector3(-8,4,-45), new THREE.Vector3(20,8,-37), -0.003 );
     parab3 = THelper.initParabola(scene);
     THelper.setParabola(parab3, new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003 );
-    let p = new Parabola();
-    p.init(scene);
-    p.set(new THREE.Vector3(30,7,-5), new THREE.Vector3(-45,9,-5), -0.003);
-    p.show(0, 99);
+    p1 = new Parabola();
+    p1.init(scene);
+    p1.set(new THREE.Vector3(30,7,-5), new THREE.Vector3(-45,9,-5), -0.003);
     // 建立物體
     mouse.x = mouse.y = -1;
 
@@ -127,6 +126,7 @@
     THelper.updateParabola(parab1);
     THelper.updateParabola(parab2);
     THelper.updateParabola(parab3);
+    p1.animate(120);
     renderer.clearDepth(); // important!
 
     renderer.render(scene, camera)
