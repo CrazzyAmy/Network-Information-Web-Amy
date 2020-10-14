@@ -1,8 +1,7 @@
 # Network-Infomation-Web
 
 專案資料夾下安裝npm 指令
-1. npm init -> Enter到底
-2. npm install --save three
+1. npm install
 
 分工
 1. 柏廷 : THREE 3D視覺相關
