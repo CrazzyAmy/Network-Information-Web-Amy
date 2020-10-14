@@ -52,10 +52,28 @@ class Parabola{
              this.positions.push(start.x + v.x * i, yv0 * i + a * i * i / 2.0 + start.y, start.z + v.z * i);
          }
     }
+    //call in render loop: 
     animate(show_count)
     {
-        now_animate_id %= MAX_POINTS * 3;
-        count = (now_animate_id + show_count > MAX_POINTS)
+        if(this.positions?.count == 0 || show_count == null)
+            return;
+        if(show_count > MAX_POINTS)
+            show_count = MAX_POINTS;
+        this.now_animate_id %= MAX_POINTS;
+        //eg . show_count = 30
+        //now_animate_id = 290 then show 290 : 299 , 0 : 19
+        let segment = (this.now_animate_id + show_count <= MAX_POINTS) 
+                ? this.positions.subarray(this.now_animate_id * 3, show_count * 3)   
+                : this.positions.subarray(this.now_animate_id * 3, (MAX_POINTS - this.now_animate_id) * 3 ) ;
+        
+        if(this.now_animate_id + show_count > MAX_POINTS)
+        {
+            var left =show_count - (MAX_POINTS - this.now_animate_id);
+            segment.push(this.positions.subarray(0, left));
+        }
+        this.geometry.setPositions(segment);
+        this.line.computeLineDistances();
+        this.now_animate_id++;
     }
     show(from_id , count)
     {
