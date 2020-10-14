@@ -98,6 +98,7 @@
     let p = new Parabola();
     p.init(scene);
     p.set(new THREE.Vector3(30,7,-5), new THREE.Vector3(-45,9,-5), -0.003);
+    p.show(0, 99);
     // 建立物體
     mouse.x = mouse.y = -1;
 
