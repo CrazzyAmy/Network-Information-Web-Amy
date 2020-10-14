@@ -4,9 +4,15 @@ import {LineMaterial} from '../node_modules/three/examples/jsm/lines/LineMateria
 import {LineGeometry} from '../node_modules/three/examples/jsm/lines/LineGeometry.js'
 export { Parabola };
 var MAX_POINTS = 200;
+
+//0 , n -> 0, 1, 2, 3, 4, ... , n - 1
+Array.prototype.subarray = function(start, count) {
+    if(start + count <= this.length )
+        return this.slice(start, start + count);   
+};
 class Parabola{
     constructor(){
-
+        this.now_animate_id = 0;
     }
     init(group){
         this.geometry = new LineGeometry();
@@ -45,7 +51,16 @@ class Parabola{
          for (var i = 0, l = MAX_POINTS; i < l; i++) {
              this.positions.push(start.x + v.x * i, yv0 * i + a * i * i / 2.0 + start.y, start.z + v.z * i);
          }
-         this.geometry.setPositions(this.positions);
-         this.line.computeLineDistances();
+    }
+    animate(show_count)
+    {
+        now_animate_id %= MAX_POINTS * 3;
+        count = (now_animate_id + show_count > MAX_POINTS)
+    }
+    show(from_id , count)
+    {
+        const subarray = this.positions.subarray(from_id, count * 3);
+        this.geometry.setPositions(subarray);
+        this.line.computeLineDistances();
     }
 }
