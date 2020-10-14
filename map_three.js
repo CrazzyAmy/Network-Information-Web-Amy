@@ -97,7 +97,7 @@
     THelper.setParabola(parab3, new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003 );
     p1 = new Parabola();
     p1.init(scene);
-    p1.set(0x443322,new THREE.Vector3(30,7,-5), new THREE.Vector3(-45,9,-5), -0.003);
+    p1.set(0x443322,new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003);
     // 建立物體
     mouse.x = mouse.y = -1;
 
