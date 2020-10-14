@@ -24,9 +24,8 @@ class Parabola{
         //geometry.setDrawRange( 0, drawCount );
         // material
         this.material = new LineMaterial({
-            color: 0xff0000,
-            linewidth: 10,
-            vertexColors: true,
+            linewidth: 4,
+            vertexColors: false,
             //resolution:  // to be set by renderer, eventually
             dashed: false
         });
@@ -37,8 +36,10 @@ class Parabola{
         this.material.resolution.set(window.innerWidth, window.innerHeight); // resolution of the viewport 
         group.add(this.line);
     }
-    set(start, end, a)
+    set(color,start, end, a)
     {
+        this.material.color= new THREE.Color( color );       
+        this.material.needsUpdate = true; 
          //y equation: y = -ky^2
          var v = new THREE.Vector3();
          v.add(end);
@@ -66,11 +67,6 @@ class Parabola{
                 ? this.positions.subarray(this.now_animate_id * 3, show_count * 3)   
                 : this.positions.subarray(this.now_animate_id * 3, (MAX_POINTS - this.now_animate_id) * 3 ) ;
         
-        if(this.now_animate_id + show_count > MAX_POINTS)
-        {
-            var left =show_count - (MAX_POINTS - this.now_animate_id);
-            segment.push(this.positions.subarray(0, left));
-        }
         this.geometry.setPositions(segment);
         this.line.computeLineDistances();
         this.now_animate_id++;
