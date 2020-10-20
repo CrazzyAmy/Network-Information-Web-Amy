@@ -1,5 +1,5 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
-export { MAX_POINTS, drawCount, createPlane, createBuilding, initParabola, setParabola, updateParabola, getRandomColor };
+export { MAX_POINTS, drawCount, createPlane, createBuilding, getRandomColor };
 let MAX_POINTS = 200;
 let drawCount;
 //建立平面
@@ -41,64 +41,6 @@ function createBuilding(building, group)
     console.log("BoxGeometry" + Mesh.Name + "Added");
     group.add(Mesh);
   }
-}
-//建立拋物線(scene參考)
-function initParabola(group)
-{
-  	// geometry
-	var geometry = new THREE.BufferGeometry();
-	// attributes
-	var positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
-	geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-	// drawcalls
-	drawCount = 2; // draw the first 2 points, only
-	geometry.setDrawRange( 0, drawCount );
-	// material
-  var material = new THREE.MeshBasicMaterial( {
-    color: 0xff0000,
-    linewidth: 2,
-    scale: 3,
-    dashSize: 3,
-    gapSize: 3,
-  });
-	// line
-  var	parab = new THREE.Line( geometry,  material );
-  group.add( parab );
-  return parab;
-}
-//設定拋物線參數(參考, 起點, 終點, 加速度參數)
-function setParabola(parab,start,end,a) 
-{
-	//y equation: y = -ky^2
-	var positions = parab.geometry.attributes.position.array;
-	var index = 0;
-  var v = new THREE.Vector3();
-  v.add(end);
-  v.addScaledVector(start, -1.0);
-  v.multiplyScalar(1.0 / MAX_POINTS);
-  var tk = (MAX_POINTS-1);
-  var yv0 = end.y - start.y - (a * tk * tk / 2.0);
-  yv0 /= tk;
-  console.log(yv0);
-  for ( var i = 0, l = MAX_POINTS; i < l; i ++ ) 
-  {
-		positions[ index ++ ] = start.x + v.x*i;
-		positions[ index ++ ] = yv0 * i + a*i*i/2.0 + start.y ;
-		positions[ index ++ ] = start.z + v.z*i;
-	}
-}
-///更新拋物線方程
-function updateParabola(parab)
-{
-  drawCount = ( drawCount + 1 ) % MAX_POINTS;
-  let	draw_min = Math.max(drawCount - 100, 0 );
-	parab.geometry.setDrawRange( draw_min, drawCount );
-
-  if ( drawCount == 0 ) 
-  {
-		parab.geometry.attributes.position.needsUpdate = true; // required after the first render
-    parab.material.color.setHSL( Math.random(), 1, 0.5 );
-	}
 }
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
