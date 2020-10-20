@@ -11,8 +11,10 @@ Array.prototype.subarray = function(start, count) {
         return this.slice(start, start + count);   
 };
 class Parabola{
+    
     constructor(){
         this.now_animate_id = 0;
+        this.OnAnimated;
     }
     init(group, linewidth = 5){
         this.geometry = new LineGeometry();
@@ -60,6 +62,7 @@ class Parabola{
             return;
         if(show_count > MAX_POINTS)
             show_count = MAX_POINTS;
+        
         this.now_animate_id %= MAX_POINTS;
         //eg . show_count = 30
         //now_animate_id = 290 then show 290 : 299 , 0 : 19
@@ -70,6 +73,8 @@ class Parabola{
         this.geometry.setPositions(segment);
         this.line.computeLineDistances();
         this.now_animate_id++;
+        if(this.now_animate_id == MAX_POINTS && this.OnAnimated)
+            this.OnAnimated();
     }
     show(from_id , count)
     {

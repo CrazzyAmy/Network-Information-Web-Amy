@@ -1,10 +1,9 @@
-  export {scene_init_meshes, t_buildings, t_decorations, set_scenario}
+  export {scene_init_meshes, t_buildings, t_decorations, add_scenario}
   import * as THelper from './modules/three_helper.js';
   import * as THREE from './node_modules/three/build/three.module.js';
   import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
   import { Parabola }from './modules/Parabola.js';
-  import { Site } from "./modules/object_class.js";
-  import { Trace , Scenario} from './modules/Scenario.js';
+  import { Trace , Scenario, MultiScenario} from './modules/Scenario.js';
   import { buildings} from "./data_control.js"
   let scene, camera, renderer, orbitControl, spotLight;
 
@@ -12,7 +11,7 @@
   let mouse = new THREE.Vector2(), INTERSECTED;
   let t_decorations = new THREE.Group();
   let t_buildings = new THREE.Group();
-  let scenario;
+  let multi_scenario = new MultiScenario([]);
   let p1;
   
   let onMouseMove = function (e) {
@@ -21,7 +20,12 @@
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
     rayCast.setFromCamera(mouse, camera);
-    let intersects = rayCast.intersectObjects(scene.children, true);
+    let ojbects = [];
+    scene.children.forEach(element => {
+      if(element.type != 'Line2')
+        ojbects.push(element);
+    });
+    let intersects = rayCast.intersectObjects(ojbects, true);
     if (intersects.length > 0) 
     {
       if (  intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
@@ -116,41 +120,44 @@
     document.addEventListener("mousemove", onMouseMove, false);
     //document.addEventListener("click", onMouseClick, false);
   }
-  let set_scenario = function()
+  let add_scenario = function(sites_from, sites_to)
   {
-    //{"id":"LIB""floor":8 }, {"id":"EECS","floor":9 }, {"id":"CC", "floor":4 }, {"id":"SS", "floor":8 }, 
-    //{"id":"ADM", "floor":7 }, {"id":"PA","floor":9 }, {"id":"LAW","floor":8 }, {"id":"BUS","floor":9 } ,
-    //{"id":"HUM","floor":13 } ]
-    let site_from =  [new Site("SS", 3, ""), new Site("SS", 3, "")];
-    let site_to = [new Site("PA", 4, ""), new Site("LAW", 5, "")];
     let traces = [];
-    for(let i=0;i<site_from.length;i++)
-       traces.push(new Trace(site_from[i],site_to[i]));
-    scenario = new Scenario(traces);
+    for(let i=0;i<sites_from.length;i++)
+       traces.push(new Trace(sites_from[i],sites_to[i]));
+    let scenario = new Scenario(traces);
     //Set Three
     for(let i=0;i<scenario.traces.length;i++)
     {
       let trace = scenario.traces[i];
+      //取得建築資料參考
       let b_from = buildings.map.get(trace.site_from.building_id);
       let b_to   = buildings.map.get(trace.site_to.building_id);
+      //取得位置
       let from = b_from.get_pos(trace.site_from.floor_id);
       let to = b_to.get_pos(trace.site_to.floor_id);
-      var p = new Parabola();
+      let p = new Parabola();
       p.init(scene);
       p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       scenario.parab_list.push(p);
+    }
+    
+    multi_scenario.scenarios.push(scenario);
+    scenario.parab_list[0].OnAnimated = function() {
+      multi_scenario.scenario_id++;
+      multi_scenario.scenario_id %= multi_scenario.scenarios.length;
     }
   }
   // 渲染場景
   let mainLoop = function () {
 
-    orbitControl.update()
     requestAnimationFrame(mainLoop);
-    scenario?.parab_list.forEach(parab => {
+    multi_scenario.get_display_scenario()?.parab_list.forEach(parab => {
       parab.animate(120);
     });
-    p1.animate(120);
     renderer.clearDepth(); // important!
+    p1.animate(120);
+    orbitControl.update()
     renderer.render(scene, camera)
   }
 
