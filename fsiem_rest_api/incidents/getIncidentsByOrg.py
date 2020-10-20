@@ -25,7 +25,7 @@ def getIncidentsByOrg(appServer, user, password, name):
             if name == item['name']:
                 phCustId = item['domainId']
     if phCustId == '':
-        print "Org %s does not exist. Exit." % name
+        print ("Org %s does not exist. Exit." % name)
         exit()
 
     url = "https://" + appServer + ":443/phoenix/rest/query/"
@@ -37,14 +37,14 @@ def getIncidentsByOrg(appServer, user, password, name):
     resp, content = h.request(urlfirst, "POST", inXml, header)
     queryId = content.decode()
     if 'error code="255"' in queryId:
-        print "Query Error, check sending XML file."
+        print ("Query Error, check sending XML file.")
         exit()
 
     urlSecond = url + "progress/" + queryId
     if resp['status'] == '200':
         resp, content = h.request(urlSecond)
     else:
-        print "appServer doesn't return query. Error code is %s" % resp['status']
+        print ("appServer doesn't return query. Error code is %s" % resp['status'])
         exit()
 
     while content.decode() != '100':
@@ -70,12 +70,12 @@ def getIncidentsByOrg(appServer, user, password, name):
         if num > 0:
             for i in range(num):
                 urlFinal = url + 'events/' + queryId + '/' + str(i * 1000 + 1) + '/1000'
-                print str(i * 1000 + 1) + '/1000'
+                print (str(i * 1000 + 1) + '/1000')
                 resp, content = h.request(urlFinal)
                 if content != '':
                     outXML.append(content.decode())
     else:
-        print "no info in this report."
+        print ("no info in this report.")
         exit()
     param = dumpXML(outXML)
     return param
@@ -162,11 +162,11 @@ def dumpXML(xmlList):
 
 def generateResult(param):
     if len(param) == 0:
-        print "No records found. Exit"
+        print ("No records found. Exit")
         exit()
     else:
         s=''
-        print "Total records %d" % len(param)
+        print ("Total records %d" % len(param))
         data=open("data3.txt",'w+')
         for row in param:
             for title in row:

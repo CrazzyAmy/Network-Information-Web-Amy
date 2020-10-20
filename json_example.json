@@ -1,0 +1,9 @@
+{
+    "eventSeverity":1,
+    "eventType" : "PAN-OS-TRAFFIC-end-allow",
+    "deviceTime":"Mon Sep 28 14:45:27 CST 2020",
+    "eventName":"Permitted traffic flow ended",
+    "eventSeverityCat":"LOW",
+    "srcIpAddr":"193.27.228.32",
+    "destIpAddr":"120.126.152.226"
+}

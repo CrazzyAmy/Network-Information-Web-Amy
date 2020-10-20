@@ -11,4 +11,4 @@ def sendjs():
 def get():
     return"can you?" 
 if __name__ == '__main__':
-    app.run(host='120.126.151.195',port=8080)
+    app.run(host='120.126.151.195',port=80)
