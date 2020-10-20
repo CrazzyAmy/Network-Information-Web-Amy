@@ -1,17 +1,20 @@
-  export {scene_init_meshes, t_buildings, t_decorations}
+  export {scene_init_meshes, t_buildings, t_decorations, set_scenario}
   import * as THelper from './modules/three_helper.js';
   import * as THREE from './node_modules/three/build/three.module.js';
   import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
   import { Parabola }from './modules/Parabola.js';
+  import { Site } from "./modules/object_class.js";
+  import { Trace , Scenario} from './modules/Scenario.js';
+  import { buildings} from "./data_control.js"
   let scene, camera, renderer, orbitControl, spotLight;
 
   let rayCast = new THREE.Raycaster();
   let mouse = new THREE.Vector2(), INTERSECTED;
   let t_decorations = new THREE.Group();
   let t_buildings = new THREE.Group();
-
-  let parab1, parab2, parab3;
+  let scenario;
   let p1;
+  
   let onMouseMove = function (e) {
     e.preventDefault();
     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -30,7 +33,7 @@
           INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
           INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
       }
-    } 
+    }
     else 
     {
       INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
@@ -88,16 +91,11 @@
     spotLight.shadow.mapSize.height = 1024;
 
     scene.add(spotLight);
-
-    parab1 = THelper.initParabola(scene);
-    THelper.setParabola(parab1, new THREE.Vector3(-8,8,-30), new THREE.Vector3(-35,9,-35), -0.003 );
-    parab2 = THelper.initParabola(scene);
-    THelper.setParabola(parab2, new THREE.Vector3(-8,4,-45), new THREE.Vector3(20,8,-37), -0.003 );
-    parab3 = THelper.initParabola(scene);
-    THelper.setParabola(parab3, new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003 );
+    
     p1 = new Parabola();
     p1.init(scene);
     p1.set(0x443322,new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003);
+
     // 建立物體
     mouse.x = mouse.y = -1;
 
@@ -118,17 +116,41 @@
     document.addEventListener("mousemove", onMouseMove, false);
     //document.addEventListener("click", onMouseClick, false);
   }
+  let set_scenario = function()
+  {
+    //{"id":"LIB""floor":8 }, {"id":"EECS","floor":9 }, {"id":"CC", "floor":4 }, {"id":"SS", "floor":8 }, 
+    //{"id":"ADM", "floor":7 }, {"id":"PA","floor":9 }, {"id":"LAW","floor":8 }, {"id":"BUS","floor":9 } ,
+    //{"id":"HUM","floor":13 } ]
+    let site_from =  [new Site("SS", 3, ""), new Site("SS", 3, "")];
+    let site_to = [new Site("PA", 4, ""), new Site("LAW", 5, "")];
+    let traces = [];
+    for(let i=0;i<site_from.length;i++)
+       traces.push(new Trace(site_from[i],site_to[i]));
+    scenario = new Scenario(traces);
+    //Set Three
+    for(let i=0;i<scenario.traces.length;i++)
+    {
+      let trace = scenario.traces[i];
+      let b_from = buildings.map.get(trace.site_from.building_id);
+      let b_to   = buildings.map.get(trace.site_to.building_id);
+      let from = b_from.get_pos(trace.site_from.floor_id);
+      let to = b_to.get_pos(trace.site_to.floor_id);
+      var p = new Parabola();
+      p.init(scene);
+      p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
+      scenario.parab_list.push(p);
+    }
+  }
   // 渲染場景
   let mainLoop = function () {
 
     orbitControl.update()
-    requestAnimationFrame(mainLoop)
-    THelper.updateParabola(parab1);
-    THelper.updateParabola(parab2);
-    THelper.updateParabola(parab3);
+    requestAnimationFrame(mainLoop);
+    scenario?.parab_list.forEach(parab => {
+      parab.animate(120);
+    });
     p1.animate(120);
     renderer.clearDepth(); // important!
-
     renderer.render(scene, camera)
   }
 

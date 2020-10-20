@@ -1,5 +1,5 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
-export { MAX_POINTS, drawCount, createPlane, createBuilding, initParabola, setParabola, updateParabola };
+export { MAX_POINTS, drawCount, createPlane, createBuilding, initParabola, setParabola, updateParabola, getRandomColor };
 let MAX_POINTS = 200;
 let drawCount;
 //建立平面
@@ -23,7 +23,7 @@ function createBuilding(building, group)
 {
   let width = building.size[0], height = building.size[1], depth = building.size[2]; //size
   let x = building.location[0], y = building.location[1], z = building.location[2];  //location
-  let floor = building.floor, c = building.color;
+  let floor = building.floor, c = building.color, y_shift = height / 2.0 ;
   //依照層數建立每層的立方體 註: Mesh.position為中心位置
   for(let i =0;i < floor; i++)
   {
@@ -35,7 +35,7 @@ function createBuilding(building, group)
     });
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.Name = building.id;
-    Mesh.position.set(x, y + i * height / floor - floor + 1, z );
+    Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
     console.log("BoxGeometry" + Mesh.Name + "Added");
@@ -99,4 +99,12 @@ function updateParabola(parab)
 		parab.geometry.attributes.position.needsUpdate = true; // required after the first render
     parab.material.color.setHSL( Math.random(), 1, 0.5 );
 	}
+}
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
