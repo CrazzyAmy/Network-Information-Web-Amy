@@ -23,7 +23,7 @@ def restPost(appServer, user, password, file):
         print('Response HTTP Code: %s' % handle.getcode())
     except urllib2.HTTPError, error:
         if (error.code != 204):
-            print error
+            print (error)
 
 
 if __name__ == '__main__':

@@ -61,7 +61,7 @@
           <div>Incident</div>
           <div>Name</div>
           <div>[事件名稱]</div>
-          <div>Severity Category</div>
+          <div id="test">Severity Category</div>
           <div>[嚴重等級]</div>
           <div>發生時間</div>
           <div>[日期時間]</div>
@@ -112,7 +112,6 @@
       </div>
     </div>
   </div>
-
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -125,7 +124,11 @@
 
     <script type="module" src = "./data_control.js"></script>
     <script type="module" src = "./map_three.js"></script>
+    <script>
+    document.getElementById("test").textContent+=" wryyyy";
+    </script>
+  <script>
 
+  </script>  
 </body>
-
 </html>
