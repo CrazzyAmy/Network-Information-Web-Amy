@@ -3,6 +3,10 @@
 專案資料夾下安裝npm 指令
 1. npm install
 
+測試使用:
+1. npm install --global http-server
+2. http-server -c-1
+
 分工
 1. 柏廷 : THREE 3D視覺相關
 2. 昱德 : Bootstrap 介面
