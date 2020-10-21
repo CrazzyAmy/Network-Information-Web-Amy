@@ -1,1 +1,8 @@
 node_modules/
+
+# 忽略scss和css個暫存檔
+css/*.map
+css/*.css
+
+# 忽略Bootstrap原始scss檔
+scss/Bootstrap/

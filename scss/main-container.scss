@@ -1,0 +1,18 @@
+/* 主容器(包含左sidebar/3D場景/右sidebar) */
+.main-container{
+    height: 85vh;
+}
+/* 3D場景容器 */
+.scene-container{
+    width: inherit;
+    height: 65vh;
+    background-color: rgb(139, 179, 180);
+    border-radius: 12px;
+}
+
+/* 寬度768以上 */
+@media (min-width: 768px){
+    .main-container{
+        height: 85vh;
+    }
+}

@@ -1,6 +1,13 @@
+@import "variable.scss";
 @import "Bootstrap/bootstrap.scss";
+@import "menu.scss";
+@import "main-container.scss";
+@import "navbar.scss";
+@import "sidebar.scss";
+@import "topbar.scss";
 
 html{
+    overflow: hidden;
     margin: 0;
     height: 100vh;
     width: 100vw;
@@ -14,45 +21,6 @@ body{
     flex-direction: column;
 }
 
-/* 3D場景容器 */
-.scene-container{
-    width: inherit;
-    height: 100%;
-}
 
-/*左右兩側列表*/
-.sidebar{
-    background-color: rgb(63, 58, 55);
-    color: white;
-    display: flex;
-    border-radius: 12px;
-    flex-direction: column;
-    height: 100%;
-    
-    .left{
-        width: 20%;
-    }
-    .right{
-        width: 80%;
-    }
-}
 
-.status{
-    height: 39%;
-}
 
-.info{ 
-    height: 59%;
-}
-
-/* 寬度768以上 */
-@media (min-width: 768px){
-    .sidebar{
-        .left{
-            width: auto;
-        }
-        .right{
-            width: auto;
-        }
-    }
-}

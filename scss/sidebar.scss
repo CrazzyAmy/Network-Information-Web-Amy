@@ -1,0 +1,84 @@
+/*左右兩側列表*/
+.sidebar{
+    background-color: rgb(63, 58, 55);
+    color: white;
+    display: flex;
+    border-radius: 12px;
+    flex-direction: column;
+    height: 20vh;
+    
+    .left{
+        width: 20%;
+    }
+    .right{
+        width: 80%;
+    }
+    .title{
+        width: 100%;
+        color: black;
+        background-color: white;
+    }
+    .subtitle{
+        color: $color-grey-1;
+    }
+    .name{
+        color: $color-grey-1;
+        width: 20%;
+        text-align: center;
+    }
+    .value{
+        background-color: $color-orange;
+        width: 80%;
+        border: 2px solid $color-grey-3;
+    }
+}
+
+.status{
+    height: 0%;
+}
+
+.info{ 
+    height: 20vh;
+}
+
+
+/* 寬度768以上 */
+@media (min-width: 768px){
+    .sidebar{
+        height: 100%;
+        .left{
+            width: auto;
+        }
+        .right{
+            width: auto;
+        }
+        .title{
+            margin-left: 5%;
+            border-bottom: white solid 1px;
+            width: 100%;
+            color: white;
+            background-color: transparent;
+        }
+        .subtitle{
+            color: $color-grey-1;
+        }
+        .name{
+            color: $color-grey-1;
+            margin-left: 10%;
+            width: 100%;
+            text-align: left;
+        }
+        .value{
+            background-color: $color-orange;
+            margin-left: 15%;
+            width: 80%;
+
+        }
+    }
+    .status{
+        height: 50%;
+    }
+    .info{
+        height: 50%;
+    }
+}
