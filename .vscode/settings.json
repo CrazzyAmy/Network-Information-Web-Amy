@@ -1,3 +1,17 @@
 {
-    "python.pythonPath": "C:\\Users\\ntpunsl\\anaconda3\\envs\\python37\\python.exe"
+    "python.pythonPath": "C:\\Users\\ntpunsl\\anaconda3\\envs\\python37\\python.exe",
+    "liveSassCompile.settings.excludeList": [
+
+        "**/node_modules/**",
+        ".vscode/**"
+    ],
+
+    "liveSassCompile.settings.formats":[
+        // 將scss編譯後完成的css檔放到css資料夾
+        {
+            "format": "compressed",
+            "extensionName": ".min.css",
+            "savePath": "/css"
+        }
+    ],
 }
