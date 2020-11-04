@@ -57,7 +57,7 @@
 
   <!-- 電腦版介面 -->
   <!-- 主容器，包含左右資訊列、中間3D場景 -->
-  <div class="container-fluid d-flex flex-column flex-md-row flex-grow-1 overflow-auto overflow-md-hidden main-container" id="container">
+  <div class="container-fluid d-flex flex-column flex-md-row flex-grow-1 main-container" id="container">
     <div class="row flex-grow-1 align-item-stretch">
       <!-- 右側設定介面 -->
       <div class="setting" id="setting">
@@ -92,17 +92,83 @@
       </div>
       <!-- 右側資訊列，xs、sm顯示在上方，md以上顯示在右方 -->
       <div class="col-12 col-md-2 order-1 order-md-3 p-0">
-        <div class="sidebar p-2 d-flex flex-row flex-wrap d-md-block">
-          <div class="left">目前範圍</div>
-          <div class="right">!!!共<span id="event-num">N</span>筆</div>
-          <div class="left">時間</div>
-          <div class="right">[日期時間]</div>
-          <div class="left">地點</div>
-          <div class="right">[ALL]</div>
-          <div class="left">事件</div>
-          <div class="right">[嚴重等級][事件名稱]</div>
-          <div class="left">IP</div>
-          <div class="right">[目前顯示IP]</div>
+        <div class="sidebar d-flex flex-row flex-wrap d-md-block">
+          <div class="title">目前範圍
+            <img src="" alt="" srcset="">
+            共
+            <span id="event-num">N</span>
+            筆
+          </div>
+
+          <form action="" class="d-flex flex-row flex-wrap d-md-block">
+            <div class="name">時間</div>
+            <select name="time" id="time" class="value">
+              <option value="">[日期時間]</option>
+              <option value="20201020">2020/10/20</option>
+              <option value="20201021">2020/10/21</option>
+            </select>
+            <div class="name">地點</div>
+            <select class="value" name="buildings" id="">
+              <option value="ALL">ALL</option>
+              <option value="EECS">電資大樓</option>
+              <option value="LAW">法學大樓</option>
+              <option value="PA">公共事務大樓</option>
+              <option value="BUS">商學大樓</option>
+              <option value="HUM">人文大樓</option>
+              <option value="SS">社會科學大樓</option>
+              <option value="ADM">行政大樓</option>
+              <option value="LIB">圖書館</option>
+              <option value="CC">資訊中心</option>
+            </select>
+<!--             列表List
+            <ul>
+              <li>ALL</li>
+              <li>電資大樓</li>
+              <li>法學大樓</li>
+              <li>公共事務大樓</li>
+              <li>商學大樓</li>
+              <li>人文大樓</li>
+              <li>社會科學大樓</li>
+              <li>行政大樓</li>
+              <li>圖書館</li>
+              <li>資訊中心</li>
+            </ul>
+             -->
+<!--              複數選項checkbox
+            <input type="checkbox" name="build" id="build_EECS" value="EECS"><label for="build_EECS">電資大樓</label>
+            <input type="checkbox" name="" id="">法學大樓
+            <input type="checkbox" name="" id="">公共事務大樓
+            <input type="checkbox" name="" id="">商學大樓
+            <input type="checkbox" name="" id="">人文大樓
+            <input type="checkbox" name="" id="">社會科學大樓
+            <input type="checkbox" name="build" id="build_LIB" value="LIB"><label for="build_LIB">圖書館</label>
+            <input type="checkbox" name="" id="">資訊中心 -->
+  
+            <div class="name">事件嚴重等級</div>
+            <select name="eventSeverityCat" id="" class="value">
+              <option value="ALL">ALL</option>
+              <option value="LOW">LOW</option>
+              <option value="MID">MID</option>
+              <option value="HIGH">HIGH</option>
+            </select>
+            <div class="name">IP</div>
+            <div class="value">[目前顯示IP]</div>
+            <div class="name d-none d-md-block">事件列表</div>
+            <ul class="d-none d-md-block">
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+              <li><button type="button">LOW Traffic denied by policy</button></li>
+              <li><button type="button">LOW Traffic denied by policy</button></li>
+              <li><button type="button">LOW Traffic denied by policy</button></li>
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+            </ul>
+            <div class="d-none d-md-flex justify-content-around">
+            <input type="submit" value="搜尋">
+            <input type="submit" value="篩選">
+            </div>
+          </form>
+
         </div>
       </div>
     </div>
