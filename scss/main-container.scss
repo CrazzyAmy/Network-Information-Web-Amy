@@ -1,6 +1,7 @@
 /* 主容器(包含左sidebar/3D場景/右sidebar) */
 .main-container{
     height: 85vh;
+    overflow-x: hidden;
 }
 /* 3D場景容器 */
 .scene-container{
@@ -13,6 +14,9 @@
 /* 寬度768以上 */
 @media (min-width: 768px){
     .main-container{
+        height: 85vh;
+    }
+    .scene-container{
         height: 85vh;
     }
 }
