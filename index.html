@@ -100,7 +100,7 @@
             筆
           </div>
 
-          <form action="" class="d-flex flex-row flex-wrap d-md-block">
+          <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm">
             <div class="name">時間</div>
             <select name="time" id="time" class="value">
               <option value="">[日期時間]</option>
@@ -168,12 +168,14 @@
             <input type="submit" value="篩選">
             </div>
           </form>
-
+          
         </div>
       </div>
     </div>
   </div>
 
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -183,9 +185,10 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-
     <script type="module" src = "./data_control.js"></script>
     <script type="module" src = "./map_three.js"></script>
     <script src="./modules/menu.js"></script>
+    <script src="./modules/frontlist.js">
+  </script>
 </body>
 </html>
