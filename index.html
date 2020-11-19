@@ -102,14 +102,21 @@
 
           <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm">
             <div class="name">時間</div>
-            <select name="time" id="time" class="value">
-              <option value="">[日期時間]</option>
-              <option value="20201020">2020/10/20</option>
-              <option value="20201021">2020/10/21</option>
+            <select name="time" id="" class="value">
+              <option value="" disabled selected>起始時間</option>
+              <option value="20201020">Mon Sep 28 14:00:00 CST 2020 </option>
+              <option value="20201021">Mon Sep 28 15:00:00 CST 2020</option>
+            </select>
+            <div class="name"></div>
+            <select name="time" id="" class="value">
+              <option value="" disabled selected>結束時間</option>
+              <option value="20201020">Mon Sep 28 15:00:00 CST 2020</option>
+              <option value="20201021">Mon Sep 28 16:00:00 CST 2020</option>
             </select>
             <div class="name">地點</div>
             <select class="value" name="buildings" id="">
               <option value="ALL">ALL</option>
+              <option disabled>------------------------------------------</option>
               <option value="EECS">電資大樓</option>
               <option value="LAW">法學大樓</option>
               <option value="PA">公共事務大樓</option>
@@ -143,16 +150,31 @@
             <input type="checkbox" name="" id="">社會科學大樓
             <input type="checkbox" name="build" id="build_LIB" value="LIB"><label for="build_LIB">圖書館</label>
             <input type="checkbox" name="" id="">資訊中心 -->
-  
+
+            <div class="name d-none d-md-block">樓層</div>
+            <select name="floor" id="" class="value d-none d-md-block">
+              <option value="ALL">ALL</option>
+              <option disabled>------------------------------------------</option>
+              <option value="B1F">B1F</option>
+              <option value="1F">1F</option>
+              <option value="2F">2F</option>
+              <option value="3F">3F</option>
+              <option value="4F">4F</option>
+              <option value="5F">5F</option>
+              <option value="6F">6F</option>
+            </select>
+            
+
             <div class="name">事件嚴重等級</div>
             <select name="eventSeverityCat" id="" class="value">
               <option value="ALL">ALL</option>
+              <option disabled>------------------------------------------</option>
               <option value="LOW">LOW</option>
               <option value="MID">MID</option>
               <option value="HIGH">HIGH</option>
             </select>
             <div class="name">IP</div>
-            <div class="value">[目前顯示IP]</div>
+            <input type="text" name="" id="" class="value" placeholder="搜尋IP...">
             <div class="name d-none d-md-block">事件列表</div>
             <ul class="d-none d-md-block">
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
@@ -166,6 +188,25 @@
             <div class="d-none d-md-flex justify-content-around">
             <input type="submit" value="搜尋">
             <input type="submit" value="篩選">
+            <input type="button" value="搜尋(接收字串、不跳轉網頁)" onclick="search()">
+            <script>
+              let search = function(){
+              var request = new XMLHttpRequest();
+              request.open("POST","http://120.126.151.195:5000/test",true)
+              request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+              request.responseType = "text"
+              request.send("eventSeverityCat=HIGH")
+              request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                  // Typical action to be performed when the document is ready:
+                  console.log(request.responseText);
+                }
+              }
+              console.log(request.responseText)
+              // request.open("POST","http://10.201.28.213:8080/test",true)
+              // request.send()
+              }
+            </script>
             </div>
           </form>
           
