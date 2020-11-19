@@ -1,8 +1,8 @@
 # Network-Infomation-Web
 
-專案資料夾下安裝npm 指令
-1.下載npm : https://nodejs.org/en/download/
-2.專案資料夾下: npm install
+專案資料夾下安裝npm 指令:
+1. 下載npm: https://nodejs.org/en/download/
+2. 專案資料夾下:npm install
 
 測試使用:
 1. 專案資料夾下: npm install --global http-server
