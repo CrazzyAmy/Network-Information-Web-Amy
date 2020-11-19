@@ -1,11 +1,12 @@
 # Network-Infomation-Web
 
 專案資料夾下安裝npm 指令
-1. npm install
+1.下載npm : https://nodejs.org/en/download/
+2.專案資料夾下: npm install
 
 測試使用:
-1. npm install --global http-server
-2. http-server -c-1
+1. 專案資料夾下: npm install --global http-server
+2. 專案資料夾下: http-server -c-1
 
 分工
 1. 柏廷 : THREE 3D視覺相關
