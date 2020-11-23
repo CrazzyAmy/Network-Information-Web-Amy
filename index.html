@@ -23,8 +23,8 @@
       <img src="/picture/Logo.jpg" height="35px" alt="Logo">
     </a> 
     -->
-    <!-- 導覽列標題 -->
-    <span class="logo-text">3D 視覺化</span>
+    <!-- 導覽列標題/LOGO -->
+    <img src="/picture/Logo-text.png" alt="">
     <!-- 導覽列右側按鈕，md消失 -->
     <button class="navbar-toggler btn" onclick="opensetting()">
       <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
@@ -42,7 +42,7 @@
         <div style="background-color:  rgb(227, 164, 129); height: 6vh; width: 100%; border-radius: 12px;">
           Logo/Banner/AD</div>
       </div>
-      <div class="col-md-4 d-none d-md-flex">
+      <div class="col-md-4 d-none d-md-flex justify-content-end">
         <button class="navbar-toggler btn btn-dark" onclick="opensetting()">
           <img src="picture/settings-icon.jpg" alt="settings-icon" height="20px">
           <span>設定</span>
@@ -96,7 +96,7 @@
           <div class="title">目前範圍
             <img src="" alt="" srcset="">
             共
-            <span id="event-num">N</span>
+            <span id="event-num">7</span>
             筆
           </div>
 
@@ -185,10 +185,10 @@
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
             </ul>
-            <div class="d-none d-md-flex justify-content-around">
+            <div class="d-none d-md-flex justify-content-around flex-wrap">
             <input type="submit" value="搜尋">
             <input type="submit" value="篩選">
-            <input type="button" value="搜尋(接收字串、不跳轉網頁)" onclick="search()">
+            <input type="button" value="接收字串" onclick="search()">
             <script>
               let search = function(){
               var request = new XMLHttpRequest();
