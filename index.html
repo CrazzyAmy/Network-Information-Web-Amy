@@ -29,7 +29,7 @@
     <button class="navbar-toggler btn" onclick="opensetting()">
       <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
     </button>
-    <button class="navbar-toggler btn" onclick="alert('Super')">Super</button>
+    <button class="navbar-toggler btn" onclick="alert('Super')">User</button>
 
   </nav>
 
@@ -47,7 +47,7 @@
           <img src="picture/settings-icon.jpg" alt="settings-icon" height="20px">
           <span>設定</span>
         </button>
-        <button class="navbar-toggler btn btn-dark" onclick="alert('Super')">Super</button>
+        <button class="navbar-toggler btn btn-dark" onclick="openmenu('#setting-user')">User</button>
       </div>
     </div>
   </div>
@@ -62,6 +62,17 @@
       <!-- 右側設定介面 -->
       <div class="setting" id="setting">
         <div>介面設定</div>
+      </div>
+      <!-- 右側登入/使用者介面 -->
+      <div class="setting" id="setting-user">
+        <div>使用者登入</div>
+        <form action="">
+          <label for="user-ID">帳號</label>
+          <input type="text" name="user-ID" id="user-ID">
+          <label for="user-password">密碼</label>
+          <input type="password" name="user-password" id="user-password">
+          <input type="submit" value="確認">
+        </form>
       </div>
       <!-- 左側資訊列，md以上顯示 -->
       <div class="col-12 col-md-2 order-3  order-md-2 d-md-block p-0">
@@ -100,21 +111,23 @@
             筆
           </div>
 
-          <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm">
+          <!-- <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm"> -->
+          <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm">
+
             <div class="name">時間</div>
-            <select name="time" id="" class="value">
+            <select name="timeStart" id="" class="value">
               <option value="" disabled selected>起始時間</option>
               <option value="20201020">Mon Sep 28 14:00:00 CST 2020 </option>
               <option value="20201021">Mon Sep 28 15:00:00 CST 2020</option>
             </select>
             <div class="name"></div>
-            <select name="time" id="" class="value">
+            <select name="timeEnd" id="" class="value">
               <option value="" disabled selected>結束時間</option>
               <option value="20201020">Mon Sep 28 15:00:00 CST 2020</option>
               <option value="20201021">Mon Sep 28 16:00:00 CST 2020</option>
             </select>
             <div class="name">地點</div>
-            <select class="value" name="buildings" id="">
+            <select class="value" name="buildingName" id="">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="EECS">電資大樓</option>
@@ -152,7 +165,7 @@
             <input type="checkbox" name="" id="">資訊中心 -->
 
             <div class="name d-none d-md-block">樓層</div>
-            <select name="floor" id="" class="value d-none d-md-block">
+            <select name="bulidingFloor" id="" class="value d-none d-md-block">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="B1F">B1F</option>
@@ -162,6 +175,12 @@
               <option value="4F">4F</option>
               <option value="5F">5F</option>
               <option value="6F">6F</option>
+              <option value="7F">7F</option>
+              <option value="8F">8F</option>
+              <option value="9F">9F</option>
+              <option value="10F">10F</option>
+              <option value="11F">11F</option>
+              <option value="12F">12F</option>
             </select>
             
 
@@ -174,7 +193,7 @@
               <option value="HIGH">HIGH</option>
             </select>
             <div class="name">IP</div>
-            <input type="text" name="" id="" class="value" placeholder="搜尋IP...">
+            <input type="text" name="IpAddr" id="" class="value" placeholder="搜尋IP...">
             <div class="name d-none d-md-block">事件列表</div>
             <ul class="d-none d-md-block">
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
@@ -186,27 +205,27 @@
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
             </ul>
             <div class="d-none d-md-flex justify-content-around flex-wrap">
-            <input type="submit" value="搜尋">
-            <input type="submit" value="篩選">
-            <input type="button" value="接收字串" onclick="search()">
-            <script>
-              let search = function(){
-              var request = new XMLHttpRequest();
-              request.open("POST","http://120.126.151.195:5000/test",true)
-              request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-              request.responseType = "text"
-              request.send("eventSeverityCat=HIGH")
-              request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                  // Typical action to be performed when the document is ready:
-                  console.log(request.responseText);
+              <input type="submit" value="搜尋">
+              <input type="submit" value="篩選">
+              <input type="button" value="接收字串" onclick="search()">
+              <script>
+                let search = function(){
+                var request = new XMLHttpRequest();
+                request.open("POST","http://120.126.151.195:5000/test",true)
+                request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+                request.responseType = "text"
+                request.send("eventSeverityCat=HIGH")
+                request.onreadystatechange = function() {
+                  if (this.readyState == 4 && this.status == 200) {
+                    // Typical action to be performed when the document is ready:
+                    console.log(request.responseText);
+                  }
                 }
-              }
-              console.log(request.responseText)
-              // request.open("POST","http://10.201.28.213:8080/test",true)
-              // request.send()
-              }
-            </script>
+                console.log(request.responseText)
+                // request.open("POST","http://10.201.28.213:8080/test",true)
+                // request.send()
+                }
+              </script>
             </div>
           </form>
           
