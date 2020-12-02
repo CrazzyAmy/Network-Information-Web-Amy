@@ -16,8 +16,8 @@ let site2_to = [new Site("LIB", 4, ""), new Site("EECS", 5, ""), new Site("CC", 
 
 let OnBuildingLoaded = function(){
     scene_init_meshes("buildings", buildings, t_buildings, createBuilding );
-    add_scenario(site1_from, site1_to);
-    add_scenario(site2_from, site2_to);
+    add_scenario(site1_from, site1_to , 0xFF0000);
+    add_scenario(site2_from, site2_to , 0xFF0FF0);
 };
 let OnDecorationLoaded = function() {
     scene_init_meshes("decorations", decorations, t_decorations, createPlane);

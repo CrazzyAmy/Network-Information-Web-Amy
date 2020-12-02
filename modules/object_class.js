@@ -64,9 +64,10 @@ class Building
         return new Building (obj.id, obj.title, obj.location, obj.size, color, obj.floor);
     };
     get_pos(floor_id)
-    {
-        let height = this.size[1];
-        let x = this.location[0], y = this.location[1] + floor_id * this.floor_height, z = this.location[2];  //location
+    {   //location
+        let x = this.location[0], 
+            y = this.location[1] + (floor_id - 1) * this.floor_height, 
+            z = this.location[2]; 
         return [x,y,z];
     }
 }

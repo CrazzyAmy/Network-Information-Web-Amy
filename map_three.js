@@ -12,15 +12,17 @@
   let t_decorations = new THREE.Group();
   let t_buildings = new THREE.Group();
   let multi_scenario = new MultiScenario([]);
-  let p1;
   
   let onMouseMove = function (e) {
     e.preventDefault();
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    const {top, left, width, height} = renderer.domElement.getBoundingClientRect();
+
+    mouse.x = -1 + 2 * (e.clientX - left) / width;
+    mouse.y = 1 - 2 * (e.clientY - top) / height;
 
     rayCast.setFromCamera(mouse, camera);
     let ojbects = [];
+    //Line2 不可被intersect
     scene.children.forEach(element => {
       if(element.type != 'Line2')
         ojbects.push(element);
@@ -44,15 +46,6 @@
       INTERSECTED = null;
     }
   };
-  function opencsvFile()
-  {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.click();
-  }
-  let onMouseClick = function (e) {
-   
-  };
   let scene_init_meshes = function(name, listdata, t_ref, func_create)
   {
     //設定並重置THREE.Group
@@ -67,13 +60,14 @@
   let init = function () {
     // 建立場景
     scene = new THREE.Scene();
+    let sWidth = document.getElementById("scene").clientWidth, sHeight =  document.getElementById("scene").clientHeight
     scene.background = new THREE.Color(0xffffff);
     // 建立相機
     camera = new THREE.PerspectiveCamera(
       70,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
+      sWidth / sHeight,
+      1,
+      10000
     )
     camera.position.set(100, 130, 100);
     camera.lookAt(scene.position);
@@ -96,31 +90,24 @@
 
     scene.add(spotLight);
     
-    p1 = new Parabola();
-    p1.init(scene);
-    p1.set(0x443322,new THREE.Vector3(20,7,-5), new THREE.Vector3(-35,9,-5), -0.003);
-
     // 建立物體
     mouse.x = mouse.y = -1;
 
     // 建立渲染器
     renderer = new THREE.WebGLRenderer()
-    renderer.setSize(document.getElementById("scene").clientWidth, document.getElementById("scene").clientHeight) // 場景大小
+    renderer.setSize( sWidth, sHeight) // 場景大小
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
 
     // 建立 OrbitControls
     orbitControl = new OrbitControls(camera, renderer.domElement)
-    orbitControl.enableDamping = true // 啟用阻尼效果
-    orbitControl.dampingFactor = 0.25 // 阻尼系數
-    //orbitControl.autoRotate = true    // 啟用自動旋轉
 
     // 將渲染器的 DOM 綁到網頁上
     document.getElementById("scene").appendChild(renderer.domElement)
     document.addEventListener("mousemove", onMouseMove, false);
-    //document.addEventListener("click", onMouseClick, false);
+    
   }
-  let add_scenario = function(sites_from, sites_to)
+  let add_scenario = function(sites_from, sites_to, color)
   {
     let traces = [];
     for(let i=0;i<sites_from.length;i++)
@@ -138,25 +125,43 @@
       let to = b_to.get_pos(trace.site_to.floor_id);
       let p = new Parabola();
       p.init(scene);
+      //p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       scenario.parab_list.push(p);
     }
     
     multi_scenario.scenarios.push(scenario);
+    //完成一次動畫後要做的事件
     scenario.parab_list[0].OnAnimated = function() {
+      //換下一個scenario
       multi_scenario.scenario_id++;
       multi_scenario.scenario_id %= multi_scenario.scenarios.length;
+      //去建築高亮
+      t_buildings?.children.forEach( mesh =>{
+        const words = mesh.name.split('_'); // "buildingId_floorID"
+        let color = new THREE.Color(buildings.map.get(words[0]).color );
+        mesh?.material.emissive.setHex(color.getHex);
+      });
+
     }
   }
   // 渲染場景
   let mainLoop = function () {
 
     requestAnimationFrame(mainLoop);
+    //畫拋物線
     multi_scenario.get_display_scenario()?.parab_list.forEach(parab => {
       parab.animate(120);
     });
-    renderer.clearDepth(); // important!
-    p1.animate(120);
+    //高亮建築
+    multi_scenario.get_display_scenario()?.traces.forEach( trace =>{
+      let bFrom = t_buildings.getObjectByName(trace.site_from.building_id + "_" + trace.site_from.floor_id)
+      let bTo = t_buildings.getObjectByName(trace.site_to.building_id + "_" + trace.site_to.floor_id)
+      let cFrom =  new THREE.Color(buildings.map.get(trace.site_from.building_id).color).getHex()
+      let cTo =  new THREE.Color(buildings.map.get(trace.site_to.building_id).color).getHex()
+      bFrom?.material.emissive.setHex(0x2222AA); //高亮
+      bTo?.material.emissive.setHex(0xAA2222); //高亮
+    });
     orbitControl.update()
     renderer.render(scene, camera)
   }
