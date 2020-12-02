@@ -30,15 +30,15 @@ function createBuilding(building, group)
     var geometry = new THREE.BoxGeometry(width, height / floor, depth)
     var material = new THREE.MeshLambertMaterial({
       color: c,
-      opacity : 0.9,
+      opacity : 0.8,
       transparent : true
     });
     var Mesh = new THREE.Mesh(geometry, material);
-    Mesh.Name = building.id;
+    Mesh.name = building.id + "_" + (i + 1).toString();
     Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
-    console.log("BoxGeometry" + Mesh.Name + "Added");
+    console.log("BoxGeometry" + Mesh.name + "Added");
     group.add(Mesh);
   }
 }
