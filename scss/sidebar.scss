@@ -67,6 +67,23 @@ ul{
             color: $color-grey-3;
         }
     }
+    .event-name,.IP{
+        width: 90%;
+    }
+    .count{
+        width: 10%;
+    }
+
+    .high{
+        background-color: $color-event-high;
+        color: white;
+    }
+    .mid{
+        background-color: $color-event-mid;
+    }
+    .low{
+        background-color: $color-event-low;
+    }
 }
 
 
