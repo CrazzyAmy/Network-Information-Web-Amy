@@ -158,19 +158,19 @@
           <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
             <div class="name">時間</div>
-            <select name="timeStart" id="" class="value">
+            <select name="timeStart" id="" class="value" onchange="update_search_string()">
               <option value="" disabled selected>起始時間</option>
               <option value="20201020">Mon Sep 28 14:00:00 CST 2020 </option>
               <option value="20201021">Mon Sep 28 15:00:00 CST 2020</option>
             </select>
             <div class="name"></div>
-            <select name="timeEnd" id="" class="value">
+            <select name="timeEnd" id="" class="value" onchange="update_search_string()">
               <option value="" disabled selected>結束時間</option>
               <option value="20201020">Mon Sep 28 15:00:00 CST 2020</option>
               <option value="20201021">Mon Sep 28 16:00:00 CST 2020</option>
             </select>
             <div class="name">地點</div>
-            <select class="value" name="buildingName" id="">
+            <select class="value" name="buildingName" id="" onchange="update_search_string()">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="EECS">電資大樓</option>
@@ -208,7 +208,7 @@
             <input type="checkbox" name="" id="">資訊中心 -->
 
             <div class="name d-none d-md-block">樓層</div>
-            <select name="bulidingFloor" id="" class="value d-none d-md-block">
+            <select name="bulidingFloor" id="" class="value d-none d-md-block" onchange="update_search_string()">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="B1F">B1F</option>
@@ -254,6 +254,7 @@
              -->
             <div class="d-none d-md-flex justify-content-around flex-wrap">
               <input type="button" value="搜尋" onclick="search()">
+              <input id="search_first" type="button" value="測試search_menu()" onclick="search_menu('searchType=MENU&timeStart=20201020&timeEnd=20201230&buildingName=EECS&bulidingFloor=5F')">
               <script>
                 let search = function(){
                 var request = new XMLHttpRequest();
@@ -297,10 +298,11 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-    <script type="module" src = "./data_control.js"></script>
-    <script type="module" src = "./map_three.js"></script>
-    <script src="./modules/menu.js"></script>
-    <script src="./modules/frontlist.js">
-  </script>
+
+  <script type="module" src = "./data_control.js"></script>
+  <script type="module" src = "./map_three.js"></script>
+  <script type="module" src="./modules/data_transmission.js"></script>
+  <script type="module" src="./html_button.js"></script>
+  <script src="./modules/menu.js"></script>
 </body>
 </html>
