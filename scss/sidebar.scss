@@ -74,14 +74,14 @@ ul{
         width: 10%;
     }
 
-    .high{
+    .high, .HIGH{
         background-color: $color-event-high;
         color: white;
     }
-    .mid{
+    .mid, .MID{
         background-color: $color-event-mid;
     }
-    .low{
+    .low, .LOW{
         background-color: $color-event-low;
     }
 }
