@@ -3,6 +3,13 @@ import {createBuilding, createPlane} from './three_helper.js';
 import {ListData, Site, JsonReader, Building, Decoration} from './object_class.js'  
 export {send_request,search_menu, search_detail, draw_menu}
 
+//將要畫的線條畫出來
+document.querySelector("#search_first").addEventListener('click', function(){
+  let site1_from =  [new Site("SS", 3, ""), new Site("SS", 3, ""), new Site("SS", 3, ""), new Site("SS", 3, "")];
+  let site1_to = [new Site("PA", 4, ""), new Site("LAW", 5, ""), new Site("BUS", 6, ""), new Site("CC", 3, "")];
+  add_scenario(site1_from, site1_to , 0xFF0000);
+});
+
 //將搜尋資料傳給後台伺服器，並回傳json檔
 let send_request = function(search_string)
 {
@@ -21,6 +28,39 @@ let send_request = function(search_string)
       // Typical action to be performed when the document is ready:
       console.log(request.responseText);
       curr_json = JSON.parse(request.responseText) 
+      console.log(curr_json);
+      $("#Event-name-list").empty();
+      $("#IP-list").empty();
+      
+
+      //用json檔的資料，更新大列表
+      let total_IP_count = 0
+      let idx = ''
+      let menu_data = curr_json
+      for(idx in menu_data)
+      {
+        if(idx == "subarray")continue;
+        $("#Event-name-list:last").append(
+          '<li>' +
+          '<button type="button" id="Event' + idx + '" class="' + menu_data[idx].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
+              '<div class="event-name">' + menu_data[idx].eventName + '</div>' +
+              '<div class="count">' + menu_data[idx].totalIPCount + '</div>' +
+          '</button>' +
+          '</li>'
+        )
+        console.log(idx)
+        console.log(typeof(idx))
+        let para = idx
+        document.querySelector("#Event" + idx).addEventListener('click', function(){draw_menu(para);});
+
+
+        total_IP_count += menu_data[idx].totalIPCount
+        
+      }
+      $("#event-num").text(total_IP_count)
+      //將小列表的資訊儲存到global variable
+      //以供未來使用
+      curr_json = menu_data
     }
   }
   console.log("get responseText:")
@@ -36,12 +76,15 @@ let send_request = function(search_string)
 //第一步搜尋，接收資料，事件列表&IP列表
 function search_menu(search_string)
 {
+  update_search_string()
   //傳送搜尋字串，接收json檔
-  search_string = 'searchType=MENU&timeStart=20201020&timeEnd=20201230&buildingName=EECS&bulidingFloor=5F'
+  search_string = 'searchType=MENU&timeStart=20201223&timeEnd=20201225&buildingName=ALL&bulidingFloor=ALL'
+  search_string = 'searchType=MENU&' + curr_form_search_string
   let menu_data = send_request(search_string)
   menu_data = curr_json
-  menu_data = JSON.parse( dummy_json)
+  //menu_data = JSON.parse( dummy_json)
   //將大列表&小列表的資訊清空
+  /*
   $("#Event-name-list").empty();
   $("#IP-list").empty();
   
@@ -54,43 +97,79 @@ function search_menu(search_string)
     if(idx == "subarray")continue;
     $("#Event-name-list:last").append(
       '<li>' +
-      '<button type="button" onclick="draw_menu(' + idx + ')" class="' + menu_data[idx].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
+      '<button type="button" id="Event' + idx + '" class="' + menu_data[idx].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
           '<div class="event-name">' + menu_data[idx].eventName + '</div>' +
           '<div class="count">' + menu_data[idx].totalIPCount + '</div>' +
       '</button>' +
       '</li>'
     )
+    console.log(idx)
+    console.log(typeof(idx))
+    let para = idx
+    document.querySelector("#Event" + idx).addEventListener('click', function(){draw_menu(para);});
+
+
     total_IP_count += menu_data[idx].totalIPCount
+    
   }
   $("#event-num").text(total_IP_count)
   //將小列表的資訊儲存到global variable
   //以供未來使用
   curr_json = menu_data
+  
+  */
 }
 
 //點擊大列表(按鈕)，更新小列表#IP-list資訊
 function draw_menu(index)
 {
-  IP_list_data = curr_json[index].IP
+  console.log(index)
+  console.log(typeof(index))
+  console.log(curr_json[index])
+  console.log(typeof(curr_json[index]))
+  let IP_list_data = curr_json[index].IP
   $("#IP-list:last").empty()
-  for(idx in IP_list_data)
+  for(let idx in IP_list_data)
   {
     if(idx == "subarray")continue;
     $("#IP-list:last").append(
       '<li>' +
-        '<button type="button" class="d-flex flex-row justify-content-around">' +
+        '<button type="button" id="IP-' + idx +'" class="d-flex flex-row justify-content-around">' +
           '<div class="IP">' + IP_list_data[idx].name + '</div>' +
           '<div class="count">' + IP_list_data[idx].count + '</div>' +
         '</button>' + 
       '</li>'
     )
+    let para = IP_list_data[idx].name
+    document.querySelector("#IP-" + idx).addEventListener('click', function(){search_detail(IP_list_data[idx].name, curr_json[index].eventName, curr_json[index].eventSeverityCat);});
+
   } 
+
 }
 
 //第二部搜尋，接收資料，畫出事件線條
-function search_detail(search_IP)
+function search_detail(search_IP, search_eventName, search_eventSeverityCat)
 {
-  detail_search_string = 'searchType=DETAIL&' + curr_form_search_string 
+  let detail_search_string = 'searchType=DETAIL&' + curr_form_search_string + '&IpAddr=' + search_IP + '&eventName=' + search_eventName
+  
+  var request = new XMLHttpRequest();
+  request.open("POST", "http://120.126.151.195:5000/second_query", true)
+  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+  request.responseType = "text"
+
+  request.send(detail_search_string)
+  console.log("Send request: " + detail_search_string)
+  //這邊要等event發生才會回傳字串!!!!
+  //!!!
+  //!!!
+  request.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // Typical action to be performed when the document is ready:
+      //console.log(request.responseText);
+      curr_detail_json = JSON.parse(request.responseText) 
+      console.log(curr_detail_json);
+    }
+  }
 }
 
 //form搜尋string的onchange事件
@@ -103,6 +182,7 @@ function update_search_string()
 
 
 let curr_json = null
+let curr_detail_json = null
 let curr_form_search_string = ''
 
 let dummy_json = '[  {      "eventName": "Some really serious event",      "eventSeverity":"9",      "eventSeverityCat": "HIGH",      "totalIPCount": 22,      "IP": [          {          "name": "93.174.93.72",          "count": 9          },          {          "name": "175.24.95.240",          "count": 6          },          {          "name": "120.126.152.226",          "count": 4          },          {          "name": "120.126.152.225",          "count": 3          }      ]  },  {      "eventName": "Something less important",      "eventSeverity":"5",      "eventSeverityCat": "MID",      "totalIPCount": 50,      "IP": [          {          "name": "93.174.93.72",          "count": 24          },          {          "name": "175.24.95.240",          "count": 14          },          {          "name": "120.126.152.226",          "count": 12          }      ]  }]';

@@ -1,5 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\nsl814888\\Anaconda3\\envs\\python38\\python.exe",
     "liveSassCompile.settings.excludeList": [
 
         "**/node_modules/**",
