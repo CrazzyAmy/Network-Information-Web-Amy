@@ -80,11 +80,11 @@
           <div class="title">狀態-目前顯示</div>
           <div class="subtitle">Incident</div>
           <div class="name">Name</div>
-          <div class="value">[事件名稱]</div>
+          <div class="value" id="left_eventName">[事件名稱]</div>
           <div class="name">Severity Category</div>
-          <div class="value">[嚴重等級]</div>
+          <div class="value" id="left_eventSeverityCat">[嚴重等級]</div>
           <div class="name">發生時間</div>
-          <div class="value">[日期時間]</div>
+          <div class="value" id="left_time">[日期時間]</div>
         </div>
         <div class="sidebar d-flex flex-row flex-wrap d-md-block info">
           <div class="title">詳細資料</div>
@@ -107,70 +107,36 @@
           <div class="title">目前範圍
             <img src="" alt="" srcset="">
             共
-            <span id="event-num">190</span>
+            <span id="event-num">0</span>
             筆
           </div>
           <div>
             <div class="name d-none d-md-block">事件列表</div>
             <ul class="d-none d-md-block" id="Event-name-list">
-                <li>
-                    <button type="button" class="high d-flex flex-row justify-content-around">
-                        <div class="event-name">Dangerous event</div>
-                        <div class="count">5</div>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="mid d-flex flex-row justify-content-around">
-                        <div class="event-name">Particular event</div> 
-                        <div class="count">16</div>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="low d-flex  flex-row justify-content-around">
-                        <div class="event-name">Permitted traffic flow ended</div> 
-                        <div class="count">102</div>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="low d-flex  flex-row justify-content-around">
-                        <div class="event-name">Traffic denied by policy</div>
-                        <div class="count">67</div>
-                    </button>
-                </li>
             </ul>
             <div class="name d-none d-md-block">IP列表</div>
             <ul class="d-none d-md-block" id="IP-list">
-                <li>
-                    <button type="button" class="d-flex flex-row justify-content-around">
-                        <div class="IP">102.123.4.5</div>
-                        <div class="count">4</div>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="d-flex flex-row justify-content-around">
-                        <div class="IP">102.123.4.6</div>
-                        <div class="count">1</div>  
-                    </button>
-                </li>
               </ul>
           </div>
           <!-- <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm"> -->
           <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
             <div class="name">時間</div>
-            <select name="timeStart" id="" class="value" onchange="update_search_string()">
+            <select name="timeStart" id="" class="value">
               <option value="" disabled selected>起始時間</option>
               <option value="20201020">Mon Sep 28 14:00:00 CST 2020 </option>
               <option value="20201021">Mon Sep 28 15:00:00 CST 2020</option>
+              <option value="20201223">20201223</option>
             </select>
             <div class="name"></div>
-            <select name="timeEnd" id="" class="value" onchange="update_search_string()">
+            <select name="timeEnd" id="" class="value">
               <option value="" disabled selected>結束時間</option>
               <option value="20201020">Mon Sep 28 15:00:00 CST 2020</option>
               <option value="20201021">Mon Sep 28 16:00:00 CST 2020</option>
+              <option value="20201225">20201225</option>
             </select>
             <div class="name">地點</div>
-            <select class="value" name="buildingName" id="" onchange="update_search_string()">
+            <select class="value" name="buildingName" id="">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="EECS">電資大樓</option>
@@ -208,7 +174,7 @@
             <input type="checkbox" name="" id="">資訊中心 -->
 
             <div class="name d-none d-md-block">樓層</div>
-            <select name="bulidingFloor" id="" class="value d-none d-md-block" onchange="update_search_string()">
+            <select name="bulidingFloor" id="" class="value d-none d-md-block">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="B1F">B1F</option>
@@ -253,32 +219,7 @@
             </ul>
              -->
             <div class="d-none d-md-flex justify-content-around flex-wrap">
-              <input type="button" value="搜尋" onclick="search()">
-              <input id="search_first" type="button" value="測試search_menu()" onclick="search_menu('searchType=MENU&timeStart=20201020&timeEnd=20201230&buildingName=EECS&bulidingFloor=5F')">
-              <script>
-                let search = function(){
-                var request = new XMLHttpRequest();
-                request.open("POST","http://120.126.151.195:5000/test",true)
-                request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-                request.responseType = "text"
-                //將Form資訊轉換成字串String
-                var requesttext = $('#dataForm').serialize();
-                console.log(requesttext);
-                console.log(typeof(requesttext))
-                //return;
-                //************************
-                request.send(requesttext)
-                request.onreadystatechange = function() {
-                  if (this.readyState == 4 && this.status == 200) {
-                    // Typical action to be performed when the document is ready:
-                    console.log(request.responseText);
-                  }
-                }
-                console.log(request.responseText)
-                // request.open("POST","http://10.201.28.213:8080/test",true)
-                // request.send()
-                }
-              </script>
+              <input id="search_first" type="button" value="搜尋">
             </div>
           </form>
           
