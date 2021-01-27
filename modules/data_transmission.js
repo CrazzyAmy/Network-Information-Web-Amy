@@ -1,16 +1,23 @@
-import {scene_init_meshes, t_buildings, t_decorations, add_scenario} from '../map_three.js'
+import {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario} from '../map_three.js'
 import {createBuilding, createPlane} from './three_helper.js';
 import {ListData, Site, JsonReader, Building, Decoration} from './object_class.js'  
+import { buildings } from '../data_control.js';
 export {send_request,search_menu, search_detail, draw_menu}
 
 //將要畫的線條畫出來
+
 document.querySelector("#search_first").addEventListener('click', function(){
-  let site1_from =  [new Site("SS", 3, ""), new Site("SS", 3, ""), new Site("SS", 3, ""), new Site("SS", 3, "")];
-  let site1_to = [new Site("PA", 4, ""), new Site("LAW", 5, ""), new Site("BUS", 6, ""), new Site("CC", 3, "")];
+  clear_multi_scenario()
+  aaa = aaa + 1
+  aaa%=7
+  let site1_from =  [new Site("SS", 0, "")];
+  let site1_to = [new Site("SS", 0, "")];
   add_scenario(site1_from, site1_to , 0xFF0000);
 });
+let aaa = 0
 
-//將搜尋資料傳給後台伺服器，並回傳json檔
+
+//將初步搜尋資料傳給後台伺服器，並回傳json檔
 let send_request = function(search_string)
 {
   var request = new XMLHttpRequest();
@@ -20,10 +27,8 @@ let send_request = function(search_string)
 
   request.send(search_string)
   console.log("Send request: " + search_string)
-  //這邊要等event發生才會回傳字串!!!!
-  //!!!
-  //!!!
   request.onreadystatechange = function() {
+    //收到資料後，畫大列表
     if (this.readyState == 4 && this.status == 200) {
       // Typical action to be performed when the document is ready:
       console.log(request.responseText);
@@ -82,7 +87,7 @@ function search_menu(search_string)
   search_string = 'searchType=MENU&' + curr_form_search_string
   let menu_data = send_request(search_string)
   menu_data = curr_json
-  //menu_data = JSON.parse( dummy_json)
+  //menu_data = JSON.parse(dummy_json)
   //將大列表&小列表的資訊清空
   /*
   $("#Event-name-list").empty();
@@ -134,24 +139,25 @@ function draw_menu(index)
     if(idx == "subarray")continue;
     $("#IP-list:last").append(
       '<li>' +
-        '<button type="button" id="IP-' + idx +'" class="d-flex flex-row justify-content-around">' +
+        '<button type="button" id="IP-' + idx +'" class=" ' +curr_json[index].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
           '<div class="IP">' + IP_list_data[idx].name + '</div>' +
           '<div class="count">' + IP_list_data[idx].count + '</div>' +
         '</button>' + 
       '</li>'
     )
     let para = IP_list_data[idx].name
-    document.querySelector("#IP-" + idx).addEventListener('click', function(){search_detail(IP_list_data[idx].name, curr_json[index].eventName, curr_json[index].eventSeverityCat);});
+    document.querySelector("#IP-" + idx).addEventListener('click', function(){search_detail(IP_list_data[idx].name, curr_json[index].eventName, curr_json[index].eventSeverityCat, idx);});
 
   } 
 
 }
 
 //第二部搜尋，接收資料，畫出事件線條
-function search_detail(search_IP, search_eventName, search_eventSeverityCat)
+function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 {
   let detail_search_string = 'searchType=DETAIL&' + curr_form_search_string + '&IpAddr=' + search_IP + '&eventName=' + search_eventName
   
+
   var request = new XMLHttpRequest();
   request.open("POST", "http://120.126.151.195:5000/second_query", true)
   request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -159,17 +165,78 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat)
 
   request.send(detail_search_string)
   console.log("Send request: " + detail_search_string)
-  //這邊要等event發生才會回傳字串!!!!
-  //!!!
-  //!!!
+  //收到資料後，畫出3D場景中的線條
   request.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       // Typical action to be performed when the document is ready:
       //console.log(request.responseText);
       curr_detail_json = JSON.parse(request.responseText) 
       console.log(curr_detail_json);
+
+      //現階段沒有詳細IP表
+      //把curr_detail_json，根據IP，猜建築位置
+      guess_location()
+      console.log(curr_detail_json);
+
+
+      update_parabola()
+      draw_detail(search_IP, search_eventName, search_eventSeverityCat)
+      //$("#IP-"+id).children().toggle()
     }
   }
+}
+
+//清除舊有線條、換新線條
+function update_parabola()
+{
+  let detail = curr_detail_json;
+  let site_from = []
+  let site_to = []
+
+  for(let i in curr_detail_json)
+  {
+    if(i == "subarray")continue;
+    site_from.push(new Site(detail[i].srcbuildingName, detail[i].srcbuildingFloor,""))
+    site_to.push(new Site(detail[i].destbuildingName, detail[i].destbuildingFloor,""))
+  }
+  add_scenario(site_from, site_to , 0xFF0000);
+  //清除畫面上的線條
+  clear_multi_scenario()
+}
+
+//現階段沒有詳細IP表
+//把curr_detail_json，根據IP，猜建築位置
+function guess_location()
+{
+  for(let i in curr_detail_json)
+  {
+    if(i == "subarray")continue;
+    let srcip = curr_detail_json[i].srcIpAddr.split(".")
+    let destip = curr_detail_json[i].destIpAddr.split(".")
+
+    curr_detail_json[i]["srcbuildingName"] = buildings.list[ Math.floor( srcip[1] * buildings.list.length / 256 )].id
+    curr_detail_json[i]["srcbuildingTitle"] = buildings.list[ Math.floor( srcip[1] * buildings.list.length / 256 )].title
+    curr_detail_json[i]["srcbuildingFloor"] = srcip[2] % buildings.list[ Math.floor( srcip[1] * buildings.list.length / 256 )].floor
+    curr_detail_json[i]["destbuildingName"] = buildings.list[ Math.floor( destip[1] * buildings.list.length / 256 )].id
+    curr_detail_json[i]["destbuildingTitle"] = buildings.list[ Math.floor( destip[1] * buildings.list.length / 256 )].title
+    curr_detail_json[i]["destbuildingFloor"] = destip[2] % buildings.list[ Math.floor( destip[1] * buildings.list.length / 256 ) ].floor
+    
+    //console.log(curr_detail_json[i]["srcbuildingName"])
+    //console.log(curr_detail_json[i]["srcbuildingFloor"])
+    //console.log(curr_detail_json[i]["destbuildingName"])
+    //console.log(curr_detail_json[i]["destbuildingFloor"])
+  }
+}
+
+//點擊小列表時，更新左側sidebar的資訊
+function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
+{
+  $("#left_eventName").text(search_eventName)
+  $("#left_eventSeverityCat").text(search_eventSeverityCat)
+  $("#left_time").text(curr_detail_json[0].deviceTime)
+  $("#left_building").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F")
+  $("#left_srcIP").text(curr_detail_json[0].srcIpAddr)
+  $("#left_destIP").text(curr_detail_json[0].destIpAddr)
 }
 
 //form搜尋string的onchange事件
