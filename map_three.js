@@ -1,4 +1,4 @@
-  export {scene_init_meshes, t_buildings, t_decorations, add_scenario}
+  export {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario}
   import * as THelper from './modules/three_helper.js';
   import * as THREE from './node_modules/three/build/three.module.js';
   import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
@@ -125,7 +125,7 @@
       let to = b_to.get_pos(trace.site_to.floor_id);
       let p = new Parabola();
       p.init(scene);
-      p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
+      p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0] + (Math.random()-0.5) * 5,to[1],to[2] + (Math.random()-0.5) * 5), -0.003);
       //p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       scenario.parab_list.push(p);
     }
@@ -145,6 +145,43 @@
 
     }
   }
+  //清除scenario，事件拋物線條
+  let clear_multi_scenario = function()
+  {
+    //在parabola.OnAnimated清除，才不會殘留線條痕跡
+    multi_scenario.scenarios[0]?multi_scenario.scenarios[0].parab_list[0].OnAnimated = function(){
+        //將multi_scenario的所有scenarios清空
+        let tmp_scenario = multi_scenario.scenarios[1]
+        multi_scenario.scenarios = []
+        multi_scenario.scenarios.push(tmp_scenario)
+        multi_scenario.scenario_id = 0
+        //去建築高亮
+        t_buildings?.children.forEach( mesh =>{
+        const words = mesh.name.split('_'); // "buildingId_floorID"
+        let color = new THREE.Color(buildings.map.get(words[0]).color );
+        mesh?.material.emissive.setHex(color.getHex);
+      });
+    }:null;
+    
+    /*
+    multi_scenario.scenarios?.forEach(scenario=>{
+      scenario.parab_list[0].OnAnimated = function(){
+        //將multi_scenario的所有scenarios清空
+        let tmp_scenario = multi_scenario.scenarios[1]
+        multi_scenario.scenarios = []
+        multi_scenario.scenarios.push(tmp_scenario)
+        multi_scenario.scenario_id = 0
+        //去建築高亮
+        t_buildings?.children.forEach( mesh =>{
+        const words = mesh.name.split('_'); // "buildingId_floorID"
+        let color = new THREE.Color(buildings.map.get(words[0]).color );
+        mesh?.material.emissive.setHex(color.getHex);
+      });
+      }
+    })
+    */
+  }
+
   // 渲染場景
   let mainLoop = function () {
 
