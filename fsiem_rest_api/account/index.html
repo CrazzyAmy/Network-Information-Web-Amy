@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D視覺化專案</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+</head>
+
+<body>
+  <!-- 上方導覽列Navbar -->
+  <nav class="navbar navbar-expand-md navbar-light">
+    <!-- 導覽列左側選單，md消失 -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- 導覽列LOGO -->
+    <!--     
+    <a class="navbar-brand" href="#">
+      <img src="/picture/Logo.jpg" height="35px" alt="Logo">
+    </a> 
+    -->
+    <!-- 導覽列標題 -->
+    <span class="logo-text">3D 視覺化</span>
+    <!-- 導覽列右側按鈕，md消失 -->
+    <button class="navbar-toggler btn" onclick="opensetting()">
+      <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
+    </button>
+    <button class="navbar-toggler btn" onclick="alert('Super')">Super</button>
+
+  </nav>
+
+
+
+  <!-- Logo/Banner/AD 和右方按鈕 -->
+  <div class="container-fluid topbar">
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <div style="background-color:  rgb(227, 164, 129); height: 6vh; width: 100%; border-radius: 12px;">
+          Logo/Banner/AD</div>
+      </div>
+      <div class="col-md-4 d-none d-md-flex">
+        <button class="navbar-toggler btn btn-dark" onclick="opensetting()">
+          <img src="picture/settings-icon.jpg" alt="settings-icon" height="20px">
+          <span>設定</span>
+        </button>
+        <button class="navbar-toggler btn btn-dark" onclick="alert('Super')">Super</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手機板介面 -->
+  
+
+  <!-- 電腦版介面 -->
+  <!-- 主容器，包含左右資訊列、中間3D場景 -->
+  <div class="container-fluid d-flex flex-column flex-md-row flex-grow-1 main-container" id="container">
+    <div class="row flex-grow-1 align-item-stretch">
+      <!-- 右側設定介面 -->
+      <div class="setting" id="setting">
+        <div>介面設定</div>
+      </div>
+      <!-- 左側資訊列，md以上顯示 -->
+      <div class="col-12 col-md-2 order-3  order-md-2 d-md-block p-0">
+        <div class="sidebar status d-none d-md-flex">
+          <div class="title">狀態-目前顯示</div>
+          <div class="subtitle">Incident</div>
+          <div class="name">Name</div>
+          <div class="value">[事件名稱]</div>
+          <div class="name">Severity Category</div>
+          <div class="value">[嚴重等級]</div>
+          <div class="name">發生時間</div>
+          <div class="value">[日期時間]</div>
+        </div>
+        <div class="sidebar d-flex flex-row flex-wrap d-md-block info">
+          <div class="title">詳細資料</div>
+          <div class="name">地點</div>
+          <div class="value">[大樓/數位講桌]</div>
+          <div class="name">Target</div>
+          <div class="value">[圖示][IP]</div>
+          <div class="name">Source</div>
+          <div class="value">[圖示][IP]</div>
+
+        </div>
+      </div>
+      <!-- 3D場景容器 -->
+      <div class="col-12 col-md-8 order-2 order-md-2 p-0">
+        <div class="scene-container" id="scene"></div>
+      </div>
+      <!-- 右側資訊列，xs、sm顯示在上方，md以上顯示在右方 -->
+      <div class="col-12 col-md-2 order-1 order-md-3 p-0">
+        <div class="sidebar d-flex flex-row flex-wrap d-md-block">
+          <div class="title">目前範圍
+            <img src="" alt="" srcset="">
+            共
+            <span id="event-num">N</span>
+            筆
+          </div>
+
+          <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm">
+            <div class="name">時間</div>
+            <select name="time" id="time" class="value">
+              <option value="">[日期時間]</option>
+              <option value="20201020">2020/10/20</option>
+              <option value="20201021">2020/10/21</option>
+            </select>
+            <div class="name">地點</div>
+            <select class="value" name="buildings" id="">
+              <option value="ALL">ALL</option>
+              <option value="EECS">電資大樓</option>
+              <option value="LAW">法學大樓</option>
+              <option value="PA">公共事務大樓</option>
+              <option value="BUS">商學大樓</option>
+              <option value="HUM">人文大樓</option>
+              <option value="SS">社會科學大樓</option>
+              <option value="ADM">行政大樓</option>
+              <option value="LIB">圖書館</option>
+              <option value="CC">資訊中心</option>
+            </select>
+<!--             列表List
+            <ul>
+              <li>ALL</li>
+              <li>電資大樓</li>
+              <li>法學大樓</li>
+              <li>公共事務大樓</li>
+              <li>商學大樓</li>
+              <li>人文大樓</li>
+              <li>社會科學大樓</li>
+              <li>行政大樓</li>
+              <li>圖書館</li>
+              <li>資訊中心</li>
+            </ul>
+             -->
+<!--              複數選項checkbox
+            <input type="checkbox" name="build" id="build_EECS" value="EECS"><label for="build_EECS">電資大樓</label>
+            <input type="checkbox" name="" id="">法學大樓
+            <input type="checkbox" name="" id="">公共事務大樓
+            <input type="checkbox" name="" id="">商學大樓
+            <input type="checkbox" name="" id="">人文大樓
+            <input type="checkbox" name="" id="">社會科學大樓
+            <input type="checkbox" name="build" id="build_LIB" value="LIB"><label for="build_LIB">圖書館</label>
+            <input type="checkbox" name="" id="">資訊中心 -->
+  
+            <div class="name">事件嚴重等級</div>
+            <select name="eventSeverityCat" id="" class="value">
+              <option value="ALL">ALL</option>
+              <option value="LOW">LOW</option>
+              <option value="MID">MID</option>
+              <option value="HIGH">HIGH</option>
+            </select>
+            <div class="name">IP</div>
+            <div class="value">[目前顯示IP]</div>
+            <div class="name d-none d-md-block">事件列表</div>
+            <ul class="d-none d-md-block">
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+              <li><button type="button">LOW Traffic denied by policy</button></li>
+              <li><button type="button">LOW Traffic denied by policy</button></li>
+              <li><button type="button">LOW Traffic denied by policy</button></li>
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+              <li><button type="button">LOW Permitted traffic flow ended</button></li>
+            </ul>
+            <div class="d-none d-md-flex justify-content-around">
+            <input type="submit" value="搜尋">
+            <input type="submit" value="篩選">
+            </div>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+    <script type="module" src = "./data_control.js"></script>
+    <script type="module" src = "./map_three.js"></script>
+    <script src="./modules/menu.js"></script>
+    <script src="./modules/frontlist.js">
+  </script>
+</body>
+</html>

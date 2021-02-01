@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
-import httplib2
-import re
+import httplib2, re, datetime, mysql.connector
 from xml.dom.minidom import Node, parseString, parse
-import mysql.connector
 import xml.etree.ElementTree as xet
+import pandas as pd
+#import ip_to_place
+from ip_to_place import query_ip
 
-cases=0
+cases = 10
+ipdict = {}
 
 def getQueryResultByOrg(appServer, user, password, inXml):
     url = "https://" + appServer + ":443/phoenix/rest/query/"
@@ -52,7 +54,7 @@ def getQueryResultByOrg(appServer, user, password, inXml):
             outXML.append(content.decode("utf-8"))
 
     p = re.compile('totalCount="\d+"')
-    mlist = p.findall(content)
+    mlist = p.findall(content.decode("utf-8"))
     if mlist[0] != '':
         mm = mlist[0].replace('"', '')
         m = mm.split("=")[-1]
@@ -68,47 +70,54 @@ def getQueryResultByOrg(appServer, user, password, inXml):
                 resp, content = h.request(urlFinal)
                 if content != '':
                     outXML.append(content.decode("utf-8"))
+                '''
                 pr="content length = "+str(len(content))
                 pr="i = "+str(i+2)+"   "+pr
                 print(pr)
+                '''
     else:
         print ("no info in this report.")
         exit()
-    data = dumpXML3(outXML)
+    data = dumpXML(outXML)
     return data
 
-def dumpXML2(xmlList):
-    param=[]
-    for xmls in xmlList:
-        param.append(xmls.split('\n'))
-    return param
-
-def dumpXML3(xmlList):
+def dumpXML(xmlList):
     param=''
     for xmls in xmlList:
         param+=xmls
     return param
 
-def Write_in_SQL(param):
+def Write_in_SQL(param,datetime_dt):
     mydb = mysql.connector.connect(
         host = "127.0.0.1",
         user = "root",
         password = "ntpunsl814!",
-        database = "sys",
+        database = "event",
     )
     mycursor = mydb.cursor()
-    '''
-    mycursor.execute("CREATE TABLE aaa (eventType VARCHAR(255), eventSeverity VARCHAR(255),deviceTime VARCHAR(255),eventName VARCHAR(255),eventSeverityCat VARCHAR(255),srcIpAddr VARCHAR(255),destIpAddr VARCHAR(255))")
-    '''
-    sql = "INSERT INTO aaa (eventType,eventSeverity,deviceTime,eventName,eventSeverityCat,srcIpAddr,destIpAddr) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+    ##table_name = "d" + datetime_dt
+    ##sql = "INSERT INTO "+ table_name +" (eventType,eventSeverity,deviceTime,eventName,eventSeverityCat,srcIpAddr,destIpAddr) VALUES (%s,%s,%s,%s,%s,%s,%s)"
     params=param.split('--END--')
     params.pop(-1)
+    params = time_format(params)
     val=[]
+    i=0
     for contents in params:
         contents=contents[:-1]
         val.append(contents.split(','))
+        try:
+            a,b = ipdict[val[i][5]]
+            c,d = ipdict[val[i][6]]
+        except KeyError:
+            a,b,c,d = '0','0','0','0'
+        val[i].append(a+"-"+c)
+        val[i].append(b+"-"+d)
+        i+=1
+    ##mycursor.executemany(sql, val)
+    ##mydb.commit()
+    sql = "INSERT INTO events (eventType,eventSeverity,deviceTime,eventName,eventSeverityCat,srcIpAddr,destIpAddr,building_floor,room) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     mycursor.executemany(sql, val)
-    mydb.commit()  
+    mydb.commit()
 
 def filterr(s):
     length=0
@@ -138,25 +147,42 @@ def filterr(s):
         length+=1
     return output,length-1
 
+def time_format(data):
+    i = 0
+    for content in data:
+        content=content.split(",")
+        s = content[2].split(" ")
+        content[2]=s[5]+"-" + month(s[1]) + "-" + s[2] + "-" + s[3]
+        content = ",".join(content)
+        data[i] = content
+        i += 1
+    return data
+
+def month(day):
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return months.index(month) + 1
+
 def mainjob():
+    datetime_dt = str(datetime.datetime.today().day)
     data = getQueryResultByOrg('120.126.192.133','super/henry','ntpunsl814!','top_fortisiem_events_by_count.xml')
-    f=open("data3.txt",'w+')
-    data=data.encode('ascii', 'ignore')
-    f.write(data)
     data,length=filterr(data)
-    Write_in_SQL(data)
+    if length == 0:
+        return 0
+    Write_in_SQL(data,datetime_dt)
     return length
 
 if __name__ == '__main__':
-    try:
-        ##s=input("rounds:")
-        print("Rounds: 100")
-        s='100'
-        times=int(s)
-        i=0
-        while i<times:
-            length=mainjob()
-            i+=1
-            print("Round "+str(i)+" done. Number of events: "+str(length)+"  Execute time: "+str(time.localtime().tm_year)+"."+str(time.localtime().tm_mon)+"."+str(time.localtime().tm_mday)+" "+str(time.localtime().tm_hour)+":"+str(time.localtime().tm_min)+":"+str(time.localtime().tm_sec))
-    except NameError as err:
-        print("Process stopped due to exceptions.")
+    df = pd.read_csv('output.csv', encoding = "ANSI", sep = ',')
+    df = df.fillna(0)
+    for i in df.index:
+        ipdict[df['IP位址'][i]] = (str(df['大樓'][i]) + str(df['樓層'][i]), str(df['使用單位'][i]))
+
+    times=100
+    i=0
+    while i < times:
+        length=mainjob()
+        if length == 0:
+            print('No more new events')
+            break
+        i+=1
+        print("Round "+str(i)+" done. Number of events: "+str(length))
