@@ -142,7 +142,7 @@ function draw_menu(index)
       '<li>' +
         '<button type="button" id="IP-' + idx +'" class=" ' +curr_json[index].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
           '<div class="IP">' + 
-           '<div>' + IP_list_data[idx].buildingTitle + (IP_list_data[idx].buildingFloor == 0? "B1":IP_list_data[idx].buildingFloor)+ "F"  +  '</div>' +  
+           '<div>' + IP_list_data[idx].buildingTitle + (IP_list_data[idx].buildingName == "GW" ? "":(IP_list_data[idx].buildingFloor == 0? "B1":IP_list_data[idx].buildingFloor)+ "F")  +  '</div>' +  
            '<div>' + IP_list_data[idx].name + '</div>' +
           '</div>' +
           '<div class="count">' + IP_list_data[idx].count + '</div>' +
@@ -221,11 +221,23 @@ function guess_location_detail()
 
     curr_detail_json[i]["srcbuildingName"] = buildings.list[ Math.floor( srcip[1] * buildings.list.length / 256 )].id
     curr_detail_json[i]["srcbuildingTitle"] = buildings.list[ Math.floor( srcip[1] * buildings.list.length / 256 )].title
-    curr_detail_json[i]["srcbuildingFloor"] = srcip[2] % buildings.list[ Math.floor( srcip[1] * buildings.list.length / 256 )].floor
+    curr_detail_json[i]["srcbuildingFloor"] = srcip[2] % buildings.list[ Math.floor( srcip[1] * buildings.list.length / 260 )].floor +1
     curr_detail_json[i]["destbuildingName"] = buildings.list[ Math.floor( destip[1] * buildings.list.length / 256 )].id
     curr_detail_json[i]["destbuildingTitle"] = buildings.list[ Math.floor( destip[1] * buildings.list.length / 256 )].title
-    curr_detail_json[i]["destbuildingFloor"] = destip[2] % buildings.list[ Math.floor( destip[1] * buildings.list.length / 256 ) ].floor
+    curr_detail_json[i]["destbuildingFloor"] = destip[2] % buildings.list[ Math.floor( destip[1] * buildings.list.length / 260 ) ].floor +1
     
+    if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
+    {
+      curr_detail_json[i]["srcbuildingName"] = "GW"
+      curr_detail_json[i]["srcbuildingTitle"] = "校外"
+      curr_detail_json[i]["srcbuildingFloor"] = "1"
+    }
+    if(!(destip[0]=="120" && destip[1]=="126" || destip[0] == "10" || destip[0]=="192" && destip[1]=="168"))
+    {
+      curr_detail_json[i]["destbuildingName"] = "GW"
+      curr_detail_json[i]["destbuildingTitle"] = "校外"
+      curr_detail_json[i]["destbuildingFloor"] = "1"
+    }
     //console.log(curr_detail_json[i]["srcbuildingName"])
     //console.log(curr_detail_json[i]["srcbuildingFloor"])
     //console.log(curr_detail_json[i]["destbuildingName"])
@@ -241,9 +253,15 @@ function guess_location_menu()
     {
       if(j == "subarray")continue;
       let ip = curr_json[i].IP[j].name.split(".")
-      curr_json[i].IP[j]["buildingName"] = buildings.list[ Math.floor( ip[1] * buildings.list.length / 256)].id
-      curr_json[i].IP[j]["buildingTitle"] = buildings.list[ Math.floor( ip[1] * buildings.list.length / 256 )].title
-      curr_json[i].IP[j]["buildingFloor"] = ip[2] % buildings.list[ Math.floor( ip[1] * buildings.list.length / 256 )].floor
+      curr_json[i].IP[j]["buildingName"] = buildings.list[ Math.floor( ip[1] * (buildings.list.length-1) / 256)].id
+      curr_json[i].IP[j]["buildingTitle"] = buildings.list[ Math.floor( ip[1] * (buildings.list.length-1) / 256 )].title
+      curr_json[i].IP[j]["buildingFloor"] = ip[2] % buildings.list[ Math.floor( ip[1] * (buildings.list.length-1) / 260 )].floor +1
+      if(!(ip[0]=="120" && ip[1]=="126" || ip[0] == "10" || ip[0]=="192" && ip[1]=="168"))
+      {
+        curr_json[i].IP[j]["buildingName"] = "GW"
+        curr_json[i].IP[j]["buildingTitle"] = "校外"
+        curr_json[i].IP[j]["buildingFloor"] = "1"
+      }
     }
   }
 }
@@ -254,23 +272,35 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
   $("#left_eventName").text(search_eventName)
   $("#left_eventSeverityCat").text(search_eventSeverityCat)
   $("#left_time").text(curr_detail_json[0].deviceTime)
-  $("#left_building").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F")
+  $("#left_srcbuilding").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingName == "GW" ? "":(curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F"))
   $("#left_srcIP").text(curr_detail_json[0].srcIpAddr)
+  $("#left_destbuilding").text(curr_detail_json[0].destbuildingTitle + (curr_detail_json[0].destbuildingName == "GW" ? "":(curr_detail_json[0].destbuildingFloor == 0? "B1":curr_detail_json[0].destbuildingFloor) + "F"))
   $("#left_destIP").text(curr_detail_json[0].destIpAddr)
+  //大樓樓層Select
+  for(let i in curr_detail_json)
+  {
+    if(i == "subarray")continue;
+    //檢查是否有重複option
+    if($("#left_destbuilding option[name=" + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + "]").length > 0)continue;
+    $("#left_destbuilding:last").append(
+      '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destbuildingTitle + ( curr_detail_json[i].destbuildingName=="GW"?"":curr_detail_json[i].destbuildingFloor + 'F') + '</option>'
+    )
+  }
+  $("#left_destbuilding").change(function(){
+    $("#left_destIP").val("");
+    $("#left_destIP option").hide();
+    $("#left_destIP option[name=" + curr_detail_json[this.value].destbuildingName + curr_detail_json[this.value].destbuildingFloor + "]").show();
+  })
+  //目標IP Select
   for(let i in curr_detail_json)
   {
     if(i == "subarray")continue;
     $("#left_destIP:last").append(
-      '<option value="' + i + '">' + curr_detail_json[i].destIpAddr + '</option>'
+      '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destIpAddr + '</option>'
     )
-    /*
-    let tmpidx = i
-    $("#left_destIP").change(function(){
-      $("#left_time").text(curr_detail_json[tmpidx].deviceTime)
-    })
-    */
   }
   $("#left_destIP").change(function(){
+    //$("#left_destbuilding").text(curr_detail_json[this.value].destbuildingTitle + (curr_detail_json[this.value].destbuildingName == "GW" ? "":(curr_detail_json[this.value].destbuildingFloor == 0? "B1":curr_detail_json[this.value].destbuildingFloor) + "F"))
     $("#left_time").text(curr_detail_json[this.value].deviceTime)
   })
 }
