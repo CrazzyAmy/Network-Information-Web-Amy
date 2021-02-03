@@ -66,12 +66,12 @@
       <!-- 右側登入/使用者介面 -->
       <div class="setting" id="setting-user">
         <div>使用者登入</div>
-        <form action="">
+        <form action="" id="loginForm">
           <label for="user-ID">帳號</label>
-          <input type="text" name="user-ID" id="user-ID">
+          <input type="text" name="user" id="user">
           <label for="user-password">密碼</label>
-          <input type="password" name="user-password" id="user-password">
-          <input type="submit" value="確認">  
+          <input type="password" name="password" id="password">
+          <input type="button" id="login" value="確認">  
           <a href="register.html">註冊</a>
         </form>
       </div>
@@ -84,20 +84,25 @@
           <div class="value" id="left_eventName">[事件名稱]</div>
           <div class="name">Severity Category</div>
           <div class="value" id="left_eventSeverityCat">[嚴重等級]</div>
-          <div class="name">發生時間</div>
-          <div class="value" id="left_time">[日期時間]</div>
         </div>
         <div class="sidebar d-flex flex-row flex-wrap d-md-block info">
           <div class="title">詳細資料</div>
           <div class="name">來源地點</div>
-          <div class="value" id="left_building">[大樓/數位講桌]</div>
-          <div class="name">Source</div>
+          <div class="value" id="left_srcbuilding">[大樓/數位講桌]</div>
+          <div class="name">Source IP</div>
           <div class="value" id="left_srcIP">[圖示][IP]</div>
-          <div class="name">Target</div>
           <!--<div class="value" id="left_destIP">[圖示][IP]</div>-->
+          <div class="name">目標地點</div>
+          <!-- <div class="value" id="left_destbuilding">[大樓/數位講桌]</div> -->
+          <select class="value" name="" id="left_destbuilding">
+            <option value=""></option>
+          </select>
+          <div class="name">Target IP</div>
           <select class="value" name="" id="left_destIP">
             <option value=""></option>
           </select>
+          <div class="name">發生時間</div>
+          <div class="value" id="left_time">[日期時間]</div>  
 
         </div>
       </div>
@@ -150,19 +155,19 @@
             <select name="bulidingFloor" id="" class="value d-none d-md-block">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
-              <option value="B1F">B1F</option>
-              <option value="1F">1F</option>
-              <option value="2F">2F</option>
-              <option value="3F">3F</option>
-              <option value="4F">4F</option>
-              <option value="5F">5F</option>
-              <option value="6F">6F</option>
-              <option value="7F">7F</option>
-              <option value="8F">8F</option>
-              <option value="9F">9F</option>
-              <option value="10F">10F</option>
-              <option value="11F">11F</option>
-              <option value="12F">12F</option>
+              <option value="-1">B1F</option>
+              <option value="1">1F</option>
+              <option value="2">2F</option>
+              <option value="3">3F</option>
+              <option value="4">4F</option>
+              <option value="5">5F</option>
+              <option value="6">6F</option>
+              <option value="7">7F</option>
+              <option value="8">8F</option>
+              <option value="9">9F</option>
+              <option value="10">10F</option>
+              <option value="11">11F</option>
+              <option value="12">12F</option>
             </select>
             
 <!-- 

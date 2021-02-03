@@ -69,7 +69,7 @@
       1,
       10000
     )
-    camera.position.set(60, 70, 60);
+    camera.position.set(50, 50, 50);
     camera.lookAt(scene.position);
     
     spotLight = new THREE.SpotLight(0x666666, 1);
@@ -125,7 +125,11 @@
       let to = b_to.get_pos(trace.site_to.floor_id);
       let p = new Parabola();
       p.init(scene);
-      p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0] + (Math.random()-0.5) * 15,to[1],to[2] + (Math.random()-0.5) * 15), -0.003);
+      p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0] + (Math.random()-0.5) * 5,to[1],to[2] + (Math.random()-0.5) * 5), -0.003);
+      if(to[0] == -8 && to[2] == 60)
+      {
+        p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
+      }
       //p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       scenario.parab_list.push(p);
     }
