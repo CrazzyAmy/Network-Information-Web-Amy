@@ -66,6 +66,7 @@ let send_request = function(search_string)
       //將小列表的資訊儲存到global variable
       //以供未來使用
       curr_json = menu_data
+      guess_location_menu()
     }
   }
   console.log("get responseText:")
@@ -140,7 +141,10 @@ function draw_menu(index)
     $("#IP-list:last").append(
       '<li>' +
         '<button type="button" id="IP-' + idx +'" class=" ' +curr_json[index].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
-          '<div class="IP">' + IP_list_data[idx].name + '</div>' +
+          '<div class="IP">' + 
+           '<div>' + IP_list_data[idx].buildingTitle + (IP_list_data[idx].buildingFloor == 0? "B1":IP_list_data[idx].buildingFloor)+ "F"  +  '</div>' +  
+           '<div>' + IP_list_data[idx].name + '</div>' +
+          '</div>' +
           '<div class="count">' + IP_list_data[idx].count + '</div>' +
         '</button>' + 
       '</li>'
@@ -175,7 +179,7 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 
       //現階段沒有詳細IP表
       //把curr_detail_json，根據IP，猜建築位置
-      guess_location()
+      guess_location_detail()
       console.log(curr_detail_json);
 
 
@@ -199,14 +203,15 @@ function update_parabola()
     site_from.push(new Site(detail[i].srcbuildingName, detail[i].srcbuildingFloor,""))
     site_to.push(new Site(detail[i].destbuildingName, detail[i].destbuildingFloor,""))
   }
-  add_scenario(site_from, site_to , 0xFF0000);
+  let color = detail[0].eventSeverityCat[0] == "H"? 0xFF0000:detail[0].eventSeverityCat[0] == "M"? 0xFFF129:0xB4B4B4
+  add_scenario(site_from, site_to , color);
   //清除畫面上的線條
   clear_multi_scenario()
 }
 
 //現階段沒有詳細IP表
 //把curr_detail_json，根據IP，猜建築位置
-function guess_location()
+function guess_location_detail()
 {
   for(let i in curr_detail_json)
   {
@@ -227,6 +232,21 @@ function guess_location()
     //console.log(curr_detail_json[i]["destbuildingFloor"])
   }
 }
+function guess_location_menu()
+{
+  for(let i in curr_json)
+  {
+    if(i == "subarray")continue;
+    for(let j in curr_json[i].IP)
+    {
+      if(j == "subarray")continue;
+      let ip = curr_json[i].IP[j].name.split(".")
+      curr_json[i].IP[j]["buildingName"] = buildings.list[ Math.floor( ip[1] * buildings.list.length / 256)].id
+      curr_json[i].IP[j]["buildingTitle"] = buildings.list[ Math.floor( ip[1] * buildings.list.length / 256 )].title
+      curr_json[i].IP[j]["buildingFloor"] = ip[2] % buildings.list[ Math.floor( ip[1] * buildings.list.length / 256 )].floor
+    }
+  }
+}
 
 //點擊小列表時，更新左側sidebar的資訊
 function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
@@ -237,6 +257,22 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
   $("#left_building").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F")
   $("#left_srcIP").text(curr_detail_json[0].srcIpAddr)
   $("#left_destIP").text(curr_detail_json[0].destIpAddr)
+  for(let i in curr_detail_json)
+  {
+    if(i == "subarray")continue;
+    $("#left_destIP:last").append(
+      '<option value="' + i + '">' + curr_detail_json[i].destIpAddr + '</option>'
+    )
+    /*
+    let tmpidx = i
+    $("#left_destIP").change(function(){
+      $("#left_time").text(curr_detail_json[tmpidx].deviceTime)
+    })
+    */
+  }
+  $("#left_destIP").change(function(){
+    $("#left_time").text(curr_detail_json[this.value].deviceTime)
+  })
 }
 
 //form搜尋string的onchange事件
