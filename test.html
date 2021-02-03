@@ -71,7 +71,8 @@
           <input type="text" name="user-ID" id="user-ID">
           <label for="user-password">密碼</label>
           <input type="password" name="user-password" id="user-password">
-          <input type="submit" value="確認">
+          <input type="submit" value="確認">  
+          <a href="register.html">註冊</a>
         </form>
       </div>
       <!-- 左側資訊列，md以上顯示 -->
@@ -93,7 +94,10 @@
           <div class="name">Source</div>
           <div class="value" id="left_srcIP">[圖示][IP]</div>
           <div class="name">Target</div>
-          <div class="value" id="left_destIP">[圖示][IP]</div>
+          <!--<div class="value" id="left_destIP">[圖示][IP]</div>-->
+          <select class="value" name="" id="left_destIP">
+            <option value=""></option>
+          </select>
 
         </div>
       </div>
@@ -114,7 +118,7 @@
             <div class="name d-none d-md-block">事件列表</div>
             <ul class="d-none d-md-block" id="Event-name-list">
             </ul>
-            <div class="name d-none d-md-block">IP列表</div>
+            <div class="name d-none d-md-block">來源IP列表</div>
             <ul class="d-none d-md-block" id="IP-list">
               </ul>
           </div>
@@ -122,80 +126,9 @@
           <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
             <div class="name">時間</div>
-
-            <!--
-            <select name="timeStart" id="" class="value">
-              <option value="" disabled selected>起始時間</option>
-              <option value="20210127">2021/1/27</option>
-              <option value="20210126">2021/1/26</option>
-              <option value="20210125">2021/1/25</option>
-              <option value="20210124">2021/1/24</option>
-              <option value="20210123">2021/1/23</option>
-              <option value="20210122">2021/1/22</option>
-              <option value="20210121">2021/1/21</option>
-              <option value="20210120">2021/1/20</option>
-              <option value="20210119">2021/1/19</option>
-              <option value="20210118">2021/1/18</option>
-              <option value="20210117">2021/1/17</option>
-              <option value="20210116">2021/1/16</option>
-              <option value="20210115">2021/1/15</option>
-              <option value="20210114">2021/1/14</option>
-              <option value="20210113">2021/1/13</option>
-              <option value="20210112">2021/1/12</option>
-              <option value="20210111">2021/1/11</option>
-              <option value="20210110">2021/1/10</option>
-              <option value="20210109">2021/1/9</option>
-              <option value="20210108">2021/1/8</option>
-              <option value="20210107">2021/1/7</option>
-              <option value="20210106">2021/1/6</option>
-              <option value="20210105">2021/1/5</option>
-              <option value="20210104">2021/1/4</option>
-              <option value="20210103">2021/1/3</option>
-              <option value="20210102">2021/1/2</option>
-              <option value="20210101">2021/1/1</option>
-              <option value="20201020">Mon Sep 28 14:00:00 CST 2020 </option>
-              <option value="20201021">Mon Sep 28 15:00:00 CST 2020</option>
-              <option value="20201223">20201223</option>
-            </select>
+            <input type="date" name="timeStart" id="timeStart" class="value">
             <div class="name"></div>
-            <select name="timeEnd" id="" class="value">
-              <option value="" disabled selected>結束時間</option>
-              <option value="20210127">2021/1/27</option>
-              <option value="20210126">2021/1/26</option>
-              <option value="20210125">2021/1/25</option>
-              <option value="20210124">2021/1/24</option>
-              <option value="20210123">2021/1/23</option>
-              <option value="20210122">2021/1/22</option>
-              <option value="20210121">2021/1/21</option>
-              <option value="20210120">2021/1/20</option>
-              <option value="20210119">2021/1/19</option>
-              <option value="20210118">2021/1/18</option>
-              <option value="20210117">2021/1/17</option>
-              <option value="20210116">2021/1/16</option>
-              <option value="20210115">2021/1/15</option>
-              <option value="20210114">2021/1/14</option>
-              <option value="20210113">2021/1/13</option>
-              <option value="20210112">2021/1/12</option>
-              <option value="20210111">2021/1/11</option>
-              <option value="20210110">2021/1/10</option>
-              <option value="20210109">2021/1/9</option>
-              <option value="20210108">2021/1/8</option>
-              <option value="20210107">2021/1/7</option>
-              <option value="20210106">2021/1/6</option>
-              <option value="20210105">2021/1/5</option>
-              <option value="20210104">2021/1/4</option>
-              <option value="20210103">2021/1/3</option>
-              <option value="20210102">2021/1/2</option>
-              <option value="20210101">2021/1/1</option>
-              <option value="20201020">Mon Sep 28 15:00:00 CST 2020</option>
-              <option value="20201021">Mon Sep 28 16:00:00 CST 2020</option>
-              <option value="20201225">20201225</option>
-            </select>
-          -->
-             
-            <input type="date" name="timeStart" id="" class="value">
-            <div class="name"></div>
-            <input type="date" name="timeEnd" id="" class="value"> 
+            <input type="date" name="timeEnd" id="timeEnd" class="value"> 
             
 
             <div class="name">地點</div>
