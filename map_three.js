@@ -124,11 +124,12 @@
       let from = b_from.get_pos(trace.site_from.floor_id);
       let to = b_to.get_pos(trace.site_to.floor_id);
       let p = new Parabola();
+      let Color = color[i]
       p.init(scene);
-      p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0] + (Math.random()-0.5) * 5,to[1],to[2] + (Math.random()-0.5) * 5), -0.003);
+      p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0] + (Math.random()-0.5) * 5,to[1],to[2] + (Math.random()-0.5) * 5), -0.003);
       if(to[0] == -8 && to[2] == 60)
       {
-        p.set(color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
+        p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       }
       //p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       scenario.parab_list.push(p);
