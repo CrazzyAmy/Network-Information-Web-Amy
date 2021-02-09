@@ -9,7 +9,7 @@ export {send_request,search_menu, search_detail, draw_menu}
 document.querySelector("#search_first").addEventListener('click', function(){
   clear_multi_scenario()
   aaa = aaa + 1
-  aaa%=7
+  aaa %= 7
   let site1_from =  [new Site("SS", 0, "")];
   let site1_to = [new Site("SS", 0, "")];
   add_scenario(site1_from, site1_to , 0xFF0000);
@@ -24,7 +24,7 @@ let send_request = function(search_string)
   request.open("POST", "http://120.126.151.195:5000/test", true)
   request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
   request.responseType = "text"
-
+  console.log(search_string)
   request.send(search_string)
   console.log("Send request: " + search_string)
   request.onreadystatechange = function() {
@@ -181,8 +181,6 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
       //把curr_detail_json，根據IP，猜建築位置
       guess_location_detail()
       console.log(curr_detail_json);
-
-
       update_parabola()
       draw_detail(search_IP, search_eventName, search_eventSeverityCat)
       //$("#IP-"+id).children().toggle()
@@ -196,14 +194,17 @@ function update_parabola()
   let detail = curr_detail_json;
   let site_from = []
   let site_to = []
-
+  let color = []
   for(let i in curr_detail_json)
   {
     if(i == "subarray")continue;
     site_from.push(new Site(detail[i].srcbuildingName, detail[i].srcbuildingFloor,""))
     site_to.push(new Site(detail[i].destbuildingName, detail[i].destbuildingFloor,""))
+    let EventSeverCat = detail[0].eventSeverityCat[0]
+    if(EventSeverCat == "H") color.push(0xFF0000)
+    else if(EventSeverCat == "M") color.push(0xFFF129)
+    else color.push(0xB4B4B4)
   }
-  let color = detail[0].eventSeverityCat[0] == "H"? 0xFF0000:detail[0].eventSeverityCat[0] == "M"? 0xFFF129:0xB4B4B4
   add_scenario(site_from, site_to , color);
   //清除畫面上的線條
   clear_multi_scenario()
