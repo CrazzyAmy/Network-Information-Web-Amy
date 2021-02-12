@@ -191,10 +191,47 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 //清除舊有線條、換新線條
 function update_parabola()
 {
-  let detail = curr_detail_json;
+  let detail = curr_detail_json
   let site_from = []
   let site_to = []
   let color = []
+  let tmpcolor
+  let colorR = [0xFF0000, 0xE60000, 0xBD0000, 0x800000]
+  let colorY = [0xFFF129, 0xE60925, 0xBDB21E, 0x807814]
+  let colorG = [0xBDBDBD, 0x919191, 0x6B6B6B, 0x3B3B3B]
+  let eventlocationset = new Map()
+
+  for(let i in curr_detail_json)
+  {
+    if(i == "subarray")continue;
+    //因為 JS 的 map 沒辦法用 array 當做 key
+    //所以只好將 srcbuilding, srcfloor, dstbuilding, dstfloor四個字串用空白連結起來
+    let location_string = detail[i].srcbuildingName + " " +detail[i].srcbuildingFloor
+    location_string += " " + detail[i].destbuildingName + " " + detail[i].destbuildingFloor
+    if(typeof(eventlocationset.get(location_string)) == "undefined"){
+      eventlocationset.set(location_string, 1)
+    }
+    else{
+      let eventcnt = eventlocationset.get (location_string)
+      eventlocationset.set(location_string, eventcnt + 1)
+    }
+  }
+
+  eventlocationset.forEach(function(value, key){
+    //續上方註解，將 location_string 的空白分開成 4-tuple
+    //detail[0] 代表 srcbuilding，detail[1] 代表 srcfloor，detail[2] 代表 dstbuilding，detail[3]代表dstfloor
+    let detail = key.split(' ')
+    site_from.push(new Site(detail[[0]], detail[1],""))
+    site_to.push(new Site(detail[2], detail[3],""))
+    let EventSeverCat = curr_detail_json[0].eventSeverityCat[0]
+    let ColorBrightness = Math.log10(key) >= 3 ? 3 : Math.log10(key)
+    if(EventSeverCat == "H") tmpcolor = colorR[ColorBrightness]
+    else if(EventSeverCat == "M") tmpcolor = colorY[ColorBrightness]
+    else tmpcolor = colorG[ColorBrightness]
+  })
+  console.log(tmpcolor)
+  color.push(tmpcolor)
+  /*
   for(let i in curr_detail_json)
   {
     if(i == "subarray")continue;
@@ -205,6 +242,7 @@ function update_parabola()
     else if(EventSeverCat == "M") color.push(0xFFF129)
     else color.push(0xB4B4B4)
   }
+  */
   add_scenario(site_from, site_to , color);
   //清除畫面上的線條
   clear_multi_scenario()
