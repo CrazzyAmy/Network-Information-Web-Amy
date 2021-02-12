@@ -38,7 +38,7 @@ function createBuilding(building, group)
     Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
-    console.log("BoxGeometry" + Mesh.name + "Added");
+    //console.log("BoxGeometry" + Mesh.name + "Added");
     group.add(Mesh);
   }
 }
