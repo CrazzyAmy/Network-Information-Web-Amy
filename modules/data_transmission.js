@@ -195,7 +195,7 @@ function update_parabola()
   let site_from = []
   let site_to = []
   let color = []
-  let tmpcolor
+  let tmpcolor = 0
   let colorR = [0xFF0000, 0xE60000, 0xBD0000, 0x800000]
   let colorY = [0xFFF129, 0xE60925, 0xBDB21E, 0x807814]
   let colorG = [0xBDBDBD, 0x919191, 0x6B6B6B, 0x3B3B3B]
@@ -220,17 +220,18 @@ function update_parabola()
   eventlocationset.forEach(function(value, key){
     //續上方註解，將 location_string 的空白分開成 4-tuple
     //detail[0] 代表 srcbuilding，detail[1] 代表 srcfloor，detail[2] 代表 dstbuilding，detail[3]代表dstfloor
+    //value代表總統計值，key代表src/dst資訊
     let detail = key.split(' ')
     site_from.push(new Site(detail[[0]], detail[1],""))
     site_to.push(new Site(detail[2], detail[3],""))
     let EventSeverCat = curr_detail_json[0].eventSeverityCat[0]
-    let ColorBrightness = Math.log10(key) >= 3 ? 3 : Math.log10(key)
+    let ColorBrightness = Math.ceil(Math.log10(value + 1)) >= 3 ? 3 : Math.ceil(Math.log10(value + 1))
     if(EventSeverCat == "H") tmpcolor = colorR[ColorBrightness]
     else if(EventSeverCat == "M") tmpcolor = colorY[ColorBrightness]
     else tmpcolor = colorG[ColorBrightness]
+    color.push(tmpcolor)
   })
-  console.log(tmpcolor)
-  color.push(tmpcolor)
+  
   /*
   for(let i in curr_detail_json)
   {
