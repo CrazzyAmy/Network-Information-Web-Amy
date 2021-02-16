@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D視覺化專案</title>
+  <title>3D視覺化專案-測試</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/all.min.css">
 </head>
@@ -66,12 +66,13 @@
       <!-- 右側登入/使用者介面 -->
       <div class="setting" id="setting-user">
         <div>使用者登入</div>
-        <form action="">
+        <form action="" id="loginForm">
           <label for="user-ID">帳號</label>
-          <input type="text" name="user-ID" id="user-ID">
+          <input type="text" name="user" id="user">
           <label for="user-password">密碼</label>
-          <input type="password" name="user-password" id="user-password">
-          <input type="submit" value="確認">
+          <input type="password" name="password" id="password">
+          <input type="button" id="login" value="確認">  
+          <a href="register.html">註冊</a>
         </form>
       </div>
       <!-- 左側資訊列，md以上顯示 -->
@@ -80,20 +81,28 @@
           <div class="title">狀態-目前顯示</div>
           <div class="subtitle">Incident</div>
           <div class="name">Name</div>
-          <div class="value">[事件名稱]</div>
+          <div class="value" id="left_eventName">[事件名稱]</div>
           <div class="name">Severity Category</div>
-          <div class="value">[嚴重等級]</div>
-          <div class="name">發生時間</div>
-          <div class="value">[日期時間]</div>
+          <div class="value" id="left_eventSeverityCat">[嚴重等級]</div>
         </div>
         <div class="sidebar d-flex flex-row flex-wrap d-md-block info">
           <div class="title">詳細資料</div>
-          <div class="name">地點</div>
-          <div class="value">[大樓/數位講桌]</div>
-          <div class="name">Target</div>
-          <div class="value">[圖示][IP]</div>
-          <div class="name">Source</div>
-          <div class="value">[圖示][IP]</div>
+          <div class="name">來源地點</div>
+          <div class="value" id="left_srcbuilding">[大樓/數位講桌]</div>
+          <div class="name">Source IP</div>
+          <div class="value" id="left_srcIP">[圖示][IP]</div>
+          <!--<div class="value" id="left_destIP">[圖示][IP]</div>-->
+          <div class="name">目標地點</div>
+          <!-- <div class="value" id="left_destbuilding">[大樓/數位講桌]</div> -->
+          <select class="value" name="" id="left_destbuilding">
+            <option value=""></option>
+          </select>
+          <div class="name">Target IP</div>
+          <select class="value" name="" id="left_destIP">
+            <option value=""></option>
+          </select>
+          <div class="name">發生時間</div>
+          <div class="value" id="left_time">[日期時間]</div>  
 
         </div>
       </div>
@@ -107,25 +116,26 @@
           <div class="title">目前範圍
             <img src="" alt="" srcset="">
             共
-            <span id="event-num">7</span>
+            <span id="event-num">0</span>
             筆
           </div>
-
+          <div>
+            <div class="name d-none d-md-block">事件列表</div>
+            <ul class="d-none d-md-block" id="Event-name-list">
+            </ul>
+            <div class="name d-none d-md-block">來源IP列表</div>
+            <ul class="d-none d-md-block" id="IP-list">
+              </ul>
+          </div>
           <!-- <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm"> -->
           <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
             <div class="name">時間</div>
-            <select name="timeStart" id="" class="value">
-              <option value="" disabled selected>起始時間</option>
-              <option value="20201020">Mon Sep 28 14:00:00 CST 2020 </option>
-              <option value="20201021">Mon Sep 28 15:00:00 CST 2020</option>
-            </select>
+            <input type="date" name="timeStart" id="timeStart" class="value">
             <div class="name"></div>
-            <select name="timeEnd" id="" class="value">
-              <option value="" disabled selected>結束時間</option>
-              <option value="20201020">Mon Sep 28 15:00:00 CST 2020</option>
-              <option value="20201021">Mon Sep 28 16:00:00 CST 2020</option>
-            </select>
+            <input type="date" name="timeEnd" id="timeEnd" class="value"> 
+            
+
             <div class="name">地點</div>
             <select class="value" name="buildingName" id="">
               <option value="ALL">ALL</option>
@@ -140,29 +150,6 @@
               <option value="LIB">圖書館</option>
               <option value="CC">資訊中心</option>
             </select>
-<!--             列表List
-            <ul>
-              <li>ALL</li>
-              <li>電資大樓</li>
-              <li>法學大樓</li>
-              <li>公共事務大樓</li>
-              <li>商學大樓</li>
-              <li>人文大樓</li>
-              <li>社會科學大樓</li>
-              <li>行政大樓</li>
-              <li>圖書館</li>
-              <li>資訊中心</li>
-            </ul>
-             -->
-<!--              複數選項checkbox
-            <input type="checkbox" name="build" id="build_EECS" value="EECS"><label for="build_EECS">電資大樓</label>
-            <input type="checkbox" name="" id="">法學大樓
-            <input type="checkbox" name="" id="">公共事務大樓
-            <input type="checkbox" name="" id="">商學大樓
-            <input type="checkbox" name="" id="">人文大樓
-            <input type="checkbox" name="" id="">社會科學大樓
-            <input type="checkbox" name="build" id="build_LIB" value="LIB"><label for="build_LIB">圖書館</label>
-            <input type="checkbox" name="" id="">資訊中心 -->
 
             <div class="name d-none d-md-block">樓層</div>
             <select name="bulidingFloor" id="" class="value d-none d-md-block">
@@ -183,7 +170,7 @@
               <option value="12">12F</option>
             </select>
             
-
+<!-- 
             <div class="name">事件嚴重等級</div>
             <select name="eventSeverityCat" id="" class="value">
               <option value="ALL">ALL</option>
@@ -192,8 +179,12 @@
               <option value="MID">MID</option>
               <option value="HIGH">HIGH</option>
             </select>
+             -->
+<!-- 
             <div class="name">IP</div>
             <input type="text" name="IpAddr" id="" class="value" placeholder="搜尋IP...">
+             -->
+<!-- 
             <div class="name d-none d-md-block">事件列表</div>
             <ul class="d-none d-md-block">
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
@@ -204,34 +195,9 @@
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
               <li><button type="button">LOW Permitted traffic flow ended</button></li>
             </ul>
+             -->
             <div class="d-none d-md-flex justify-content-around flex-wrap">
-              <input type="submit" value="搜尋">
-              <input type="submit" value="篩選">
-              <input type="button" value="接收字串" onclick="search()">
-              <script>
-                let search = function(){
-                var request = new XMLHttpRequest();
-                request.open("POST","http://120.126.151.195:5000/test",true)
-                request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-                request.responseType = "text"
-                //將Form資訊轉換成字串String
-                var requesttext = $('#dataForm').serialize();
-                console.log(requesttext);
-                console.log(typeof(requesttext))
-                //return;
-                //************************
-                request.send(requesttext)
-                request.onreadystatechange = function() {
-                  if (this.readyState == 4 && this.status == 200) {
-                    // Typical action to be performed when the document is ready:
-                    console.log(request.responseText);
-                  }
-                }
-                console.log(request.responseText)
-                // request.open("POST","http://10.201.28.213:8080/test",true)
-                // request.send()
-                }
-              </script>
+              <input id="search_first" type="button" value="搜尋">
             </div>
           </form>
           
@@ -251,10 +217,11 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-    <script type="module" src = "./data_control.js"></script>
-    <script type="module" src = "./map_three.js"></script>
-    <script src="./modules/menu.js"></script>
-    <script src="./modules/frontlist.js">
-  </script>
+
+  <script type="module" src = "./data_control.js"></script>
+  <script type="module" src = "./map_three.js"></script>
+  <script type="module" src="./modules/data_transmission.js"></script>
+  <script type="module" src="./html_button.js"></script>
+  <script src="./modules/menu.js"></script>
 </body>
 </html>
