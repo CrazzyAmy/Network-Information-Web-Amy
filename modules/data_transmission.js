@@ -175,7 +175,6 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
       // Typical action to be performed when the document is ready:
       //console.log(request.responseText);
       curr_detail_json = JSON.parse(request.responseText) 
-      console.log(curr_detail_json);
 
       //現階段沒有詳細IP表
       //把curr_detail_json，根據IP，猜建築位置
@@ -197,7 +196,7 @@ function update_parabola()
   let color = []
   let tmpcolor = 0
   let colorR = [0xFF0000, 0xE60000, 0xBD0000, 0x800000]
-  let colorY = [0xFFF129, 0xE60925, 0xBDB21E, 0x807814]
+  let colorY = [0xFFF129, 0xE6D925, 0xBDB21E, 0x807814]
   let colorG = [0xBDBDBD, 0x919191, 0x6B6B6B, 0x3B3B3B]
   let eventlocationset = new Map()
 
@@ -225,10 +224,12 @@ function update_parabola()
     site_from.push(new Site(detail[[0]], detail[1],""))
     site_to.push(new Site(detail[2], detail[3],""))
     let EventSeverCat = curr_detail_json[0].eventSeverityCat[0]
+    console.log(curr_detail_json[0].eventSeverityCat[0])
     let ColorBrightness = Math.ceil(Math.log10(value + 1)) >= 3 ? 3 : Math.ceil(Math.log10(value + 1))
     if(EventSeverCat == "H") tmpcolor = colorR[ColorBrightness]
     else if(EventSeverCat == "M") tmpcolor = colorY[ColorBrightness]
     else tmpcolor = colorG[ColorBrightness]
+    console.log(key + " " + value + " " +tmpcolor)
     color.push(tmpcolor)
   })
   
