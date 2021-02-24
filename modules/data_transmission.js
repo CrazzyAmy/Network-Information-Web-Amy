@@ -69,9 +69,9 @@ let send_request = function(search_string)
       guess_location_menu()
     }
   }
-  console.log("get responseText:")
-  console.log(request.responseText)
-  console.log(typeof(request.responseText))
+  //console.log("get responseText:")
+  //console.log(request.responseText)
+  //console.log(typeof(request.responseText))
 
   //return JSON.parse(dummy_json)
   //return JSON.parse(dummy_json_two)
