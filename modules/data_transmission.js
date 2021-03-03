@@ -13,9 +13,31 @@ document.querySelector("#search_first").addEventListener('click', function(){
   let site1_from =  [new Site("SS", 0, "")];
   let site1_to = [new Site("SS", 0, "")];
   add_scenario(site1_from, site1_to , 0xFF0000);
+  search_detail("","","")
 });
 let aaa = 0
 
+//開啟網頁時，做第一次的搜尋
+$(document).ready(function(){
+  clear_multi_scenario()
+  aaa = aaa + 1
+  aaa %= 7
+  let site1_from =  [new Site("SS", 0, "")];
+  let site1_to = [new Site("SS", 0, "")];
+  add_scenario(site1_from, site1_to , 0xFF0000);
+  //將日期訂為YYYY-MM-DD
+  console.log("2".padStart(2,"0"))
+   let today = new Date
+   let today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2,"0") + "-" + today.getDate().toString().padStart(2,"0")
+   $("#timeStart").val(today_date)
+   $("#timeEnd").val(today_date)
+   update_search_string()
+  //發送搜尋請求
+   search_menu()
+   search_detail("","","")
+})
+ window.onload = function(){
+ }
 
 //將初步搜尋資料傳給後台伺服器，並回傳json檔
 let send_request = function(search_string)
@@ -47,14 +69,14 @@ let send_request = function(search_string)
         if(idx == "subarray")continue;
         $("#Event-name-list:last").append(
           '<li>' +
-          '<button type="button" id="Event' + idx + '" class="' + menu_data[idx].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
+          '<button type="button" id="Event' + idx + '" class=" sever-' + menu_data[idx].eventSeverity + ' d-flex flex-row justify-content-around">' +
               '<div class="event-name">' + menu_data[idx].eventName + '</div>' +
               '<div class="count">' + menu_data[idx].totalIPCount + '</div>' +
           '</button>' +
           '</li>'
         )
-        console.log(idx)
-        console.log(typeof(idx))
+        //console.log(idx)
+        //console.log(typeof(idx))
         let para = idx
         document.querySelector("#Event" + idx).addEventListener('click', function(){draw_menu(para);});
 
@@ -140,7 +162,7 @@ function draw_menu(index)
     if(idx == "subarray")continue;
     $("#IP-list:last").append(
       '<li>' +
-        '<button type="button" id="IP-' + idx +'" class=" ' +curr_json[index].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
+        '<button type="button" id="IP-' + idx +'" class=" sever-' +curr_json[index].eventSeverity + ' d-flex flex-row justify-content-around">' +
           '<div class="IP">' + 
            '<div>' + IP_list_data[idx].buildingTitle + (IP_list_data[idx].buildingName == "GW" ? "":(IP_list_data[idx].buildingFloor == 0? "B1":IP_list_data[idx].buildingFloor)+ "F")  +  '</div>' +  
            '<div>' + IP_list_data[idx].name + '</div>' +
@@ -163,7 +185,12 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
   
 
   var request = new XMLHttpRequest();
-  request.open("POST", "http://120.126.151.195:5000/second_query", true)
+  if (search_IP == 0){
+    request.open("POST", "http://120.126.151.195:5000/first_query_plus", true)
+  }
+  else{
+    request.open("POST", "http://120.126.151.195:5000/second_query", true)
+  }
   request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
   request.responseType = "text"
 
