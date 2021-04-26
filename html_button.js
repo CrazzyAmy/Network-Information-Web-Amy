@@ -3,7 +3,7 @@ import {send_request,search_menu, search_detail, draw_menu, search_IpList} from 
 
 
 document.querySelector("#search_first").addEventListener('click', search_menu);
-//document.querySelector("#search_first").addEventListener('click', search_IpList);
+document.querySelector("#search_first").addEventListener('click', search_IpList);
 $("#ip-main-list").hide()
 $("#event-main-list").show()
 $("#search").hide()
@@ -19,12 +19,16 @@ document.querySelector("#switch-event").addEventListener('click', function(){
   $("#ip-main-list").hide()
   $("#event-main-list").show()
   $("#search").hide()
+  $("#event-num").show()
+  $("#iplst-num").hide()
 })
 
 document.querySelector("#switch-ip").addEventListener('click', function(){
   $("#ip-main-list").show()
   $("#event-main-list").hide()
   $("#search").hide()
+  $("#event-num").hide()
+  $("#iplst-num").show()
 })
 
 document.querySelector("#selectBuilding").addEventListener('change', function(){
