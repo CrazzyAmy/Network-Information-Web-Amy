@@ -25,10 +25,7 @@
     </a> 
     -->
     <!-- 導覽列標題/LOGO -->
-    <div onclick="location.href='/index.html'" id="logo">
-      <img src="/picture/icon-yellow-lock.png" style="height: 14vh;" alt="">
-      <img src="/picture/Logo-text.png" alt="">
-    </div>
+    <img src="/picture/Logo-text.png" alt="">
     <!-- 導覽列右側按鈕，md消失 -->
     <button class="navbar-toggler btn" onclick="opensetting()">
       <img src="picture/settings-icon.jpg" alt="settings-icon" style="height:25px;">
@@ -54,37 +51,38 @@
 
   <!-- 電腦版介面 -->
   <div class="container-fluid main-container" >
-      <div class="rounded border border-dark" style="position: absolute; top: 25%; left: 33%; background-color:white; padding:80px; margin-bottom:0px;">
+      <div class="rounded border border-dark" style="position: absolute; top: 20%; left: 33%; background-color:white; padding:80px; margin-bottom:0px;">
           <div class="progress" style="margin-bottom:30px;">
               <div id="progress_bar"class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%"></div>
           </div>
           <h3>使用者註冊</h3>
-          <form action="" id="registerForm">
+          <form action="" id="registerForm" style="padding-top:20px;padding-right:20px;padding-bottom:30px;">
               <div class="mb-3">
+                  <input class="form-control  input_text" type="text" name="user" id="user" maxlength="15" style="margin-top:15px;">
                   <label class="form-label" id="user_label" for="user">帳號</label>
-                  <input class="form-control  input_text" type="text" name="user" id="user" maxlength="15" placeholder="請輸入8個字元以上">
               </div>
               <div class="mb-3">
+                  <input class="form-control input_text" type="password" name="password" id="password" maxlength="15">
                   <label class="form-label " id="password_label" for="password">密碼</label>
-                  <input class="form-control input_text" type="password" name="password" id="password" maxlength="15" placeholder="請輸入8個字元以上">
               </div>
               <div class="mb-3">
-                  <label class="form-label"  id="fortseim_account_label" for="fortseim_account" style="display:none">fortseim帳號</label>
-                  <input class="form-control input_text" type="text" name="fortseim_account" maxlength="15" id="fortseim_account" style="display:none" placeholder="請輸入8個字元以上">
-                </div>
-              <div class="mb-3">
-                 <label class="form-label" id="fortseim_password_label"for="fortseim_password"  style="display:none">fortseim密碼</label>
-                 <input class="form-control input_text" type="password" name="fortseim_password" maxlength="15" id="fortseim_password"  style="display:none" placeholder="請輸入8個字元以上">
+                  <input class="form-control input_text" type="text" name="fortseim_account" maxlength="15" id="fortseim_account" style="display:none;">
+                  <label class="form-label" id="fortseim_account_label" for="fortseim_account" style="display:none">fortseim帳號</label>
               </div>
               <div class="mb-3">
-                 <label class="form-label" id="IP_label"for="IP" style="display:none">IP</label>
-                 <input class="form-control input_text" type="text" name="IP" id="IP"  style="display:none" placeholder="請輸入8個字元以上">
+                  <input class="form-control input_text" type="password" name="fortseim_password" maxlength="15" id="fortseim_password" style="display:none">
+                  <label class="form-label" id="fortseim_password_label" for="fortseim_password" style="display:none" >fortseim密碼</label>
               </div>
               <div class="mb-3">
-                  <label class="form-label"id="level_label" for="level" style="display:none;">level</label>
-                  <input class="form-control input_text" type="text" name="level" id="level"  style="display:none" placeholder="請輸入8個字元以上">
+                  <input class="form-control input_text" type="text" name="IP" id="IP" style="display:none;">
+                  <label class="form-label" id="IP_label" for="IP" style="display:none">IP</label>
               </div>
-            <!--<input class="btn btn-dark" type="button" id="register" value="確認">-->
+              <div class="mb-3">
+                  <input class="form-control input_text" type="text" name="level" id="level" style="display:none">
+                  <label class="form-label" id="level_label" for="level" style="display:none;">level</label>
+              </div>
+              <label id="end_text" style="animation:none;display:none;margin-bottom:13px;margin-right:46px;">aaaaaaaaaaaaaaaaaaa</label>
+              <!--<input class="btn btn-dark" type="button" id="register" value="確認">-->
               <button id="previous_btn" type="button" class="btn btn-primary button_previous btn-sm" onclick="move_previous()">&lt;&lt;previous</button>
               <button id="next_btn" type="button" class="btn btn-primary button_next btn-sm" onclick="move_on()">next>></button>
           </form>

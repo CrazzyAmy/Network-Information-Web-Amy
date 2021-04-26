@@ -24,7 +24,10 @@
     </a> 
     -->
     <!-- 導覽列標題/LOGO -->
-    <img src="/picture/Logo-text.png" alt="">
+    <div onclick="location.href='/index.html'" id="logo">
+      <img src="/picture/icon-yellow-lock.png" style="height: 8vh;" alt="">
+      <img src="/picture/Logo-text.png" alt="">
+    </div>
     <!-- 導覽列右側按鈕，md消失 -->
     <button class="navbar-toggler btn" onclick="opensetting()">
       <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
@@ -40,7 +43,7 @@
     <div class="row">
       <div class="col-12 col-md-8">
         <div style="background-color:  rgb(227, 164, 129); height: 6vh; width: 100%; border-radius: 12px;">
-          Logo/Banner/AD</div>
+          </div>
       </div>
       <div class="col-md-4 d-none d-md-flex justify-content-end">
         <button class="navbar-toggler btn btn-dark" onclick="opensetting()">
@@ -61,10 +64,41 @@
     <div class="row flex-grow-1 align-item-stretch">
       <!-- 右側設定介面 -->
       <div class="setting" id="setting">
-        <div>介面設定</div>
+        <div style="width:100%;height:60%;">
+          <div class="rounded" style="background-color:#c9c9cb;margin-left:7%;width:18%;height:100%;margin-top:10px;float:left">
+              <div style="margin-left:15px;margin-top:5px;font-weight:bold;border-bottom:solid;margin-right:20px;">
+                  <label style="margin-bottom:5px;">群組</label>
+              </div>
+              <div>
+                  <a href="">
+                      <label style="margin-left:7%">Super</label>
+                  </a>
+              </div>
+              <div>
+                  <a href="">
+                      <label style="margin-left:7%">Super</label>
+                  </a>
+              </div>
+          </div>
+          <div class="rounded" style="background-color:#c9c9cb;margin-left:20px;width:18%;height:100%;margin-top:10px;float:left">
+              <div style="margin-left:15px;margin-top:5px;font-weight:bold;border-bottom:solid;margin-right:20px;">
+                  <label style="margin-bottom:5px;">群組</label>
+              </div>
+              <div>
+                  <a href="">
+                      <label style="margin-left:7%">Super</label>
+                  </a>
+              </div>
+              <div>
+                  <a href="">
+                      <label style="margin-left:7%">Super</label>
+                  </a>
+              </div>
+          </div>
+      </div>
       </div>
       <!-- 右側登入/使用者介面 -->
-      <div class="setting" id="setting-user">
+      <div class="user" id="setting-user">
         <div>使用者登入</div>
         <form action="" id="loginForm">
           <label for="user-ID">帳號</label>
@@ -90,7 +124,7 @@
           <div class="name">來源地點</div>
           <div class="value" id="left_srcbuilding">[大樓/數位講桌]</div>
           <div class="name">Source IP</div>
-          <div class="value" id="left_srcIP">[圖示][IP]</div>
+          <div class="value" id="left_srcIP">[IP位址]</div>
           <!--<div class="value" id="left_destIP">[圖示][IP]</div>-->
           <div class="name">目標地點</div>
           <!-- <div class="value" id="left_destbuilding">[大樓/數位講桌]</div> -->
@@ -107,9 +141,11 @@
         </div>
       </div>
       <!-- 3D場景容器 -->
+
       <div class="col-12 col-md-8 order-2 order-md-2 p-0">
         <div class="scene-container" id="scene"></div>
       </div>
+      
       <!-- 右側資訊列，xs、sm顯示在上方，md以上顯示在右方 -->
       <div class="col-12 col-md-2 order-1 order-md-3 p-0">
         <div class="sidebar d-flex flex-row flex-wrap d-md-block">
@@ -117,18 +153,67 @@
             <img src="" alt="" srcset="">
             共
             <span id="event-num">0</span>
-            筆
+            筆事件
           </div>
           <div>
-            <div class="name d-none d-md-block">事件列表</div>
-            <ul class="d-none d-md-block" id="Event-name-list">
-            </ul>
-            <div class="name d-none d-md-block">來源IP列表</div>
-            <ul class="d-none d-md-block" id="IP-list">
+            <div class="sort d-flex justify-content-start align-item-stretch">
+              <button class="flex-grow-1" id="switch-event">事件列表</button>
+              <button class="flex-grow-1" id="switch-ip">IP列表</button>
+              <button class="flex-grow-1" id="switch-search">搜尋</button>
+            </div>
+
+            <!-- 事件列表 -->
+            <div id="event-main-list">
+              <div class="name d-none d-md-block" id="event-list">事件列表</div>
+              <ul class="d-none d-md-block" id="Event-name-list">
+                
               </ul>
+              <div class="name d-none d-md-block">來源IP列表</div>
+              <!--               
+              <div class="sort d-flex justify-content-start align-item-stretch">
+                <button class="flex-grow-1">Src</button>
+                <button class="flex-grow-1">Dest</button>
+                <button class="flex-grow-1">全部</button>
+              </div>
+               -->
+              <ul class="d-none d-md-block" id="IP-list">
+  
+              </ul>
+            </div>
+
+            <!-- IP列表 -->
+            <div class="" id="ip-main-list">
+              <div>
+                <div class="name d-none d-md-block" id="">IP列表</div>
+                <!--  
+                <div class="sort d-flex justify-content-start align-item-stretch" style="font-size: 15px;">
+                  <button class="flex-grow-1">危險分數</button>
+                  <button class="flex-grow-1">事件總數</button>
+                  <button class="flex-grow-1">嚴重等級</button>
+                </div>
+                 -->
+                <ul class="d-none d-md-block" id="IP-main-list">
+                  
+                </ul>
+                <div class="name d-none d-md-block">相關IP列表</div>
+                <!--                 
+                <div class="sort d-flex justify-content-start align-item-stretch" style="font-size: 15px;">
+                  <button class="flex-grow-1">危險分數</button>
+                  <button class="flex-grow-1">事件總數</button>
+                  <button class="flex-grow-1">嚴重等級</button>
+                </div>
+                 -->
+                <ul class="d-none d-md-block" id="IP-related-list">
+    
+                </ul>
+              </div>
+            </div>
           </div>
-          <!-- <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm"> -->
-          <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
+
+          <!-- 搜尋欄位 -->
+
+          <div id="search">
+            <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
             <div class="name">時間</div>
             <input type="date" name="timeStart" id="timeStart" class="value">
@@ -137,7 +222,7 @@
             
 
             <div class="name">地點</div>
-            <select class="value" name="buildingName" id="">
+            <select class="value" name="buildingName" id="selectBuilding">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="EECS">電資大樓</option>
@@ -152,7 +237,7 @@
             </select>
 
             <div class="name d-none d-md-block">樓層</div>
-            <select name="bulidingFloor" id="" class="value d-none d-md-block">
+            <select name="bulidingFloor" id="selectFloor" class="value d-none d-md-block">
               <option value="ALL">ALL</option>
               <option disabled>------------------------------------------</option>
               <option value="-1">B1F</option>
@@ -184,22 +269,15 @@
             <div class="name">IP</div>
             <input type="text" name="IpAddr" id="" class="value" placeholder="搜尋IP...">
              -->
-<!-- 
-            <div class="name d-none d-md-block">事件列表</div>
-            <ul class="d-none d-md-block">
-              <li><button type="button">LOW Permitted traffic flow ended</button></li>
-              <li><button type="button">LOW Traffic denied by policy</button></li>
-              <li><button type="button">LOW Traffic denied by policy</button></li>
-              <li><button type="button">LOW Traffic denied by policy</button></li>
-              <li><button type="button">LOW Permitted traffic flow ended</button></li>
-              <li><button type="button">LOW Permitted traffic flow ended</button></li>
-              <li><button type="button">LOW Permitted traffic flow ended</button></li>
-            </ul>
-             -->
+
             <div class="d-none d-md-flex justify-content-around flex-wrap">
               <input class="btn btn-dark" id="search_first" type="button" value="搜尋">
             </div>
           </form>
+          </div>
+
+          <!-- <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm"> -->
+          
           
         </div>
       </div>

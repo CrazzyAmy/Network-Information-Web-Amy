@@ -1,4 +1,13 @@
 .navbar{
     height: 9vh;
     background-color: $color-navbar;
+
+    
+    #logo{
+        background-color: transparent;
+        margin: 0px;
+    }
+    #logo:hover{
+        cursor: pointer;
+    }
 }

@@ -49,14 +49,26 @@
     height: 20vh;
 }
 
+.sort{
+    background-color: white;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 0%;
+    height: 5vh;
+}
+
 ul{
     background-color: white;
     overflow-y: scroll;
+    overflow-x: hidden;
     margin-left: 5%;
     margin-right: 5%;
     padding: 0%;
     height: 20vh;
     list-style-type: none;
+
+
+    
     li{
         margin: 2px;
         background-color: $color-orange;
