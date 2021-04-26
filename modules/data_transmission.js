@@ -194,10 +194,10 @@ function search_IpList(search_string)
         document.querySelector("#IPlstEvent" + idx).addEventListener('click', function(){search_detail_IP(IpLst.IP);});
 
 
-        total_IP_count += IpLst[idx].totalIPCount
+        total_IP_count += IpLst[idx].eventCount.LOW + IpLst[idx].eventCount.MID + IpLst[idx].eventCount.HIGH 
         
       }
-      $("#event-num").text(total_IP_count)
+      $("#iplst-num").text(total_IP_count)
     }
   }
 
@@ -274,7 +274,11 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
       if(curr_IpLst_detail_json.length == 0)return;
 
       console.log(curr_IpLst_detail_json);
-      ip_gateway_set = new Map();
+      //ip_gateway_set = new Map();
+
+      
+      //clear_multi_scenario() 
+
       curr_detail_json = curr_IpLst_detail_json[0]
       guess_location_detail()
       update_parabola()
@@ -285,7 +289,7 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
       guess_location_detail()
       update_parabola()
 
-      clear_multi_scenario() 
+      //clear_multi_scenario() 
 
       draw_detail(search_IP, search_eventName, search_eventSeverityCat)
       /*
@@ -358,7 +362,7 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 
       //現階段沒有詳細IP表
       //把curr_detail_json，根據IP，猜建築位置
-      ip_gateway_set = new Map();
+      //ip_gateway_set = new Map();
       guess_location_detail()
       //console.log("search_detail")
       //console.log(curr_detail_json);
@@ -383,7 +387,7 @@ function update_parabola()
   let colorG = [0xBDBDBD, 0x919191, 0x6B6B6B, 0x3B3B3B]
   let eventlocationset = new Map()
 
-  for(let i in curr_detail_json)
+  for(let i in detail)
   {
     if(i == "subarray")continue;
     //因為 JS 的 map 沒辦法用 array 當做 key
@@ -398,6 +402,7 @@ function update_parabola()
       let eventcnt = eventlocationset.get (location_string)
       eventlocationset.set(location_string, eventcnt + 1)
     }
+
   }
 
   eventlocationset.forEach(function(value, key){
@@ -455,15 +460,16 @@ function guess_location_detail()
     
     if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
     {
-      if(ip_gateway_set.has(srcip)) // 如果srcIpAddr已經有對應的Gateway
+      console.log(ip_gateway_set.get(srcip))
+      if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2]+srcip[3])) // 如果srcIpAddr已經有對應的Gateway
       {
-        curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcIpAddr)
+        curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2]+srcip[3])
         curr_detail_json[i]["srcbuildingTitle"] = "校外"
         curr_detail_json[i]["srcbuildingFloor"] = "1"
       }
       else // 如果srcIpAddr沒有對應的Gateway
       {
-        ip_gateway_set.set(srcip, "GW" + nextNum)
+        ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2]+srcip[3], "GW" + nextNum)
         curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
         nextNum = (nextNum + 11) % 188
       }
@@ -473,15 +479,15 @@ function guess_location_detail()
     }
     if(!(destip[0]=="120" && destip[1]=="126" || destip[0] == "10" || destip[0]=="192" && destip[1]=="168"))
     {
-      if(ip_gateway_set.has(destip)) // 如果destIpAddr已經有對應的Gateway
+      if(ip_gateway_set.has(destip[0]+destip[1]+destip[2]+destip[3])) // 如果destIpAddr已經有對應的Gateway
       {
-        curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destIpAddr)
+        curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destip[0]+destip[1]+destip[2]+destip[3])
         curr_detail_json[i]["destbuildingTitle"] = "校外"
         curr_detail_json[i]["destbuildingFloor"] = "1"
       }
       else // 如果destIpAddr沒有對應的Gateway
       {
-        ip_gateway_set.set(destip, ("GW" + nextNum))
+        ip_gateway_set.set(destip[0]+destip[1]+destip[2]+destip[3], ("GW" + nextNum))
         curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
         nextNum = (nextNum + 11) % 188
       }
