@@ -4,3 +4,6 @@ css/*.css
 
 # 忽略Bootstrap原始scss檔
 scss/Bootstrap/
+
+# 忽略舊檔案
+register(old).html
