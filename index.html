@@ -11,12 +11,14 @@
 
 <body>
   <!-- 上方導覽列Navbar -->
-  <nav class="navbar navbar-expand-md navbar-light">
+  <nav class="navbar navbar-light">
     <!-- 導覽列左側選單，md消失 -->
+    <!-- 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+     -->
     <!-- 導覽列LOGO -->
     <!--     
     <a class="navbar-brand" href="#">
@@ -29,17 +31,20 @@
       <img src="/picture/Logo-text.png" alt="">
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
-    <button class="navbar-toggler btn" onclick="opensetting()">
-      <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
-    </button>
-    <button class="navbar-toggler btn" onclick="alert('Super')">User</button>
+    <div>
+        
+      <button class="navbar-toggler btn" onclick="opensetting()">
+        <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
+      </button>
+      <button class="navbar-toggler btn" onclick="openmenu('#setting-user')">User</button>
+    </div>
 
   </nav>
 
 
 
   <!-- Logo/Banner/AD 和右方按鈕 -->
-  <div class="container-fluid topbar">
+  <div class="container-fluid topbar d-none">
     <div class="row">
       <div class="col-12 col-md-8">
         <div style="background-color:  rgb(227, 164, 129); height: 6vh; width: 100%; border-radius: 12px;">
@@ -158,9 +163,9 @@
           </div>
           <div>
             <div class="sort d-flex justify-content-start align-item-stretch">
-              <button class="flex-grow-1" id="switch-event">事件列表</button>
-              <button class="flex-grow-1" id="switch-ip">IP列表</button>
-              <button class="flex-grow-1" id="switch-search">搜尋</button>
+              <button class="flex-grow-1 d-none d-md-flex" id="switch-event">事件列表</button>
+              <button class="flex-grow-1 d-none d-md-flex" id="switch-ip">IP列表</button>
+              <button class="flex-grow-1 d-none d-md-flex" id="switch-search">搜尋</button>
             </div>
 
             <!-- 事件列表 -->
@@ -218,7 +223,7 @@
 
             <div class="name">時間</div>
             <input type="date" name="timeStart" id="timeStart" class="value">
-            <div class="name"></div>
+            <div class="name"> </div>
             <input type="date" name="timeEnd" id="timeEnd" class="value"> 
             
 
@@ -271,8 +276,8 @@
             <input type="text" name="IpAddr" id="" class="value" placeholder="搜尋IP...">
              -->
 
-            <div class="d-none d-md-flex justify-content-around flex-wrap">
-              <input class="btn btn-dark" id="search_first" type="button" value="搜尋">
+            <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;">
+              <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
             </div>
           </form>
           </div>
