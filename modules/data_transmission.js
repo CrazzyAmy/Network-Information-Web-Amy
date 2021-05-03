@@ -451,25 +451,25 @@ function guess_location_detail()
     //let ip_gateway_set = new Map();
 
     
-    curr_detail_json[i]["srcbuildingName"] = buildings.list[ Math.floor( srcip[1] * 8 / 256 )].id
-    curr_detail_json[i]["srcbuildingTitle"] = buildings.list[ Math.floor( srcip[1] * 8 / 256 )].title
-    curr_detail_json[i]["srcbuildingFloor"] = srcip[2] % buildings.list[ Math.floor( srcip[1] * 8 / 260 )].floor +1
-    curr_detail_json[i]["destbuildingName"] = buildings.list[ Math.floor( destip[1] * 8 / 256 )].id
-    curr_detail_json[i]["destbuildingTitle"] = buildings.list[ Math.floor( destip[1] * 8 / 256 )].title
-    curr_detail_json[i]["destbuildingFloor"] = destip[2] % buildings.list[ Math.floor( destip[1] * 8 / 260 ) ].floor +1
+    curr_detail_json[i]["srcbuildingName"] = buildings.list[ Math.floor( srcip[2] * 8 / 256 )].id
+    curr_detail_json[i]["srcbuildingTitle"] = buildings.list[ Math.floor( srcip[2] * 8 / 256 )].title
+    curr_detail_json[i]["srcbuildingFloor"] = srcip[3] % buildings.list[ Math.floor( srcip[2] * 8 / 260 )].floor +1
+    curr_detail_json[i]["destbuildingName"] = buildings.list[ Math.floor( destip[2] * 8 / 256 )].id
+    curr_detail_json[i]["destbuildingTitle"] = buildings.list[ Math.floor( destip[2] * 8 / 256 )].title
+    curr_detail_json[i]["destbuildingFloor"] = destip[3] % buildings.list[ Math.floor( destip[2] * 8 / 260 ) ].floor +1
     
     if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
     {
       console.log(ip_gateway_set.get(srcip))
-      if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2]+srcip[3])) // 如果srcIpAddr已經有對應的Gateway
+      if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2])) // 如果srcIpAddr已經有對應的Gateway
       {
-        curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2]+srcip[3])
+        curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2])
         curr_detail_json[i]["srcbuildingTitle"] = "校外"
         curr_detail_json[i]["srcbuildingFloor"] = "1"
       }
       else // 如果srcIpAddr沒有對應的Gateway
       {
-        ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2]+srcip[3], "GW" + nextNum)
+        ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2], "GW" + nextNum)
         curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
         nextNum = (nextNum + 11) % 188
       }
@@ -479,15 +479,15 @@ function guess_location_detail()
     }
     if(!(destip[0]=="120" && destip[1]=="126" || destip[0] == "10" || destip[0]=="192" && destip[1]=="168"))
     {
-      if(ip_gateway_set.has(destip[0]+destip[1]+destip[2]+destip[3])) // 如果destIpAddr已經有對應的Gateway
+      if(ip_gateway_set.has(destip[0]+destip[1]+destip[2])) // 如果destIpAddr已經有對應的Gateway
       {
-        curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destip[0]+destip[1]+destip[2]+destip[3])
+        curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destip[0]+destip[1]+destip[2])
         curr_detail_json[i]["destbuildingTitle"] = "校外"
         curr_detail_json[i]["destbuildingFloor"] = "1"
       }
       else // 如果destIpAddr沒有對應的Gateway
       {
-        ip_gateway_set.set(destip[0]+destip[1]+destip[2]+destip[3], ("GW" + nextNum))
+        ip_gateway_set.set(destip[0]+destip[1]+destip[2], ("GW" + nextNum))
         curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
         nextNum = (nextNum + 11) % 188
       }
@@ -529,9 +529,9 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
   $("#left_eventName").text(curr_detail_json[0].eventName)
   $("#left_eventSeverityCat").text(curr_detail_json[0].eventSeverityCat)
   $("#left_time").text(curr_detail_json[0].deviceTime)
-  $("#left_srcbuilding").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingName == "GW" ? "":(curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F"))
+  $("#left_srcbuilding").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingName[0] == "G" ? "":(curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F"))
   $("#left_srcIP").text(curr_detail_json[0].srcIpAddr)
-  $("#left_destbuilding").text(curr_detail_json[0].destbuildingTitle + (curr_detail_json[0].destbuildingName == "GW" ? "":(curr_detail_json[0].destbuildingFloor == 0? "B1":curr_detail_json[0].destbuildingFloor) + "F"))
+  $("#left_destbuilding").text(curr_detail_json[0].destbuildingTitle + (curr_detail_json[0].destbuildingName[0] == "G" ? "":(curr_detail_json[0].destbuildingFloor == 0? "B1":curr_detail_json[0].destbuildingFloor) + "F"))
   $("#left_destIP").text(curr_detail_json[0].destIpAddr)
   //大樓樓層Select
   for(let i in curr_detail_json)
@@ -539,8 +539,9 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
     if(i == "subarray")continue;
     //檢查是否有重複option
     if($("#left_destbuilding option[name=" + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + "]").length > 0)continue;
+    if($("#left_destbuilding option[name=" + curr_detail_json[i].destbuildingName[0] + curr_detail_json[i].destbuildingName[1] + "]").length > 0 && curr_detail_json[i].destbuildingName[0] == "G" && curr_detail_json[i].destbuildingName[1] == "W")continue;
     $("#left_destbuilding:last").append(
-      '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destbuildingTitle + ( curr_detail_json[i].destbuildingName=="GW"?"":curr_detail_json[i].destbuildingFloor + 'F') + '</option>'
+      '<option value="' + i + '" name="' + (curr_detail_json[i].destbuildingName[0]=="G"?"GW":curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor) + '">' + curr_detail_json[i].destbuildingTitle + ( curr_detail_json[i].destbuildingName[0]=="G"?"":curr_detail_json[i].destbuildingFloor + 'F') + '</option>'
     )
   }
   $("#left_destbuilding").change(function(){
@@ -548,9 +549,13 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
     $("#left_destIP option").hide();
     $("#left_destIP option[name=" + curr_detail_json[this.value].destbuildingName + curr_detail_json[this.value].destbuildingFloor + "]").show();
   })
+
+  sortList("left_destbuilding")
+
   //目標IP Select
   for(let i in curr_detail_json)
   {
+    //alert("目標IP Select"+i)
     if(i == "subarray")continue;
     $("#left_destIP:last").append(
       '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destIpAddr + '</option>'
@@ -561,6 +566,37 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
     $("#left_time").text(curr_detail_json[this.value].deviceTime)
   })
 }
+
+function sortList(id) 
+{ 
+    var lb = document.getElementById(id); 
+    var arrTexts = new Array(); 
+    var arrValues = new Array(); 
+    var arrOldTexts = new Array(); 
+
+    for(var i=0; i<lb.length; i++) 
+    { 
+        arrTexts[i] = lb.options[i].text; 
+        arrValues[i] = lb.options[i].value; 
+        arrOldTexts[i] = lb.options[i].text; 
+    } 
+
+    arrTexts.sort(); 
+
+    for(var i=0; i<lb.length; i++) 
+    { 
+        lb.options[i].text = arrTexts[i]; 
+        for(var j=0; j<lb.length; j++) 
+        { 
+            if (arrTexts[i] == arrOldTexts[j]) 
+            { 
+                lb.options[i].value = arrValues[j]; 
+                j = lb.length; 
+            } 
+        } 
+    } 
+}
+
 
 //form搜尋string的onchange事件
 //在更改搜尋選項時，將搜尋字串做更新

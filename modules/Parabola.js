@@ -50,7 +50,7 @@ class Parabola{
          var tk = (MAX_POINTS - 1);
          var yv0 = end.y - start.y - (a * tk * tk / 2.0);
          yv0 /= tk;
-         console.log(yv0);
+         //console.log(yv0);
          //拋物線方程 : 參考自重力方程
          for (var i = 0; i < MAX_POINTS; i++) {
              this.positions.push(start.x + v.x * i, yv0 * i + a * i * i / 2.0 + start.y, start.z + v.z * i);

@@ -31,6 +31,25 @@ document.querySelector("#switch-ip").addEventListener('click', function(){
   $("#iplst-num").show()
 })
 
+
+var w = document.documentElement.clientWidth;
+if( w < 768 )
+{
+  $("#ip-main-list").hide()
+  $("#event-main-list").hide()
+  $("#search").show()
+}
+
+window.addEventListener("resize", function(){
+  var w = document.documentElement.clientWidth;
+  if( w < 768 )
+  {
+    $("#ip-main-list").hide()
+    $("#event-main-list").hide()
+    $("#search").show()
+  }
+});
+
 document.querySelector("#selectBuilding").addEventListener('change', function(){
   $("#selectFloor").empty()
   let floor = 0;
