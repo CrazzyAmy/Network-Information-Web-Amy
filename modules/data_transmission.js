@@ -501,6 +501,7 @@ function guess_location_detail()
     //console.log(curr_detail_json[i]["destbuildingFloor"])
   }
 }
+
 function guess_location_menu()
 {
   for(let i in curr_json)
@@ -510,9 +511,9 @@ function guess_location_menu()
     {
       if(j == "subarray")continue;
       let ip = curr_json[i].IP[j].name.split(".")
-      curr_json[i].IP[j]["buildingName"] = buildings.list[ Math.floor( ip[1] * (buildings.list.length-1) / 256)].id
-      curr_json[i].IP[j]["buildingTitle"] = buildings.list[ Math.floor( ip[1] * (buildings.list.length-1) / 256 )].title
-      curr_json[i].IP[j]["buildingFloor"] = ip[2] % buildings.list[ Math.floor( ip[1] * (buildings.list.length-1) / 260 )].floor +1
+      curr_json[i].IP[j]["buildingName"] = buildings.list[ Math.floor( ip[2] * 8 / 256) ].id
+      curr_json[i].IP[j]["buildingTitle"] = buildings.list[ Math.floor( ip[2] * 8 / 256 ) ].title
+      curr_json[i].IP[j]["buildingFloor"] = ip[3] % buildings.list[ Math.floor( ip[2] * 8 / 260 ) ].floor +1
       if(!(ip[0]=="120" && ip[1]=="126" || ip[0] == "10" || ip[0]=="192" && ip[1]=="168"))
       {
         curr_json[i].IP[j]["buildingName"] = "GW"
