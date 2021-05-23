@@ -28,11 +28,10 @@ function createBuilding(building, group)
   for(let i =0;i < floor; i++)
   {
     var geometry = new THREE.BoxGeometry(width, height / floor, depth)
-    var material = new THREE.MeshLambertMaterial({
-      color: c,
-      opacity : 0.8,
-      transparent : true
-    });
+    //更改成如果遇到世界地圖牆壁，就改成 BasicMaterial，也就是正常不透明的材質
+    var material = (width == 3 && height == 3 && depth ==3 ? 
+                    new THREE.MeshLambertMaterial({color: c, opacity : 0.8 ,transparent : true}) :
+                    new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}));
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.name = building.id + "_" + (i + 1).toString();
     Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
@@ -42,6 +41,8 @@ function createBuilding(building, group)
     group.add(Mesh);
   }
 }
+
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';

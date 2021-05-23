@@ -54,7 +54,6 @@ let send_request = function(search_string)
     //收到資料後，畫大列表
     if (this.readyState === 4 && this.status === 200) {
       // Typical action to be performed when the document is ready:
-      console.log(request.responseText);
       curr_json = JSON.parse(request.responseText) 
       console.log(curr_json);
       if(curr_json.length == 0)return;
@@ -448,6 +447,8 @@ function guess_location_detail()
     if(i == "subarray")continue;
     let srcip = curr_detail_json[i].srcIpAddr.split(".")
     let destip = curr_detail_json[i].destIpAddr.split(".")
+    let longitudecnt = 0
+    let latitudecnt = 0
     //let ip_gateway_set = new Map();
 
     
@@ -456,8 +457,21 @@ function guess_location_detail()
     curr_detail_json[i]["srcbuildingFloor"] = srcip[3] % buildings.list[ Math.floor( srcip[2] * 8 / 260 )].floor +1
     curr_detail_json[i]["destbuildingName"] = buildings.list[ Math.floor( destip[2] * 8 / 256 )].id
     curr_detail_json[i]["destbuildingTitle"] = buildings.list[ Math.floor( destip[2] * 8 / 256 )].title
-    curr_detail_json[i]["destbuildingFloor"] = destip[3] % buildings.list[ Math.floor( destip[2] * 8 / 260 ) ].floor +1
+    curr_detail_json[i]["destbuildingFloor"] = destip[3] % buildings.list[ Math.floor( destip[2] * 8 / 260 ) ].floor + 1
+    //如果經緯度是 null 或 undefined，那就隨機生成一個經緯度（先別管算法，你會怕）
+    if(curr_detail_json[i]["longitude"] == null || curr_detail_json[i]["longitude"] == undefined){
+        curr_detail_json[i]['longitude'] = Math.random() * 61.5 + 73.5
+    }
+    if(curr_detail_json[i]["latitude"] == null || curr_detail_json[i]["latitude"] == undefined){
+      curr_detail_json[i]["latitude"] = Math.random() * 49.5 + 4
+    }
+    console.log()
+    longitudecnt =  Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180) / 7.2)
+    latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90) / 7.2)
+    nextNum = longitudecnt * 25 + latitudecnt
+    console.log(longitudecnt + ' ' + latitudecnt + ' ' + nextNum)
     
+    //注意，nextNum 將重新定義成經緯度轉成 GW number的暫存變數
     if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
     {
       console.log(ip_gateway_set.get(srcip))
@@ -471,7 +485,6 @@ function guess_location_detail()
       {
         ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2], "GW" + nextNum)
         curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
-        nextNum = (nextNum + 11) % 1250
       }
       //curr_detail_json[i]["srcbuildingName"] = "GW"
       curr_detail_json[i]["srcbuildingTitle"] = "校外"
@@ -489,7 +502,6 @@ function guess_location_detail()
       {
         ip_gateway_set.set(destip[0]+destip[1]+destip[2], ("GW" + nextNum))
         curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
-        nextNum = (nextNum + 11) % 1250
       }
       //curr_detail_json[i]["destbuildingName"] = "GW"
       curr_detail_json[i]["destbuildingTitle"] = "校外"
