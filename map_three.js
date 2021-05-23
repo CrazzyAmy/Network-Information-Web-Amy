@@ -253,7 +253,7 @@
       t_buildings?.children.forEach( mesh =>{
         const words = mesh.name.split('_'); // "buildingId_floorID"
         let color = new THREE.Color(buildings.map.get(words[0]).color);
-        mesh?.material.emissive.setHex(color.getHex);
+        //mesh?.material.emissive.setHex(color.getHex);
       });
 
     }
