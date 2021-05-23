@@ -52,7 +52,7 @@ let send_request = function(search_string)
   console.log("Send request: " + search_string)
   request.onreadystatechange = function() {
     //收到資料後，畫大列表
-    if (this.readyState == 4 && this.status == 200) {
+    if (this.readyState === 4 && this.status === 200) {
       // Typical action to be performed when the document is ready:
       console.log(request.responseText);
       curr_json = JSON.parse(request.responseText) 
@@ -471,7 +471,7 @@ function guess_location_detail()
       {
         ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2], "GW" + nextNum)
         curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
-        nextNum = (nextNum + 11) % 188
+        nextNum = (nextNum + 11) % 1250
       }
       //curr_detail_json[i]["srcbuildingName"] = "GW"
       curr_detail_json[i]["srcbuildingTitle"] = "校外"
@@ -489,7 +489,7 @@ function guess_location_detail()
       {
         ip_gateway_set.set(destip[0]+destip[1]+destip[2], ("GW" + nextNum))
         curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
-        nextNum = (nextNum + 11) % 188
+        nextNum = (nextNum + 11) % 1250
       }
       //curr_detail_json[i]["destbuildingName"] = "GW"
       curr_detail_json[i]["destbuildingTitle"] = "校外"

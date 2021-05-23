@@ -23,6 +23,7 @@ let OnDecorationLoaded = function() {
     scene_init_meshes("decorations", decorations, t_decorations, createPlane);
 }
 JsonReader.load_array(buildings, "/data/buildings.json" ,Building.fromJson, OnBuildingLoaded);
-JsonReader.load_array(decorations, "/data/decorations.json", Decoration.fromJson, OnDecorationLoaded);
 
+JsonReader.load_array(decorations, "/data/decorations.json", Decoration.fromJson, OnDecorationLoaded);
+console.log(buildings.map.size)
 export{ buildings , decorations}
