@@ -4,9 +4,8 @@ class JsonReader
     static load_array(array_ref ,path, func_format , func_call_back)
     {
         var request = new XMLHttpRequest();
-        request.open("GET", path, true);
-        request.send(null)
-        request.onreadystatechange = function() 
+        request.open("GET", path, false);
+        request.onreadystatechange = function()
         {
             if ( request.readyState === 4 && request.status === 200 ) 
             {
@@ -17,6 +16,7 @@ class JsonReader
                 func_call_back();
             }
         }
+        request.send(null)
     }
 }
 class ListData 

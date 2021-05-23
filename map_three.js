@@ -201,8 +201,9 @@
       let bTo = t_buildings.getObjectByName(trace.site_to.building_id + "_" + trace.site_to.floor_id)
       let cFrom =  new THREE.Color(buildings.map.get(trace.site_from.building_id).color).getHex()
       let cTo =  new THREE.Color(buildings.map.get(trace.site_to.building_id).color).getHex()
-      bFrom?.material.emissive.setHex(0x2222AA); //高亮
-      bTo?.material.emissive.setHex(0xAA2222); //高亮
+      //將事件的起始跟終點位置都改成黃色
+      bFrom?.material.emissive.setHex(0xFFFF22); 
+      bTo?.material.emissive.setHex(0xFFFF22); 
     });
     orbitControl.update()
     renderer.render(scene, camera)
