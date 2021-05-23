@@ -12,7 +12,15 @@
   let t_decorations = new THREE.Group();
   let t_buildings = new THREE.Group();
   let multi_scenario = new MultiScenario([]);
+
+  //建築顯示浮動式視窗
+  var latestMouseProjection; // this is the latest projection of the mouse on object (i.e. intersection with ray)
+  var hoveredObj; // this objects is hovered at the moment
   
+  // tooltip will not appear immediately. If object was hovered shortly,
+  // - the timer will be canceled and tooltip will not appear at all.
+  var tooltipDisplayTimeout;
+    
   let onMouseMove = function (e) {
     e.preventDefault();
     const {top, left, width, height} = renderer.domElement.getBoundingClientRect();
@@ -45,7 +53,107 @@
       INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
       INTERSECTED = null;
     }
+
+    //處理建築浮動視窗
+    latestMouseProjection = undefined;
+    hoveredObj = undefined;
+    //handleManipulationUpdate();
+    if (intersects.length > 0) {
+      latestMouseProjection = intersects[0].point
+      hoveredObj = intersects[0].object;
+    }
+    
+    if (tooltipDisplayTimeout || !latestMouseProjection) {
+        clearTimeout(tooltipDisplayTimeout);
+        tooltipDisplayTimeout = undefined;
+        hideTooltip();
+    }
+
+    if (!tooltipDisplayTimeout && latestMouseProjection) {
+        tooltipDisplayTimeout = setTimeout(function() {
+            tooltipDisplayTimeout = undefined;
+            showTooltip(e);
+        }, 330);
+    }
+
   };
+
+  
+  // 將浮動視窗設定在位置(client.X, client.Y)
+  function showTooltip(e) {
+    var divElement = $("#tooltip");
+    if(hoveredObj?.name.substring(0,2)== 'GW')return;
+    if(hoveredObj?.parent.Name == "decorations")return;
+    if(hoveredObj?.name.substring(0,2)!= 'GW')
+    {
+      let shortname = hoveredObj.name.split('_')[0]
+      let floor = hoveredObj.name.split('_')[1]
+      var fullname;
+      switch(shortname){
+        case "EECS":
+          fullname = "電機資訊學院"
+          break;
+        case "LAW":
+          fullname = "法律學院"
+          break;
+        case "PA":
+          fullname = "公共事務學院"
+          break;
+        case "BUS":
+          fullname = "商學院"
+          break;
+        case "HUM":
+          fullname = "人文學院"
+          break;
+        case "SS":
+          fullname = "社會科學學院"
+          break;
+        case "ADM":
+          fullname = "行政大樓"
+          break;
+        case "LIB":
+          fullname = '圖書館'
+          break;
+        case "CC":
+          fullname = "資訊中心"
+          break;
+        default:
+          fullname = ""
+      }
+      divElement.text(fullname + floor + '樓');
+      //console.log(hoveredObj);
+    }
+
+    if (divElement && latestMouseProjection) {
+        divElement.css({
+            display: "block",
+            opacity: 0.0
+        });
+
+       divElement.css({
+        left: `${e.clientX + 30}px`,
+        top: `${e.clientY}px`
+     });
+
+        setTimeout(function() {
+            divElement.css({
+                opacity: 1.0
+            });
+        }, 25);
+    }
+  }
+
+  // 將浮動視窗tooltip關閉
+  function hideTooltip() {
+    var divElement = $("#tooltip");
+    if (divElement) {
+        divElement.css({
+            display: "none"
+        });
+    }
+  }
+
+
   let scene_init_meshes = function(name, listdata, t_ref, func_create)
   {
     //設定並重置THREE.Group
