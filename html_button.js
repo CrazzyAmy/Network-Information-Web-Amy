@@ -5,8 +5,8 @@ import {send_request,search_menu, search_detail, draw_menu, search_IpList} from 
 document.querySelector("#search_first").addEventListener('click', search_menu);
 document.querySelector("#search_first").addEventListener('click', search_IpList);
 $("#ip-main-list").hide()
-$("#event-main-list").show()
-$("#search").hide()
+$("#event-main-list").hide()
+$("#search").show()
 
 //切換列表
 document.querySelector("#switch-search").addEventListener('click', function(){
