@@ -1,3 +1,0 @@
-@echo off
-start cmd /k "cd C:\Users\nsl814888\Desktop\Network-Information-Web&&http-server -c-1"
-start cmd /k "python C:\Users\nsl814888\Desktop\Network-Information-Web\fsiem_rest_api\account\fff.py"
