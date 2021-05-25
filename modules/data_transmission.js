@@ -465,7 +465,6 @@ function guess_location_detail()
     if(curr_detail_json[i]["latitude"] == null || curr_detail_json[i]["latitude"] == undefined){
       curr_detail_json[i]["latitude"] = Math.random() * 49.5 + 4
     }
-    console.log()
     longitudecnt =  Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180) / 7.2)
     latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90) / 7.2)
     nextNum = longitudecnt * 25 + latitudecnt
