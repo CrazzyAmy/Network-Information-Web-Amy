@@ -468,12 +468,10 @@ function guess_location_detail()
     longitudecnt =  Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180) / 7.2)
     latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90) / 7.2)
     nextNum = longitudecnt * 25 + latitudecnt
-    console.log(longitudecnt + ' ' + latitudecnt + ' ' + nextNum)
     
     //注意，nextNum 將重新定義成經緯度轉成 GW number的暫存變數
     if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
     {
-      console.log(ip_gateway_set.get(srcip))
       if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2])) // 如果srcIpAddr已經有對應的Gateway
       {
         curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2])
