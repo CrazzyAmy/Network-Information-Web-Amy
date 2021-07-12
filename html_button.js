@@ -1,7 +1,6 @@
 import {send_request,search_menu, search_detail, draw_menu, search_IpList} from "./modules/data_transmission.js";
 
 
-
 document.querySelector("#search_first").addEventListener('click', search_menu);
 document.querySelector("#search_first").addEventListener('click', search_IpList);
 $("#ip-main-list").hide()
@@ -50,6 +49,8 @@ window.addEventListener("resize", function(){
   }
 });
 
+
+//右側面板之樓層設定，並生成相對應列表
 document.querySelector("#selectBuilding").addEventListener('change', function(){
   $("#selectFloor").empty()
   let floor = 0;
@@ -115,7 +116,6 @@ document.querySelector("#login").addEventListener("click",function(){
   console.log("Send request: " + search_string)
   request.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      // Typical action to be performed when the document is ready:
       console.log(request.responseText);
     }
   }

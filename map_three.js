@@ -78,7 +78,7 @@
 
   };
 
-  
+  // 於滑鼠遊標移動至建物時，顯示建物名稱
   // 將浮動視窗設定在位置(client.X, client.Y)
   function showTooltip(e) {
     var divElement = $("#tooltip");
@@ -171,12 +171,7 @@
     let sWidth = document.getElementById("scene").clientWidth, sHeight =  document.getElementById("scene").clientHeight
     scene.background = new THREE.Color(0xffffff);
     // 建立相機
-    camera = new THREE.PerspectiveCamera(
-      70,
-      sWidth / sHeight,
-      1,
-      10000
-    )
+    camera = new THREE.PerspectiveCamera(70, sWidth / sHeight, 1, 10000)
     camera.position.set(50, 50, 50);
     camera.lookAt(scene.position);
     
