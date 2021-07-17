@@ -40,6 +40,28 @@ $(document).ready(function(){
  window.onload = function(){
  }
 
+ //監聽Checkbox，檢查顯示方向是內打外、外打內
+ let dir_in_out = false //外打內
+ let dir_out_in = false //內打外
+ $('input[name=dir_in_out]').change(function() {
+  if ($(this).is(':checked')) {
+    dir_in_out = true;
+  } else {
+    dir_in_out = false;
+  }
+  //console.log("內打外dir_in_out = ", dir_in_out)
+});
+
+$('input[name=dir_out_in]').change(function() {
+  if ($(this).is(':checked')) {
+    dir_out_in = true;
+  } else {
+    dir_out_in = false;
+  }
+  //console.log("外打內dir_out_in = ", dir_out_in)
+});
+
+
 //將初步搜尋資料傳給後台伺服器，並回傳json檔
 let send_request = function(search_string)
 {
