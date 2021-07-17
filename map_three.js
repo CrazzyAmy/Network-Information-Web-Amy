@@ -229,7 +229,7 @@
       let p = new Parabola();
       let Color = color[i]
       p.init(scene);
-      p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0] + (Math.random()-0.5) * 5,to[1],to[2] + (Math.random()-0.5) * 5), -0.003);
+      p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       if(to[0] == -8 && to[2] == 60)
       {
         p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
