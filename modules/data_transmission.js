@@ -6,40 +6,42 @@ export {send_request,search_menu, search_detail, draw_menu, search_IpList}
 
 //將要畫的線條畫出來
 
+let curr_json = null
+let curr_detail_json = null
+let curr_IpLst_json = null
+let curr_IpLst_detail_json = null
+let curr_form_search_string = ''
+let intoout = []
+let outtoin = []
+let ip_gateway_set = new Map();
+let nextNum = 0
+
 document.querySelector("#search_first").addEventListener('click', function(){
-  /*clear_multi_scenario()
-  aaa = aaa + 1
-  aaa %= 7
-  let site1_from =  [new Site("SS", 0, "")];
-  let site1_to = [new Site("SS", 0, "")];
-  add_scenario(site1_from, site1_to , 0xFF0000);*/
   search_detail("","","")
 });
-let aaa = 0
 
 //開啟網頁時，做第一次的搜尋
 $(document).ready(function(){
   clear_multi_scenario()
-  aaa = aaa + 1
-  aaa %= 7
   let site1_from =  [new Site("SS", 0, "")];
   let site1_to = [new Site("SS", 0, "")];
   add_scenario(site1_from, site1_to , 0xFF0000);
   //將日期訂為YYYY-MM-DD
-  console.log("2".padStart(2,"0"))
    let today = new Date
    let today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2,"0") + "-" + today.getDate().toString().padStart(2,"0")
    $("#timeStart").val(today_date)
    $("#timeEnd").val(today_date)
    update_search_string()
   //發送搜尋請求
+  //search_menu()第一步搜尋，search_detail第二步搜尋
    search_menu()
    search_IpList()
    search_detail("","","")
+  //將 curr_detail_json分成內打外跟外打內
 })
+
  window.onload = function(){
  }
-
  //監聽Checkbox，檢查顯示方向是內打外、外打內
  let dir_in_out = false //外打內
  let dir_out_in = false //內打外
@@ -60,7 +62,6 @@ $('input[name=dir_out_in]').change(function() {
   }
   //console.log("外打內dir_out_in = ", dir_out_in)
 });
-
 
 //將初步搜尋資料傳給後台伺服器，並回傳json檔
 let send_request = function(search_string)
@@ -117,9 +118,6 @@ let send_request = function(search_string)
   //console.log("get responseText:")
   //console.log(request.responseText)
   //console.log(typeof(request.responseText))
-
-  //return JSON.parse(dummy_json)
-  //return JSON.parse(dummy_json_two)
   //return JSON.parse(request.responseText) 
 }
 
@@ -133,42 +131,6 @@ function search_menu(search_string)
   search_string = 'searchType=MENU&' + curr_form_search_string
   let menu_data = send_request(search_string)
   menu_data = curr_json
-  //menu_data = JSON.parse(dummy_json)
-  //將大列表&小列表的資訊清空
-  /*
-  $("#Event-name-list").empty();
-  $("#IP-list").empty();
-  
-
-  //用json檔的資料，更新大列表
-  let total_IP_count = 0
-  let idx = ''
-  for(idx in menu_data)
-  {
-    if(idx == "subarray")continue;
-    $("#Event-name-list:last").append(
-      '<li>' +
-      '<button type="button" id="Event' + idx + '" class="' + menu_data[idx].eventSeverityCat + ' d-flex flex-row justify-content-around">' +
-          '<div class="event-name">' + menu_data[idx].eventName + '</div>' +
-          '<div class="count">' + menu_data[idx].totalIPCount + '</div>' +
-      '</button>' +
-      '</li>'
-    )
-    console.log(idx)
-    console.log(typeof(idx))
-    let para = idx
-    document.querySelector("#Event" + idx).addEventListener('click', function(){draw_menu(para);});
-
-
-    total_IP_count += menu_data[idx].totalIPCount
-    
-  }
-  $("#event-num").text(total_IP_count)
-  //將小列表的資訊儲存到global variable
-  //以供未來使用
-  curr_json = menu_data
-  
-  */
 }
 
 //搜尋IP List總表資訊
@@ -188,7 +150,6 @@ function search_IpList(search_string)
   //收到資料後，畫出右側的IP列表
   request.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      //curr_IpLst_json = JSON.parse(dummy_json_IP)
       curr_IpLst_json = JSON.parse(request.responseText) 
       console.log("search_IpList() Receive response: ")
       console.log(curr_IpLst_json)
@@ -213,43 +174,11 @@ function search_IpList(search_string)
         let para = idx
         document.querySelector("#IPlstEvent" + idx).addEventListener('click', function(){draw_IP_related(para);});
         document.querySelector("#IPlstEvent" + idx).addEventListener('click', function(){search_detail_IP(IpLst.IP);});
-
-
-        total_IP_count += IpLst[idx].eventCount.LOW + IpLst[idx].eventCount.MID + IpLst[idx].eventCount.HIGH 
-        
+        total_IP_count += IpLst[idx].eventCount.LOW + IpLst[idx].eventCount.MID + IpLst[idx].eventCount.HIGH
       }
       $("#iplst-num").text(total_IP_count)
     }
   }
-
-
-  /*TEST 
-  curr_IpLst_json = JSON.parse(dummy_json_IP)
-  console.log(curr_IpLst_json)
-  $("#IP-main-list").empty()
-  
-  //用json檔的資料，更新IP列表
-  let total_IP_count = 0
-  let idx = ''
-  let IpLst = curr_IpLst_json
-  for(idx in IpLst)
-  {
-    if(idx == "subarray")continue;
-    $("#IP-main-list:last").append(
-      '<li>' +
-      '<button type="button" id="IP-main-list' + idx + '" class=" d-flex flex-row justify-content-around">' +
-          '<div class="event-name">' + IpLst[idx].IP + '</div>' +
-          '<div class="count">' + IpLst[idx].score + '</div>' +
-      '</button>' +
-      '</li>'
-    )
-    let para = idx
-    document.querySelector("#IP-main-list" + idx).addEventListener('click', function(){draw_IP_related(para);});
-    document.querySelector("#IP-main-list" + idx).addEventListener('click', function(){search_detail_IP(IpLst.IP);});
-    
-  }
-
-  /*TEST END*/ 
 }
 
 //點擊IP List總表按鈕時，顯現右側下方相關IP表
@@ -353,12 +282,10 @@ function draw_menu(index)
 
 }
 
-//第二部搜尋，接收資料，畫出事件線條
+//第二步搜尋，接收資料，畫出事件線條
 function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 {
   let detail_search_string = 'searchType=DETAIL&' + curr_form_search_string + '&IpAddr=' + search_IP + '&eventName=' + search_eventName
-  
-
   var request = new XMLHttpRequest();
   if (search_IP == 0){
     request.open("POST", "http://120.126.151.195:5000/first_query_plus", true)
@@ -385,9 +312,7 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
       //把curr_detail_json，根據IP，猜建築位置
       //ip_gateway_set = new Map();
       guess_location_detail()
-      //console.log("search_detail")
-      //console.log(curr_detail_json);
-      update_parabola()
+      update_parabola(curr_detail_json)
       draw_detail(search_IP, search_eventName, search_eventSeverityCat)
       clear_multi_scenario()
       //$("#IP-"+id).children().toggle()
@@ -396,9 +321,9 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 }
 
 //清除舊有線條、換新線條
-function update_parabola()
+function update_parabola(input_json)
 {
-  let detail = curr_detail_json
+  let detail = input_json
   let site_from = []
   let site_to = []
   let color = []
@@ -433,7 +358,6 @@ function update_parabola()
     let detail = key.split(' ')
     if(detail[0].match(/^[A-Z]+$/)) detail[1] = '4';
     if(detail[2].match(/^[A-Z]+$/)) detail[3] = '4';
-    console.log(detail[0], detail[1], detail[2], detail[3])
     site_from.push(new Site(detail[0], detail[1],""))
     site_to.push(new Site(detail[2], detail[3],""))
 
@@ -632,16 +556,3 @@ function update_search_string()
   curr_form_search_string = $('#dataForm').serialize();
   console.log(curr_form_search_string)
 }
-
-
-let curr_json = null
-let curr_detail_json = null
-let curr_IpLst_json = null
-let curr_IpLst_detail_json = null
-let curr_form_search_string = ''
-let ip_gateway_set = new Map();
-let nextNum = 0
-
-let dummy_json = '[  {      "eventName": "Some really serious event",      "eventSeverity":"9",      "eventSeverityCat": "HIGH",      "totalIPCount": 22,      "IP": [          {          "name": "93.174.93.72",          "count": 9          },          {          "name": "175.24.95.240",          "count": 6          },          {          "name": "120.126.152.226",          "count": 4          },          {          "name": "120.126.152.225",          "count": 3          }      ]  },  {      "eventName": "Something less important",      "eventSeverity":"5",      "eventSeverityCat": "MID",      "totalIPCount": 50,      "IP": [          {          "name": "93.174.93.72",          "count": 24          },          {          "name": "175.24.95.240",          "count": 14          },          {          "name": "120.126.152.226",          "count": 12          }      ]  }]';
-let dummy_json_two = '[{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.129","deviceTime":"2020-12-17-16-7-15","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"142.93.121.47"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.127","deviceTime":"2020-12-17-16-7-15","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"71.6.232.5"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.98","deviceTime":"2020-12-17-16-7-9","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"193.42.40.135"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.177","deviceTime":"2020-12-17-16-7-15","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"162.142.125.95"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.217","deviceTime":"2020-12-17-16-6-49","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"194.61.54.112"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.154","deviceTime":"2020-12-17-16-7-15","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"103.114.105.219"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.125","deviceTime":"2020-12-17-16-19-30","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"167.248.133.66"},{"IP_count":2,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.218","deviceTime":"2020-12-17-16-19-30","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"45.129.33.176"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.195","deviceTime":"2020-12-17-16-19-30","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"45.129.33.47"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.207","deviceTime":"2020-12-17-16-19-35","eventName":"Traffic denied by policy","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-deny","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"85.173.248.184"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.161","deviceTime":"2020-12-17-16-19-30","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"83.97.20.35"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.108","deviceTime":"2020-12-17-16-19-23","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"49.7.20.135"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.151","deviceTime":"2020-12-17-16-19-15","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"164.90.186.5"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.198","deviceTime":"2020-12-17-16-19-17","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"114.107.236.75"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.177","deviceTime":"2020-12-17-16-19-23","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"52.14.170.215"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.181","deviceTime":"2020-12-17-16-19-36","eventName":"Traffic denied by policy","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-deny","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"79.178.52.230"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.197","deviceTime":"2020-12-17-16-20-55","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"219.71.120.118"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.215","deviceTime":"2020-12-17-16-21-9","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"185.202.2.238"},{"IP_count":2,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.196","deviceTime":"2020-12-17-16-21-29","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"13.115.247.15"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.184","deviceTime":"2020-12-17-16-21-35","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"195.154.170.81"},{"IP_count":1,"building_floor":"0-\u96fb\u8cc7\u5927\u6a135F","destIpAddr":"120.126.151.89","deviceTime":"2020-12-17-16-21-35","eventName":"Permitted traffic flow ended","eventSeverity":"1","eventSeverityCat":"LOW","eventType":"PAN-OS-TRAFFIC-end-allow","room":"0-\u5b78\u751f\u5be6\u9a57\u5ba4","srcIpAddr":"162.243.232.174"}]'
-let dummy_json_IP ='[  {      "IP": "120.126.5.14",      "score": 886,      "eventCount":       {        "LOW": 4567,        "MID": 89,        "HIGH": 0      },      "eventSeverityHighest": 6,      "connectedIP":       [        {          "IP": "120.126.25.1",          "score": 200.5,          "eventCount":           {            "LOW": 4,            "MID": 5,            "HIGH": 0          },          "eventSeverityHighest": 6        },        {          "IP": "120.126.25.2",          "score": 200.5,          "eventCount":           {            "LOW": 4,            "MID": 5,            "HIGH": 0          },          "eventSeverityHighest": 6        },        {          "IP": "120.126.25.23",          "score": 255,          "eventCount":           {            "LOW": 4,            "MID": 5,            "HIGH": 0          },          "eventSeverityHighest": 6        }      ]  },{      "IP": "120.126.5.24",      "score": 755,      "eventCount":       {        "LOW": 4567,        "MID": 89,        "HIGH": 0      },      "eventSeverityHighest": 6,      "connectedIP":       [        {          "IP": "210.261.52.9",          "score": 155,          "eventCount":           {            "LOW": 4,            "MID": 5,            "HIGH": 0          },          "eventSeverityHighest": 6        },        {          "IP": "210.261.52.8",          "score": 68,          "eventCount":           {            "LOW": 4,            "MID": 5,            "HIGH": 0          },          "eventSeverityHighest": 6        },        {          "IP": "210.216.52.7",          "score": 40,          "eventCount":           {            "LOW": 4,            "MID": 5,            "HIGH": 0          },          "eventSeverityHighest": 6        }      ]  }]'
