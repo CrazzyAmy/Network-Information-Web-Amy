@@ -126,6 +126,14 @@
           <div class="value" id="left_eventName">[事件名稱]</div>
           <div class="name">Severity Category</div>
           <div class="value" id="left_eventSeverityCat">[嚴重等級]</div>
+          <div class="name">顯示方向</div>
+          <form action="" class="name">
+            <input type="checkbox" name="dir_in_out" id="dir_in_out" checked>
+            <label for="dir_in_out">內打外</label><br>
+            <input type="checkbox" name="dir_out_in" id="dir_out_in" checked>
+            <label for="dir_out_in">外打內</label>
+          </form>
+
         </div>
         <div class="sidebar d-flex flex-row flex-wrap d-md-block info">
           <div class="title">詳細資料</div>
@@ -264,7 +272,7 @@
               <option value="12">12F</option>
             </select>
             
-<!-- 
+
             <div class="name">事件嚴重等級</div>
             <select name="eventSeverityCat" id="" class="value">
               <option value="ALL">ALL</option>
@@ -273,7 +281,7 @@
               <option value="MID">MID</option>
               <option value="HIGH">HIGH</option>
             </select>
-             -->
+             
 <!-- 
             <div class="name">IP</div>
             <input type="text" name="IpAddr" id="" class="value" placeholder="搜尋IP...">
