@@ -270,24 +270,6 @@
         mesh?.material.emissive.setHex(color.getHex);
       });
     }:null;
-    
-    /*
-    multi_scenario.scenarios?.forEach(scenario=>{
-      scenario.parab_list[0].OnAnimated = function(){
-        //將multi_scenario的所有scenarios清空
-        let tmp_scenario = multi_scenario.scenarios[1]
-        multi_scenario.scenarios = []
-        multi_scenario.scenarios.push(tmp_scenario)
-        multi_scenario.scenario_id = 0
-        //去建築高亮
-        t_buildings?.children.forEach( mesh =>{
-        const words = mesh.name.split('_'); // "buildingId_floorID"
-        let color = new THREE.Color(buildings.map.get(words[0]).color );
-        mesh?.material.emissive.setHex(color.getHex);
-      });
-      }
-    })
-    */
   }
 
   // 渲染場景
@@ -306,7 +288,7 @@
       let cTo =  new THREE.Color(buildings.map.get(trace.site_to.building_id).color).getHex()
       //將事件的起始跟終點位置都改成黃色
       bFrom?.material.emissive.setHex(0xFFFF22); 
-      bTo?.material.emissive.setHex(0xFFFF22); 
+      bTo?.material.emissive.setHex(0xFFA230); 
     });
     orbitControl.update()
     renderer.render(scene, camera)

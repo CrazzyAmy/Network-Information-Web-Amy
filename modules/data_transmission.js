@@ -13,6 +13,7 @@ let curr_IpLst_detail_json = null
 let curr_form_search_string = ''
 let intoout = []
 let outtoin = []
+let total_detail_json = null
 let ip_gateway_set = new Map();
 let nextNum = 0
 
@@ -43,24 +44,46 @@ $(document).ready(function(){
  window.onload = function(){
  }
  //監聽Checkbox，檢查顯示方向是內打外、外打內
- let dir_in_out = false //外打內
- let dir_out_in = false //內打外
  $('input[name=dir_in_out]').change(function() {
+  console.log('detect in to out checkbox changed!')
+  clear_multi_scenario();
   if ($(this).is(':checked')) {
-    dir_in_out = true;
-  } else {
-    dir_in_out = false;
+    if($('input[name=dir_out_in]').is(':checked')){
+      update_parabola(curr_detail_json)
+    }
+    else{
+      update_parabola(intoout)
+    }
   }
-  //console.log("內打外dir_in_out = ", dir_in_out)
+  else{
+    if($('input[name=dir_out_in]').is(':checked')){
+      update_parabola(outtoin)
+    }
+    else{
+      update_parabola(null)
+    }
+  }
 });
 
 $('input[name=dir_out_in]').change(function() {
+  console.log('detect out to in checkbox changed!')
+  clear_multi_scenario();
   if ($(this).is(':checked')) {
-    dir_out_in = true;
-  } else {
-    dir_out_in = false;
+    if($('input[name=dir_in_out]').is(':checked')){
+      update_parabola(curr_detail_json)
+    }
+    else{
+      update_parabola(outtoin)
+    }
   }
-  //console.log("外打內dir_out_in = ", dir_out_in)
+  else{
+    if($('input[name=dir_in_out]').is(':checked')){
+      update_parabola(intoout)
+    }
+    else{
+      update_parabola(null)
+    }
+  }
 });
 
 //將初步搜尋資料傳給後台伺服器，並回傳json檔
@@ -231,13 +254,13 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 
       curr_detail_json = curr_IpLst_detail_json[0]
       guess_location_detail()
-      update_parabola()
+      update_parabola(curr_detail_json)
       curr_detail_json = curr_IpLst_detail_json[1]
       guess_location_detail()
-      update_parabola()
+      update_parabola(curr_detail_json)
       curr_detail_json = curr_IpLst_detail_json[2]
       guess_location_detail()
-      update_parabola()
+      update_parabola(curr_detail_json)
 
       //clear_multi_scenario() 
 
@@ -312,6 +335,18 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
       //把curr_detail_json，根據IP，猜建築位置
       //ip_gateway_set = new Map();
       guess_location_detail()
+
+      //將curr_detail_json裡面的資料再拆成intoout跟outtoin
+      curr_detail_json.forEach(function(element){ 
+        //所有大樓裡面，只有GW是G開頭，所以用這個來判斷srcName/destName是否在外面
+        //其實還有intoin的case，但先暫時歸類在intoout的case好了
+        //或許checkbox名字可以改成 from inner / from outer，這樣或許會比較好
+        if (element['srcbuildingName'][0] == 'G')
+          outtoin.push(element)
+        else
+          intoout.push(element)
+      })
+      total_detail_json = curr_detail_json
       update_parabola(curr_detail_json)
       draw_detail(search_IP, search_eventName, search_eventSeverityCat)
       clear_multi_scenario()
@@ -321,9 +356,8 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 }
 
 //清除舊有線條、換新線條
-function update_parabola(input_json)
+function update_parabola(detail)
 {
-  let detail = input_json
   let site_from = []
   let site_to = []
   let color = []
@@ -332,6 +366,8 @@ function update_parabola(input_json)
   let colorY = [0xFFF129, 0xE6D925, 0xBDB21E, 0x807814]
   let colorG = [0xBDBDBD, 0x919191, 0x6B6B6B, 0x3B3B3B]
   let eventlocationset = new Map()
+
+  if(detail == null) return;
 
   for(let i in detail)
   {
@@ -348,7 +384,6 @@ function update_parabola(input_json)
       let eventcnt = eventlocationset.get (location_string)
       eventlocationset.set(location_string, eventcnt + 1)
     }
-
   }
 
   eventlocationset.forEach(function(value, key){
@@ -369,20 +404,8 @@ function update_parabola(input_json)
     //console.log(key + " " + value + " " +tmpcolor)
     color.push(tmpcolor)
   })
-  
-  /*
-  for(let i in curr_detail_json)
-  {
-    if(i == "subarray")continue;
-    site_from.push(new Site(detail[i].srcbuildingName, detail[i].srcbuildingFloor,""))
-    site_to.push(new Site(detail[i].destbuildingName, detail[i].destbuildingFloor,""))
-    let EventSeverCat = detail[0].eventSeverityCat[0]
-    if(EventSeverCat == "H") color.push(0xFF0000)
-    else if(EventSeverCat == "M") color.push(0xFFF129)
-    else color.push(0xB4B4B4)
-  }
-  */
-  add_scenario(site_from, site_to , color);
+
+  add_scenario(site_from, site_to , color)
   clear_multi_scenario()
 }
 
