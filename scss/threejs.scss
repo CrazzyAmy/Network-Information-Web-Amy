@@ -7,14 +7,40 @@
     left: 0;
     top: 0;
     min-width: 100px;
-    text-align: center;
-    padding: 5px 12px;
     font-family: monospace;
     background: $color-orange;
     display: none;
+    flex-direction: row;
+    align-items: stretch;
     opacity: 0;
     border: 1px solid black;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
     transition: opacity 0.25s linear;
     border-radius: 3px;
+    #tooltip_name{
+        display: block;
+        text-align: center;
+    }
+
+    #tooltip_list{
+        background-color: inherit;
+        display: flex;
+        flex-direction: column;
+
+        #tooltip_list_element{
+            display: flex;
+            flex-direction: row;
+            
+            .floor{
+                width: 10%;
+                text-align: left;
+            }
+            .eventCount{
+                width: 90%;
+                text-align: right;
+            }
+        }
+
+    }
+    
 }

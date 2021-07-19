@@ -5,6 +5,7 @@
   import { Parabola }from './modules/Parabola.js';
   import { Trace , Scenario, MultiScenario} from './modules/Scenario.js';
   import { buildings} from "./data_control.js"
+import { Building } from './modules/object_class.js';
   let scene, camera, renderer, orbitControl, spotLight;
 
   let rayCast = new THREE.Raycaster();
@@ -87,40 +88,65 @@
     if(hoveredObj?.name.substring(0,2)!= 'GW')
     {
       let shortname = hoveredObj.name.split('_')[0]
-      let floor = hoveredObj.name.split('_')[1]
+      let floor = 0;
+      let selected_floor = hoveredObj.name.split('_')[1]
       var fullname;
       switch(shortname){
         case "EECS":
           fullname = "電機資訊學院"
+          floor = 9;
           break;
         case "LAW":
           fullname = "法律學院"
+          floor = 8;
           break;
         case "PA":
           fullname = "公共事務學院"
+          floor = 9;
           break;
         case "BUS":
           fullname = "商學院"
+          floor = 9;
           break;
         case "HUM":
           fullname = "人文學院"
+          floor = 13;
           break;
         case "SS":
           fullname = "社會科學學院"
+          floor = 8;
           break;
         case "ADM":
           fullname = "行政大樓"
+          floor = 7;
           break;
         case "LIB":
           fullname = '圖書館'
+          floor = 8;
           break;
         case "CC":
           fullname = "資訊中心"
+          floor = 4;
           break;
         default:
           fullname = ""
       }
-      divElement.text(fullname);
+      //divElement.text(fullname);
+      $("#tooltip_name").text(fullname);
+      
+      $("#tooltip_list").empty();
+      for(let i = 1; i<= floor; i++)
+      {
+        $("#tooltip_list").append(
+          '<li id="tooltip_list_element">'+
+          '<div class="floor">' + i + 'F</div>' + 
+          '<div class="eventCount">' + i*i*10 +'</div>' +
+          '</li>'
+        );
+      }
+      
+      $("#tooltip_list").height( (floor * 28) );
+      $("#tooltip").height( 28 + floor * 28)
       //console.log(hoveredObj);
     }
 
@@ -130,8 +156,7 @@
         opacity: 0.0,
         left: `${e.clientX + 30}px`,
         top: `${e.clientY}px`,
-        width: `200px`,
-        height: `250px`
+        width: `200px`
       });
 
       setTimeout(function() {
