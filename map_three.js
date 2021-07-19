@@ -5,7 +5,7 @@
   import { Parabola }from './modules/Parabola.js';
   import { Trace , Scenario, MultiScenario} from './modules/Scenario.js';
   import { buildings} from "./data_control.js"
-import { Building } from './modules/object_class.js';
+  import { Building } from './modules/object_class.js';
   let scene, camera, renderer, orbitControl, spotLight;
 
   let rayCast = new THREE.Raycaster();
@@ -13,6 +13,7 @@ import { Building } from './modules/object_class.js';
   let t_decorations = new THREE.Group();
   let t_buildings = new THREE.Group();
   let multi_scenario = new MultiScenario([]);
+  let buildingcnt = new Map();
 
   //建築顯示浮動式視窗
   var latestMouseProjection; // this is the latest projection of the mouse on object (i.e. intersection with ray)
@@ -137,10 +138,11 @@ import { Building } from './modules/object_class.js';
       $("#tooltip_list").empty();
       for(let i = 1; i<= floor; i++)
       {
+        let tmp = buildingcnt.get(shortname)[i]
         $("#tooltip_list").append(
           '<li id="tooltip_list_element">'+
           '<div class="floor">' + i + 'F</div>' + 
-          '<div class="eventCount">' + i*i*10 +'</div>' +
+          '<div class="eventCount">' + tmp +'</div>' +
           '</li>'
         );
       }
@@ -234,9 +236,33 @@ import { Building } from './modules/object_class.js';
     document.addEventListener("mousemove", onMouseMove, false);
     
   }
+
+  let initbuildingcnt = function(){
+    var buildingname = ["EECS", "LAW", "PA", "BUS", "HUM", "SS", "ADM", "LIB", "CC", ""]
+    var buildingfloor = [10, 9, 10, 10, 14, 9, 8, 9, 5, 2]
+    for(let i = 0; i < 10; i++){
+      var tmp = []
+      for(let j = 0; j < buildingfloor[i]; j++) tmp.push(0)
+      buildingcnt.set(buildingname[i], tmp)
+    }
+  }
+
   let add_scenario = function(sites_from, sites_to, color)
   {
     if(sites_from.length == 0) return;
+    for(let i = 0; i < sites_from.length; i++){
+      if(sites_from[i].building_id.match(/^[A-Z]+$/)){
+        let tmp = buildingcnt.get(sites_from[i].building_id)
+        tmp[sites_from[i].floor_id] += 1
+        buildingcnt.set(sites_from[i].building_id, tmp)
+      }
+      if(sites_to[i].building_id.match(/^[A-Z]+$/)){
+        let tmp = buildingcnt.get(sites_to[i].building_id)
+        tmp[sites_to[i].floor_id] += 1
+        buildingcnt.set(sites_to[i].building_id, tmp)
+      }
+    }
+
     let traces = [];
     for(let i=0;i<sites_from.length;i++)
        traces.push(new Trace(sites_from[i],sites_to[i]));
@@ -330,4 +356,5 @@ import { Building } from './modules/object_class.js';
   })
 
   init();
+  initbuildingcnt();
   mainLoop();
