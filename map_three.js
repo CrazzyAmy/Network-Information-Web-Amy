@@ -120,26 +120,25 @@
         default:
           fullname = ""
       }
-      divElement.text(fullname + floor + '樓');
+      divElement.text(fullname);
       //console.log(hoveredObj);
     }
 
     if (divElement && latestMouseProjection) {
-        divElement.css({
-            display: "block",
-            opacity: 0.0
-        });
-
-       divElement.css({
+      divElement.css({
+        display: "block",
+        opacity: 0.0,
         left: `${e.clientX + 30}px`,
-        top: `${e.clientY}px`
-     });
+        top: `${e.clientY}px`,
+        width: `200px`,
+        height: `250px`
+      });
 
-        setTimeout(function() {
-            divElement.css({
-                opacity: 1.0
-            });
-        }, 25);
+      setTimeout(function() {
+        divElement.css({
+            opacity: 1.0
+        });
+      }, 25);
     }
   }
 
@@ -212,6 +211,7 @@
   }
   let add_scenario = function(sites_from, sites_to, color)
   {
+    if(sites_from.length == 0) return;
     let traces = [];
     for(let i=0;i<sites_from.length;i++)
        traces.push(new Trace(sites_from[i],sites_to[i]));
@@ -250,9 +250,9 @@
         let color = new THREE.Color(buildings.map.get(words[0]).color);
         //mesh?.material.emissive.setHex(color.getHex);
       });
-
     }
   }
+
   //清除scenario，事件拋物線條
   let clear_multi_scenario = function()
   {
