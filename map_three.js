@@ -255,14 +255,15 @@
         let tmp = buildingcnt.get(sites_from[i].building_id)
         tmp[sites_from[i].floor_id] += 1
         buildingcnt.set(sites_from[i].building_id, tmp)
+        sites_from[i].floor_id = '4'
       }
       if(sites_to[i].building_id.match(/^[A-Z]+$/)){
         let tmp = buildingcnt.get(sites_to[i].building_id)
         tmp[sites_to[i].floor_id] += 1
         buildingcnt.set(sites_to[i].building_id, tmp)
+        sites_to[i].floor_id = '4'
       }
     }
-
     let traces = [];
     for(let i=0;i<sites_from.length;i++)
        traces.push(new Trace(sites_from[i],sites_to[i]));

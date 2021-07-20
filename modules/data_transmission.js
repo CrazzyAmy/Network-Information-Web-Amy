@@ -392,8 +392,6 @@ function update_parabola(detail)
     //value代表總統計值，key代表src/dst資訊
     //(/^[A-Z]+$/)為regular expression，代表僅能出現多個大寫字母（對應到校內建築物），校外一定是 GW + number
     let detail = key.split(' ')
-    if(detail[0].match(/^[A-Z]+$/)) detail[1] = '4';
-    if(detail[2].match(/^[A-Z]+$/)) detail[3] = '4';
     site_from.push(new Site(detail[0], detail[1],""))
     site_to.push(new Site(detail[2], detail[3],""))
 
