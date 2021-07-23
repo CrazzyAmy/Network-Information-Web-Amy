@@ -14,6 +14,8 @@
   let t_buildings = new THREE.Group();
   let multi_scenario = new MultiScenario([]);
   let buildingcnt = new Map();
+  let buildingname = ["EECS", "LAW", "PA", "BUS", "HUM", "SS", "ADM", "LIB", "CC", ""]
+  let buildingfloor = [10, 9, 10, 10, 14, 9, 8, 9, 5, 2]
 
   //建築顯示浮動式視窗
   var latestMouseProjection; // this is the latest projection of the mouse on object (i.e. intersection with ray)
@@ -238,8 +240,6 @@
   }
 
   let initbuildingcnt = function(){
-    var buildingname = ["EECS", "LAW", "PA", "BUS", "HUM", "SS", "ADM", "LIB", "CC", ""]
-    var buildingfloor = [10, 9, 10, 10, 14, 9, 8, 9, 5, 2]
     for(let i = 0; i < 10; i++){
       var tmp = []
       for(let j = 0; j < buildingfloor[i]; j++) tmp.push(0)
@@ -255,13 +255,14 @@
         let tmp = buildingcnt.get(sites_from[i].building_id)
         tmp[sites_from[i].floor_id] += 1
         buildingcnt.set(sites_from[i].building_id, tmp)
-        sites_from[i].floor_id = '4'
+        console.log(buildingname.indexOf(sites_from[i].building_id))
+        sites_from[i].floor_id = buildingfloor[buildingname.indexOf(sites_from[i].building_id)]
       }
       if(sites_to[i].building_id.match(/^[A-Z]+$/)){
         let tmp = buildingcnt.get(sites_to[i].building_id)
         tmp[sites_to[i].floor_id] += 1
         buildingcnt.set(sites_to[i].building_id, tmp)
-        sites_to[i].floor_id = '4'
+        sites_to[i].floor_id = buildingfloor[buildingname.indexOf(sites_to[i].building_id)]
       }
     }
     let traces = [];
