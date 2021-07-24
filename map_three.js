@@ -197,18 +197,18 @@
     // 建立場景
     scene = new THREE.Scene();
     let sWidth = document.getElementById("scene").clientWidth, sHeight =  document.getElementById("scene").clientHeight
-    scene.background = new THREE.Color(0xffffff);
+    scene.background = new THREE.Color(0x87ceeb);
     // 建立相機
     camera = new THREE.PerspectiveCamera(70, sWidth / sHeight, 1, 10000)
     camera.position.set(50, 50, 50);
     camera.lookAt(scene.position);
     
-    spotLight = new THREE.SpotLight(0x666666, 1);
+    spotLight = new THREE.SpotLight(0x888888, 1);
     //spotLight.position.set(15, 50, -15);
     spotLight.position.set(0, 500, 0);
     spotLight.angle = Math.PI;
     spotLight.penumbra = 0.05;
-    spotLight.decay = 1;
+    spotLight.decay = 2;
     spotLight.distance = 0;
     spotLight.lookAt(0, 0, 0)
 
