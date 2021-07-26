@@ -1,8 +1,8 @@
 {
     "liveSassCompile.settings.excludeList": [
-
         "**/node_modules/**",
-        ".vscode/**"
+        ".vscode/**", 
+        "**/bootstrap/**"
     ],
 
     "liveSassCompile.settings.formats":[
