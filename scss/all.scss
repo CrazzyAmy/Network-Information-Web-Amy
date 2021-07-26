@@ -1,12 +1,12 @@
-@import "variable.scss";
-@import "Bootstrap/bootstrap.scss";
-@import "menu.scss";
-@import "main-container.scss";
-@import "navbar.scss";
-@import "sidebar.scss";
-@import "topbar.scss";
-@import "register.scss";
-@import "threejs.scss";
+@import "variable";
+@import "Bootstrap/bootstrap";
+@import "menu";
+@import "main-container";
+@import "navbar";
+@import "sidebar";
+@import "topbar";
+@import "register";
+@import "threejs";
 
 html{
     overflow: hidden;
