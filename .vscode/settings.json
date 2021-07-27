@@ -2,7 +2,7 @@
     "liveSassCompile.settings.excludeList": [
         "**/node_modules/**",
         ".vscode/**", 
-        "**/bootstrap/**"
+        "**/Bootstrap/**"
     ],
 
     "liveSassCompile.settings.formats":[
@@ -13,4 +13,6 @@
             "savePath": "/css"
         }
     ],
+
+    "liveSassCompile.settings.generateMap": false
 }
