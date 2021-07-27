@@ -1,7 +1,0 @@
-# 忽略scss和css個暫存檔
-css/*.map
-css/*.css
-
-
-# 忽略舊檔案
-register(old).html
