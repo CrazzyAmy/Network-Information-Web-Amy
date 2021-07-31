@@ -1,5 +1,7 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
 export { MAX_POINTS, drawCount, createPlane, createBuilding, getRandomColor };
+
+
 let MAX_POINTS = 200;
 let drawCount;
 //建立平面
@@ -31,14 +33,26 @@ function createBuilding(building, group)
     //更改成如果遇到世界地圖牆壁，就改成 BasicMaterial，也就是正常不透明的材質
     var material = (width == 3 && height == 3 && depth ==3 ? 
                     new THREE.MeshToonMaterial({color: c, opacity : 0.7 ,transparent : true}) :
-                    new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}));
+                    new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true})
+    );
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.name = building.id + "_" + (i + 1).toString();
     Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
     //console.log("BoxGeometry" + Mesh.name + "Added");
+
     group.add(Mesh);
+/*
+    const textureLoader = new THREE.TextureLoader()
+    const tilesBaseColor = textureLoader.load('../Metal_Tiles_003_basecolor.jpg')
+    var textgeometry = new THREE.PlaneGeometry(width, height)
+    var textmaterial = new THREE.MeshStandardMaterial({
+        map: tilesBaseColor
+    })
+    var textMesh = new THREE.Mesh(textgeometry, textmaterial)
+    group.add(textMesh)
+*/
   }
 }
 
