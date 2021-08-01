@@ -30,11 +30,33 @@ function createBuilding(building, group)
   for(let i =0;i < floor; i++)
   {
     var geometry = new THREE.BoxGeometry(width, height / floor, depth)
-    //更改成如果遇到世界地圖牆壁，就改成 BasicMaterial，也就是正常不透明的材質
-    var material = (width == 3 && height == 3 && depth ==3 ? 
-                    new THREE.MeshToonMaterial({color: c, opacity : 0.7 ,transparent : true}) :
-                    new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true})
-    );
+    var material
+    //更改成如果遇到世界地圖的方格，就改成 BasicMaterial，也就是正常不透明的材質
+    if(width == 3 && height == 3 && depth ==3){
+        material = new THREE.MeshToonMaterial({color: c, opacity : 0.7, transparent : true})
+    }else if(i == floor - 1){
+        var canvas = document.createElement("canvas")
+        canvas.width = width * 20
+        canvas.height = depth * 20
+        var context = canvas.getContext("2d");
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillStyle = "#" + c.toString(16);
+        context.fillRect(0, 0, width * 20, depth * 20);
+        context.fillStyle = "#000000";
+        context.font = "50pt Arial";
+        context.fillText(building.title, canvas.width / 2, canvas.height / 2);
+
+        material = []
+        for(var ii = 0; ii < geometry.faces.length; ii++){
+          var texture = new THREE.Texture(canvas);
+          texture.needsUpdate = true;
+          if(ii == 2) material.push(new THREE.MeshBasicMaterial({color: c, map: texture}))
+          else material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}))
+        }
+    }else{
+        material = new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true})
+    }
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.name = building.id + "_" + (i + 1).toString();
     Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
@@ -43,16 +65,7 @@ function createBuilding(building, group)
     //console.log("BoxGeometry" + Mesh.name + "Added");
 
     group.add(Mesh);
-/*
-    const textureLoader = new THREE.TextureLoader()
-    const tilesBaseColor = textureLoader.load('../Metal_Tiles_003_basecolor.jpg')
-    var textgeometry = new THREE.PlaneGeometry(width, height)
-    var textmaterial = new THREE.MeshStandardMaterial({
-        map: tilesBaseColor
-    })
-    var textMesh = new THREE.Mesh(textgeometry, textmaterial)
-    group.add(textMesh)
-*/
+
   }
 }
 
