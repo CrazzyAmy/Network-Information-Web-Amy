@@ -45,7 +45,7 @@ function createBuilding(building, group)
         context.fillRect(0, 0, width * 20, depth * 20);
         context.fillStyle = "#000000";
         context.font = "50pt Arial";
-        context.fillText(building.title, canvas.width / 2, canvas.height / 2);
+        context.fillText("法律學院", canvas.width / 2, canvas.height / 2);
 
         material = []
         for(var ii = 0; ii < geometry.faces.length; ii++){
