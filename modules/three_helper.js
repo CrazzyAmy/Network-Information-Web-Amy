@@ -1,5 +1,5 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
-export { MAX_POINTS, drawCount, createPlane, createBuilding, getRandomColor };
+export { MAX_POINTS, drawCount, createPlane, createBuilding};
 
 
 let MAX_POINTS = 200;
@@ -67,14 +67,4 @@ function createBuilding(building, group)
     group.add(Mesh);
 
   }
-}
-
-
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
 }
