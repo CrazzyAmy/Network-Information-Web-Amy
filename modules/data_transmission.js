@@ -35,9 +35,9 @@ $(document).ready(function(){
    update_search_string()
   //發送搜尋請求
   //search_menu()第一步搜尋，search_detail第二步搜尋
-   search_menu()
-   search_IpList()
-   search_detail("","","")
+  search_detail("","","")
+  search_menu()
+  search_IpList()
   //將 curr_detail_json分成內打外跟外打內
 })
 
@@ -93,7 +93,6 @@ let send_request = function(search_string)
   request.open("POST", "http://120.126.151.195:5000/test", true)
   request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
   request.responseType = "text"
-  console.log(search_string)
   request.send(search_string)
   console.log("Send request: " + search_string)
   request.onreadystatechange = function() {
@@ -126,15 +125,13 @@ let send_request = function(search_string)
         //console.log(typeof(idx))
         let para = idx
         document.querySelector("#Event" + idx).addEventListener('click', function(){draw_menu(para);});
-
-
         total_IP_count += menu_data[idx].totalIPCount
-        
       }
       $("#event-num").text(total_IP_count)
       //將小列表的資訊儲存到global variable
       //以供未來使用
       curr_json = menu_data
+      console.log(curr_json)
       guess_location_menu()
     }
   }
@@ -421,7 +418,6 @@ function guess_location_detail()
     let latitudecnt = 0
     //let ip_gateway_set = new Map();
 
-    
     curr_detail_json[i]["srcbuildingName"] = buildings.list[ Math.floor( srcip[2] * 8 / 256 )].id
     curr_detail_json[i]["srcbuildingTitle"] = buildings.list[ Math.floor( srcip[2] * 8 / 256 )].title
     curr_detail_json[i]["srcbuildingFloor"] = srcip[3] % buildings.list[ Math.floor( srcip[2] * 8 / 260 )].floor +1
