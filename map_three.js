@@ -42,20 +42,30 @@
     let intersects = rayCast.intersectObjects(ojbects, true);
     if (intersects.length > 0) 
     {
-      if (  intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
-            "emissive" in intersects[0].object.material && //指定材質可高亮
+      console.log(intersects[0].object)
+      if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
+            "emissive" in intersects[0].object.material[0] && //指定材質可高亮
             INTERSECTED != intersects[0].object)           //重複事件確認
       {
-          INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
-          INTERSECTED = intersects[0].object;
-          INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-          INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
+        for(let i = 0; i < INTERSECTED?.material.length; i++){
+          INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
+        }
+        INTERSECTED = intersects[0].object;
+        for(let i = 0; i < INTERSECTED.material.length; i++){
+          INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
+          INTERSECTED.currentHex = INTERSECTED.material[i].emissive.getHex();
+          INTERSECTED.material[i].emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
+        }
       }
-    }
-    else 
-    {
-      INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
-      INTERSECTED = null;
+      else 
+      {
+        if(INTERSECTED != null){
+          for(let i = 0; i < INTERSECTED.material.length; i++){
+            INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
+          }
+          INTERSECTED = null;
+        }
+      }
     }
 
     //處理建築浮動視窗
@@ -320,7 +330,6 @@
         t_buildings?.children.forEach( mesh =>{
         const words = mesh.name.split('_'); // "buildingId_floorID"
         let color = new THREE.Color(buildings.map.get(words[0]).color );
-        console.log(color)
         mesh?.material.emissive.setHex(color.getHex);
       });
     }:null;
@@ -340,8 +349,10 @@
       let bTo = t_buildings.getObjectByName(trace.site_to.building_id + "_" + trace.site_to.floor_id)
       let cFrom =  new THREE.Color(buildings.map.get(trace.site_from.building_id).color).getHex()
       let cTo =  new THREE.Color(buildings.map.get(trace.site_to.building_id).color).getHex()
-      bFrom?.material.emissive.setHex(0xFFFF22); 
-      bTo?.material.emissive.setHex(0xFFA230); 
+      for(let i = 0; i < bFrom?.material[i].length; i++)
+        bFrom?.material[i].emissive.setHex(0xFFFF22); 
+      for(let i = 0; i < bTo?.material[i].length; i++)
+        bTo?.material[i].emissive.setHex(0xFFA230); 
     });
     orbitControl.update()
     renderer.render(scene, camera)

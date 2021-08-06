@@ -30,10 +30,12 @@ function createBuilding(building, group)
   for(let i =0;i < floor; i++)
   {
     var geometry = new THREE.BoxGeometry(width, height / floor, depth)
-    var material
+    var material = [];
     //更改成如果遇到世界地圖的方格，就改成 BasicMaterial，也就是正常不透明的材質
     if(width == 3 && height == 3 && depth ==3){
-        material = new THREE.MeshToonMaterial({color: c, opacity : 0.7, transparent : true})
+      for(var ii = 0; ii < geometry.faces.length; ii++){
+        material.push(new THREE.MeshToonMaterial({color: c, opacity : 0.7, transparent : true}))
+      }
     }else if(i == floor - 1){
         var canvas = document.createElement("canvas")
         canvas.width = width * 20
@@ -51,11 +53,13 @@ function createBuilding(building, group)
         for(var ii = 0; ii < geometry.faces.length; ii++){
           var texture = new THREE.Texture(canvas);
           texture.needsUpdate = true;
-          if(ii == 2) material.push(new THREE.MeshBasicMaterial({color: c, map: texture}))
+          if(ii == 2) material.push(new THREE.MeshLambertMaterial({color: c, map: texture}))
           else material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}))
         }
     }else{
-        material = new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true})
+      for(var ii = 0; ii < geometry.faces.length; ii++){
+        material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}))
+	  }
     }
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.name = building.id + "_" + (i + 1).toString();
