@@ -33,6 +33,8 @@ function createBuilding(building, group)
     var material = [];
     //更改成如果遇到世界地圖的方格，就改成 BasicMaterial，也就是正常不透明的材質
     if(width == 3 && height == 3 && depth ==3){
+      //因為發現方格太吃瀏覽器資源了，導致動畫速度變慢，因此將長方體(BoxGeometry)改成平面(PlaneGeometry)
+      geometry = new THREE.PlaneGeometry(width * 1.1, height * 1.1)
       for(var ii = 0; ii < geometry.faces.length; ii++){
         material.push(new THREE.MeshToonMaterial({color: c, opacity : 0.7, transparent : true}))
       }
@@ -64,6 +66,8 @@ function createBuilding(building, group)
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.name = building.id + "_" + (i + 1).toString();
     Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
+    //對應 Line 36 的世界地圖改動，旋轉各個Geometry至合適角度
+    if(width == 3 && height == 3 && depth == 3) Mesh.rotateY(Math.PI / 180 * 40)
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
     //console.log("BoxGeometry" + Mesh.name + "Added");
