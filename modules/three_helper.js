@@ -34,7 +34,7 @@ function createBuilding(building, group)
     //更改成如果遇到世界地圖的方格，就改成 BasicMaterial，也就是正常不透明的材質
     if(width == 3 && height == 3 && depth ==3){
       //因為發現方格太吃瀏覽器資源了，導致動畫速度變慢，因此將長方體(BoxGeometry)改成平面(PlaneGeometry)
-      geometry = new THREE.PlaneGeometry(width * 1.1, height * 1.1)
+      geometry = new THREE.PlaneGeometry(width * 1.44, height)
       for(var ii = 0; ii < geometry.faces.length; ii++){
         material.push(new THREE.MeshToonMaterial({color: c, opacity : 0.7, transparent : true}))
       }
