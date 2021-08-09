@@ -48,7 +48,6 @@
   <!-- 電腦版介面 -->
   <div class="container-fluid main-container">
     <h3>使用者登入</h3>
-    <a href="register.html">註冊</a>
     <form action="" id="loginForm">
       <div class="mb-3">
         <label class="form-label" for="user">帳號</label>
@@ -58,7 +57,10 @@
         <label class="form-label" for="password">密碼</label>
         <input class="form-control" type="password" name="password" id="password">
       </div>
-      <input class="btn btn-dark" type="button" id="login" value="確認">
+      <div>
+        <input class="btn btn-dark" type="button" id="register" onclick="location='/register.html'" value="註冊">
+        <input class="btn btn-dark" type="button" id="login" value="登入">
+      </div> 
     </form>
   </div>
 
