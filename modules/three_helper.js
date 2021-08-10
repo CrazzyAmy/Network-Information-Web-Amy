@@ -55,7 +55,7 @@ function createBuilding(building, group)
         for(var ii = 0; ii < geometry.faces.length; ii++){
           var texture = new THREE.Texture(canvas);
           texture.needsUpdate = true;
-          if(ii == 2) material.push(new THREE.MeshLambertMaterial({color: c, map: texture}))
+          if(ii == 2) material.push(new THREE.MeshLambertMaterial({ map: texture}))
           else material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}))
         }
     }else{
