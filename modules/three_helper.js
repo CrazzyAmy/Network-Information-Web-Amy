@@ -49,7 +49,9 @@ function createBuilding(building, group)
         context.fillRect(0, 0, width * 20, depth * 20);
         context.fillStyle = "#000000";
         context.font = "50pt Arial";
-        context.fillText(building.title, canvas.width / 2, canvas.height / 2);
+        context.fillText(building.title, canvas.width / 2, canvas.height / 2 -30);
+        context.font = "40pt Arial";
+        context.fillText(building.floor+"F", canvas.width / 2, canvas.height / 2 +30);
 
         material = []
         for(var ii = 0; ii < geometry.faces.length; ii++){
