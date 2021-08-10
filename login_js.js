@@ -2,6 +2,7 @@
     var bar = document.getElementById("progress_bar").style.width;
     bar = parseInt(bar, 10);
     bar += 34;
+    console.log(bar / 34)
     switch (bar / 34) {
         case 1:
             document.getElementById("user").style.animationName = "animate";
