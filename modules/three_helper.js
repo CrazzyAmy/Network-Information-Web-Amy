@@ -63,7 +63,7 @@ function createBuilding(building, group)
     }else{
       for(var ii = 0; ii < geometry.faces.length; ii++){
         material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}))
-	  }
+	    }
     }
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.name = building.id + "_" + (i + 1).toString();
