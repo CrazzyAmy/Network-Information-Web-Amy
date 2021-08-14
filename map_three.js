@@ -40,8 +40,7 @@
         ojbects.push(element);
     });
     let intersects = rayCast.intersectObjects(ojbects, true);
-    if (intersects.length > 0) 
-    {
+    if (intersects.length > 0){
       if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
             "emissive" in intersects[0].object.material[0] && //指定材質可高亮
             INTERSECTED != intersects[0].object)           //重複事件確認
@@ -56,14 +55,13 @@
           INTERSECTED.material[i].emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
         }
       }
-      else 
-      {
-        if(INTERSECTED != null){
-          for(let i = 0; i < INTERSECTED.material.length; i++){
-            INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
-          }
-          INTERSECTED = null;
+    }
+    else{
+      if(INTERSECTED != null){
+        for(let i = 0; i < INTERSECTED.material.length; i++){
+          INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
         }
+        INTERSECTED = null;
       }
     }
 
