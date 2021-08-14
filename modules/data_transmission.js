@@ -305,6 +305,7 @@ function draw_menu(index)
 //第二步搜尋，接收資料，畫出事件線條
 function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 {
+  update_search_string();
   let detail_search_string = 'searchType=DETAIL&' + curr_form_search_string + '&IpAddr=' + search_IP + '&eventName=' + search_eventName
   var request = new XMLHttpRequest();
   if (search_IP == 0){
