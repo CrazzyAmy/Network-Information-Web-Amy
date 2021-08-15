@@ -40,22 +40,29 @@
         ojbects.push(element);
     });
     let intersects = rayCast.intersectObjects(ojbects, true);
-    if (intersects.length > 0) 
-    {
-      if (  intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
-            "emissive" in intersects[0].object.material && //指定材質可高亮
+    if (intersects.length > 0){
+      if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
+            "emissive" in intersects[0].object.material[0] && //指定材質可高亮
             INTERSECTED != intersects[0].object)           //重複事件確認
       {
-          INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
-          INTERSECTED = intersects[0].object;
-          INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-          INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
+        for(let i = 0; i < INTERSECTED?.material.length; i++){
+          INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
+        }
+        INTERSECTED = intersects[0].object;
+        for(let i = 0; i < INTERSECTED.material.length; i++){
+          INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
+          INTERSECTED.currentHex = INTERSECTED.material[i].emissive.getHex();
+          INTERSECTED.material[i].emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
+        }
       }
     }
-    else 
-    {
-      INTERSECTED?.material.emissive.setHex(INTERSECTED.currentHex);
-      INTERSECTED = null;
+    else{
+      if(INTERSECTED != null){
+        for(let i = 0; i < INTERSECTED.material.length; i++){
+          INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
+        }
+        INTERSECTED = null;
+      }
     }
 
     //處理建築浮動視窗
@@ -239,6 +246,7 @@
     
   }
 
+  //外打內跟內打外事件資料結構之初始化
   let initbuildingcnt = function(){
     for(let i = 0; i < 10; i++){
       var tmp = []
@@ -251,11 +259,12 @@
   {
     if(sites_from.length == 0) return;
     for(let i = 0; i < sites_from.length; i++){
+      // .match(/^[A-Z]+$/ is regular expression, to decide whether the string is all captical characters
+      //all captical characters == inner buildings of school(LAW, BUS, ...), otherwise is the part of worldmap wall(GW123, ...)
       if(sites_from[i].building_id.match(/^[A-Z]+$/)){
         let tmp = buildingcnt.get(sites_from[i].building_id)
         tmp[sites_from[i].floor_id] += 1
         buildingcnt.set(sites_from[i].building_id, tmp)
-        console.log(buildingname.indexOf(sites_from[i].building_id))
         sites_from[i].floor_id = buildingfloor[buildingname.indexOf(sites_from[i].building_id)]
       }
       if(sites_to[i].building_id.match(/^[A-Z]+$/)){
@@ -320,7 +329,8 @@
         t_buildings?.children.forEach( mesh =>{
         const words = mesh.name.split('_'); // "buildingId_floorID"
         let color = new THREE.Color(buildings.map.get(words[0]).color );
-        mesh?.material.emissive.setHex(color.getHex);
+        for(let i = 0; i < mesh?.material.length; i++)
+        mesh?.material[i].emissive.setHex(color.getHex);
       });
     }:null;
   }
@@ -339,9 +349,10 @@
       let bTo = t_buildings.getObjectByName(trace.site_to.building_id + "_" + trace.site_to.floor_id)
       let cFrom =  new THREE.Color(buildings.map.get(trace.site_from.building_id).color).getHex()
       let cTo =  new THREE.Color(buildings.map.get(trace.site_to.building_id).color).getHex()
-      //將事件的起始跟終點位置都改成黃色
-      bFrom?.material.emissive.setHex(0xFFFF22); 
-      bTo?.material.emissive.setHex(0xFFA230); 
+      for(let i = 0; i < bFrom?.material[i].length; i++)
+        bFrom?.material[i].emissive.setHex(0xFFFF22); 
+      for(let i = 0; i < bTo?.material[i].length; i++)
+        bTo?.material[i].emissive.setHex(0xFFA230); 
     });
     orbitControl.update()
     renderer.render(scene, camera)

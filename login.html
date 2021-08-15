@@ -26,8 +26,8 @@
     -->
     <!-- 導覽列標題/LOGO -->
     <div onclick="location.href='/index.html'" id="logo">
-      <img src="/picture/icon-yellow-lock.png" style="height: 14vh;" alt="">
-      <img src="/picture/Logo-text.png" alt="">
+      <img src="/picture/icon-yellow-lock.png" style="height: 8vh;" alt="">
+      <img src="/picture/Logo-text_new.png" style="height: 6vh;" alt="">
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
     <button class="navbar-toggler btn" onclick="opensetting()">
@@ -40,32 +40,29 @@
 
 
   <!-- Logo/Banner/AD 和右方按鈕 -->
-  <div class="container-fluid topbar">
-    <div class="row">
-      <div class="col-12 col-md-8">
-        <div style="background-color:  rgb(227, 164, 129); height: 6vh; width: 100%; border-radius: 12px;">
-          Logo/Banner/AD</div>
-      </div>
-    </div>
-  </div>
+
 
   <!-- 手機板介面 -->
   
 
   <!-- 電腦版介面 -->
-  <div class="container-fluid main-container">
+  <div class="container-fluid main-container" style="margin:0 auto;padding:30px 0 0 60px;">
     <h3>使用者登入</h3>
-    <a href="register.html">註冊</a>
     <form action="" id="loginForm">
       <div class="mb-3">
+        
+        <input class="form-control input_text" type="text" name="user" id="user"  style="margin-top: 45px;">
         <label class="form-label" for="user">帳號</label>
-        <input class="form-control" type="text" name="user" id="user">
       </div>
       <div class="mb-3">
+        
+        <input class="form-control  input_text" type="password" name="password" id="password"  style="margin-top:15px;">
         <label class="form-label" for="password">密碼</label>
-        <input class="form-control" type="password" name="password" id="password">
       </div>
-      <input class="btn btn-dark" type="button" id="login" value="確認">
+      <div>
+        <input class="btn btn-dark" type="button" id="register" onclick="location='/register.html'" value="註冊">
+        <input class="btn btn-dark" type="button" id="login" value="登入">
+      </div> 
     </form>
   </div>
 

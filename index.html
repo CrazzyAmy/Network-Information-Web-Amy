@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D視覺化專案</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/all.min.css">
 </head>
@@ -31,12 +32,11 @@
       <img src="/picture/Logo-text_new.png" style="height: 6vh;" alt="">
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
-    <div>
-        
-      <button class="navbar-toggler btn" onclick="opensetting()">
-        <img src="picture/settings-icon.jpg" alt="settings-icon" height="25px">
+    <div class="navbar-toggler">
+      <button class="btn btn-outline-light" onclick="opensetting()">
+        <img src="picture/settings-white-icon.jpg" alt="settings-icon" height="20px">
       </button>
-      <button class="navbar-toggler btn" onclick="openmenu('#setting-user')">User</button>
+      <button class="btn btn-outline-light" onclick="location.href = 'login.html'">login</button>
     </div>
 
   </nav>
@@ -193,7 +193,7 @@
             <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
             <div class="row justify-content-center">
-              <div class="col-12 col-md-10 search-name">地點</div>
+              <div class="col-12 col-md-10 search-name">時間</div>
             </div>
             
             <div class="row justify-content-center">
@@ -207,59 +207,60 @@
             </div>
 
             <div class="row justify-content-center">
-            <select name="buildingName" id="selectBuilding" class="timevalue col-12 col-md-6">
-                <option value="ALL">ALL</option>
-                <option disabled>------------------------------------------</option>
-                <option value="EECS">電資大樓</option>
-                <option value="LAW">法學大樓</option>
-                <option value="PA">公共事務大樓</option>
-                <option value="BUS">商學大樓</option>
-                <option value="HUM">人文大樓</option>
-                <option value="SS">社會科學大樓</option>
-                <option value="ADM">行政大樓</option>
-                <option value="LIB">圖書館</option>
-                <option value="CC">資訊中心</option>
+              <select name="buildingName" id="selectBuilding" class="timevalue col-12 col-md-6">
+                  <option value="ALL">ALL</option>
+                  <option disabled>------------------------------------------</option>
+                  <option value="EECS">電資大樓</option>
+                  <option value="LAW">法學大樓</option>
+                  <option value="PA">公共事務大樓</option>
+                  <option value="BUS">商學大樓</option>
+                  <option value="HUM">人文大樓</option>
+                  <option value="SS">社會科學大樓</option>
+                  <option value="ADM">行政大樓</option>
+                  <option value="LIB">圖書館</option>
+                  <option value="CC">資訊中心</option>
+                </select>
+
+                <select name="bulidingFloor" id="selectFloor" class="timevalue col-12 col-md-4">
+                  <option value="ALL">ALL</option>
+                  <option disabled>------------------------------------------</option>
+                  <option value="-1">B1F</option>
+                  <option value="1">1F</option>
+                  <option value="2">2F</option>
+                  <option value="3">3F</option>
+                  <option value="4">4F</option>
+                  <option value="5">5F</option>
+                  <option value="6">6F</option>
+                  <option value="7">7F</option>
+                  <option value="8">8F</option>
+                  <option value="9">9F</option>
+                  <option value="10">10F</option>
+                  <option value="11">11F</option>
+                  <option value="12">12F</option>
               </select>
-
-              <select name="bulidingFloor" id="selectFloor" class="timevalue col-12 col-md-4">
-                <option value="ALL">ALL</option>
-                <option disabled>------------------------------------------</option>
-                <option value="-1">B1F</option>
-                <option value="1">1F</option>
-                <option value="2">2F</option>
-                <option value="3">3F</option>
-                <option value="4">4F</option>
-                <option value="5">5F</option>
-                <option value="6">6F</option>
-                <option value="7">7F</option>
-                <option value="8">8F</option>
-                <option value="9">9F</option>
-                <option value="10">10F</option>
-                <option value="11">11F</option>
-                <option value="12">12F</option>
-            </select>
             </div>
 
             <div class="row justify-content-center">
-              <div class="col-12 col-md-10 search-name">事件嚴重等級</div>
+              <div class="col-12 col-md-6" style="padding-right: 0%;">
+                <div class="search-name">事件嚴重等級</div>
+                <select name="eventSeverityCat" id="" class="timevalue">
+                  <option value="ALL">ALL</option>
+                  <option disabled>------------------------------------------</option>
+                  <option value="LOW">LOW</option>
+                  <option value="MID">MID</option>
+                  <option value="HIGH">HIGH</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-5" style="padding-left: 0%;">
+                <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
+              </div>
             </div>
-            <div class="row justify-content-center">
-            <select name="eventSeverityCat" id="" class="timevalue col-12 col-md-10">
-              <option value="ALL">ALL</option>
-              <option disabled>------------------------------------------</option>
-              <option value="LOW">LOW</option>
-              <option value="MID">MID</option>
-              <option value="HIGH">HIGH</option>
-            </select>
-            </div>
-             
-<!-- 
-            <div class="name">IP</div>
-            <input type="text" name="IpAddr" id="" class="value" placeholder="搜尋IP...">
-             -->
+            
+            
+            
 
-            <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;">
-              <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
+            <!-- <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;"> -->
+              
             </div>
           </form>
           </div>
