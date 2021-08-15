@@ -38,9 +38,9 @@ class Parabola{
         this.material.resolution.set(window.innerWidth, window.innerHeight); // resolution of the viewport 
         group.add(this.line);
     }
-    set(color,start, end, a)
+    set(color, start, end, a)
     {
-        this.material.color= new THREE.Color( color );       
+        this.material.color = new THREE.Color( color );       
         this.material.needsUpdate = true; 
          //y equation: y = -ky^2
          var v = new THREE.Vector3();
