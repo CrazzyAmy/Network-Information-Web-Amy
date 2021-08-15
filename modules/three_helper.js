@@ -1,5 +1,5 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
-export { MAX_POINTS, drawCount, createPlane, createBuilding, getRandomColor };
+export { MAX_POINTS, drawCount, createPlane, createBuilding};
 
 
 let MAX_POINTS = 200;
@@ -30,10 +30,14 @@ function createBuilding(building, group)
   for(let i =0;i < floor; i++)
   {
     var geometry = new THREE.BoxGeometry(width, height / floor, depth)
-    var material
+    var material = [];
     //更改成如果遇到世界地圖的方格，就改成 BasicMaterial，也就是正常不透明的材質
     if(width == 3 && height == 3 && depth ==3){
-        material = new THREE.MeshToonMaterial({color: c, opacity : 0.7, transparent : true})
+      //因為發現方格太吃瀏覽器資源了，導致動畫速度變慢，因此將長方體(BoxGeometry)改成平面(PlaneGeometry)
+      geometry = new THREE.PlaneGeometry(width * 1.44, height)
+      for(var ii = 0; ii < geometry.faces.length; ii++){
+        material.push(new THREE.MeshToonMaterial({color: c, opacity : 0.7, transparent : true}))
+      }
     }else if(i == floor - 1){
         var canvas = document.createElement("canvas")
         canvas.width = width * 20
@@ -45,21 +49,27 @@ function createBuilding(building, group)
         context.fillRect(0, 0, width * 20, depth * 20);
         context.fillStyle = "#000000";
         context.font = "50pt Arial";
-        context.fillText("法律學院", canvas.width / 2, canvas.height / 2);
+        context.fillText(building.title, canvas.width / 2, canvas.height / 2 -30);
+        context.font = "40pt Arial";
+        context.fillText(building.floor+"F", canvas.width / 2, canvas.height / 2 +30);
 
         material = []
         for(var ii = 0; ii < geometry.faces.length; ii++){
           var texture = new THREE.Texture(canvas);
           texture.needsUpdate = true;
-          if(ii == 2) material.push(new THREE.MeshBasicMaterial({color: c, map: texture}))
+          if(ii == 2) material.push(new THREE.MeshLambertMaterial({ map: texture}))
           else material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}))
         }
     }else{
-        material = new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true})
+      for(var ii = 0; ii < geometry.faces.length; ii++){
+        material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8, transparent : true}))
+	    }
     }
     var Mesh = new THREE.Mesh(geometry, material);
     Mesh.name = building.id + "_" + (i + 1).toString();
     Mesh.position.set(x, y + y_shift + i * height / floor - floor + 1, z );
+    //對應 Line 36 的世界地圖改動，旋轉各個Geometry至合適角度
+    if(width == 3 && height == 3 && depth == 3) Mesh.rotateY(Math.PI / 180 * 40)
     Mesh.castShadow = true;
     Mesh.receiveShadow = false;
     //console.log("BoxGeometry" + Mesh.name + "Added");
@@ -67,14 +77,4 @@ function createBuilding(building, group)
     group.add(Mesh);
 
   }
-}
-
-
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
 }

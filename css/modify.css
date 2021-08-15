@@ -1,0 +1,67 @@
+﻿.input_text {
+    width: 200px;
+    border-bottom: 1px;
+    border: none;
+    background-color: #d1d1d1;
+}
+label {
+    animation-fill-mode: forwards;
+    animation-name: move_up;
+    animation-duration: 1s;
+    bottom: 32px;
+    position: relative;
+}
+input {
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+.button_next {
+    border-radius: 12px;
+    position: relative;
+    top: 80%;
+    left: 25%;
+    border: none;
+    background-color: transparent;
+    color: black;
+}
+.button_previous {
+    border-radius: 12px;
+    position: relative;
+    top: 80%;
+    left: 0%;
+    border: none;
+    background-color: transparent;
+    color: black;
+    visibility:hidden;
+}
+input:focus + label {
+
+}
+.label_animtion {
+    animation-fill-mode: forwards;
+    animation-name: move_up;
+}
+@keyframes animate{
+    0% {
+        opacity: 1;
+        transform: translateX(10px) 
+    }
+    25% {
+        opacity: 0.2;
+        transform: translateX(-10px) 
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(1000px) 
+    }
+}
+@keyframes move_up{
+    0% {
+        color: #5fa8d3;
+    }
+    100% {
+        transition: all 0.1s ease;
+        transform: translateY(-150%);
+        color: #5fa8d3;
+    }
+}
