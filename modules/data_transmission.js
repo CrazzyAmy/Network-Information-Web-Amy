@@ -245,10 +245,7 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 
       console.log(curr_IpLst_detail_json);
       //ip_gateway_set = new Map();
-
-      
       //clear_multi_scenario() 
-
       curr_detail_json = curr_IpLst_detail_json[0]
       guess_location_detail()
       update_parabola(curr_detail_json)
@@ -333,7 +330,6 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
       //把curr_detail_json，根據IP，猜建築位置
       //ip_gateway_set = new Map();
       guess_location_detail()
-
       //將curr_detail_json裡面的資料再拆成intoout跟outtoin
       curr_detail_json.forEach(function(element){ 
         //所有大樓裡面，只有GW是G開頭，所以用這個來判斷srcName/destName是否在外面
@@ -429,10 +425,9 @@ function guess_location_detail()
     //parseInt(String, 10)代表將字串轉成decimal num，將所有經緯度挪成正數後，再依地圖比例切割
     //地圖比例為50 * 25
     //nextNum = GW "number"
-    longitudecnt =  49 - Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180) / 7.2)
-    latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90) / 7.2)
-
-    nextNum = longitudecnt * 25 + latitudecnt
+    longitudecnt =  49 - Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180));
+    latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90));
+    
     
     if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
     {
