@@ -369,13 +369,14 @@ function update_parabola(detail)
     //因為 JS 的 map 沒辦法用 array 當做 key
     //所以只好將 srcbuilding, srcfloor, dstbuilding, dstfloor, EventSeverCat四個字串用空白連結起來
     let location_string;
-    if(detail[i].srcbuildingName === null){
+    if(detail[i].srcbuildingName === null)
       location_string = detail[i].longitude + " " + detail[i].latitude
-    }
-    else{
+    else
       location_string = detail[i].srcbuildingName + " " +detail[i].srcbuildingFloor
-    }
-    location_string += " " + detail[i].destbuildingName + " " + detail[i].destbuildingFloor
+	if(detail[i].destbuildingName === null)
+      location_string += " " + detail[i].longitude + " " + detail[i].latitude
+	else
+	  location_string += " " + detail[i].destbuildingName + " " + detail[i].destbuildingFloor
     location_string += " " + detail[i].eventSeverityCat[0]
     if(typeof(eventlocationset.get(location_string)) == "undefined"){
       eventlocationset.set(location_string, 1)
