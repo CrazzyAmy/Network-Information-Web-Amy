@@ -97,10 +97,11 @@ class Decoration
 }
 class Site
 {
-    constructor(building_id, floor_id, location_id)
+    constructor(building_id, floor_id, longitude, latitude)
     {
         this.building_id = building_id;
         this.floor_id = floor_id;
-        this.location_id = location_id;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 }
