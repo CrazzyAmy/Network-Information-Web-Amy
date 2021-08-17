@@ -24,8 +24,8 @@ document.querySelector("#search_first").addEventListener('click', function(){
 //開啟網頁時，做第一次的搜尋
 $(document).ready(function(){
   clear_multi_scenario()
-  let site1_from =  [new Site("SS", 0, "")];
-  let site1_to = [new Site("SS", 0, "")];
+  let site1_from =  [new Site("SS", 0, "", "")];
+  let site1_to = [new Site("SS", 0, "", "")];
   add_scenario(site1_from, site1_to , 0xFF0000);
   //將日期訂為YYYY-MM-DD
    let today = new Date
@@ -368,7 +368,13 @@ function update_parabola(detail)
     if(i == "subarray")continue;
     //因為 JS 的 map 沒辦法用 array 當做 key
     //所以只好將 srcbuilding, srcfloor, dstbuilding, dstfloor, EventSeverCat四個字串用空白連結起來
-    let location_string = detail[i].srcbuildingName + " " +detail[i].srcbuildingFloor
+    let location_string;
+    if(detail[i].srcbuildingName === null){
+      location_string = detail[i].longitude + " " + detail[i].latitude
+    }
+    else{
+      location_string = detail[i].srcbuildingName + " " +detail[i].srcbuildingFloor
+    }
     location_string += " " + detail[i].destbuildingName + " " + detail[i].destbuildingFloor
     location_string += " " + detail[i].eventSeverityCat[0]
     if(typeof(eventlocationset.get(location_string)) == "undefined"){
@@ -386,8 +392,13 @@ function update_parabola(detail)
     //value代表總統計值，key代表src/dst資訊
     //(/^[A-Z]+$/)為regular expression，代表僅能出現多個大寫字母（對應到校內建築物），校外一定是 GW + number
     let detail = key.split(' ')
-    site_from.push(new Site(detail[0], detail[1],""))
-    site_to.push(new Site(detail[2], detail[3],""))
+	if(detail[0].indexOf('.') > -1){
+		site_from.push(new Site("", "", detail[0], detail[1]))
+	}
+	else{
+		site_from.push(new Site(detail[0], detail[1], "", ""))
+	}
+    site_to.push(new Site(detail[2], detail[3], "", ""))
 
     let EventSeverCat = detail[4]
     let ColorBrightness = Math.ceil(Math.log10(value + 1)) >= 3 ? 3 : Math.ceil(Math.log10(value + 1))
