@@ -178,13 +178,24 @@ function search_IpList(search_string)
       let total_IP_count = 0
       let idx = ''
       let IpLst = curr_IpLst_json
+      // if (IpLst[idx].IP.substr(0,1)=='0'){
+      //   let Ip_List=IpLst[idx].IP.substr(1,14);
+      // }else{
+      //   let Ip_List=IpLst[idx].IP;
+      // }
       for(idx in IpLst)
       {
+        let i = IpLst[idx].IP.toString()
+        if (i.substr(0,1)=='0'){
+          i = i.substr(1,14);
+        }else{
+          // curr_detail_json[0].srcIpAddr=curr_detail_json[0].srcIpAddr.substr(0,14);
+        }
         if(idx == "subarray")continue;
         $("#IP-main-list:last").append(
           '<li>' +
           '<button type="button" id="IPlstEvent' + idx + '" class=" d-flex flex-row justify-content-around">' +
-              '<div class="event-name">' + IpLst[idx].IP + '</div>' +
+              '<div class="event-name">' + i + '</div>' +
               '<div class="count">' + IpLst[idx].score + '</div>' +
           '</button>' +
           '</li>'
@@ -200,7 +211,14 @@ function search_IpList(search_string)
     }
   }
 }
-
+function cutzero(ip){
+  if (ip[0]=='0'){
+    for(i in Range(0,14)){
+      ip[i]=ip[i+1]
+    }
+  }
+  return ip;
+}
 //點擊IP List總表按鈕時，顯現右側下方相關IP表
 function draw_IP_related(index)
 {
@@ -500,6 +518,12 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
   $("#left_eventSeverityCat").text(curr_detail_json[0].eventSeverityCat)
   $("#left_time").text(curr_detail_json[0].deviceTime)
   $("#left_srcbuilding").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingName[0] == "G" ? "":(curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F"))
+  curr_detail_json[0].srcIpAddr = curr_detail_json[0].srcIpAddr.toString();
+  if (curr_detail_json[0].srcIpAddr.substr(0,1)=='0'){
+    curr_detail_json[0].srcIpAddr = curr_detail_json[0].srcIpAddr.substr(1,14);
+  }else{
+    // curr_detail_json[0].srcIpAddr=curr_detail_json[0].srcIpAddr.substr(0,14);
+  }
   $("#left_srcIP").text(curr_detail_json[0].srcIpAddr)
   $("#left_destbuilding").text(curr_detail_json[0].destbuildingTitle + (curr_detail_json[0].destbuildingName[0] == "G" ? "":(curr_detail_json[0].destbuildingFloor == 0? "B1":curr_detail_json[0].destbuildingFloor) + "F"))
   $("#left_destIP").text(curr_detail_json[0].destIpAddr)
@@ -526,9 +550,16 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
   for(let i in curr_detail_json)
   {
     //alert("目標IP Select"+i)
+    curr_detail_json[0].destIpAddr = curr_detail_json[0].destIpAddr.toString();
+        // //var arr = arrTexts[i];
+    if (curr_detail_json[0].destIpAddr.substr(0,1)=='0'){
+        curr_detail_json[0].destIpAddr = curr_detail_json[0].destIpAddr.substr(1,14);
+    }else{
+      // curr_detail_json[0].srcIpAddr=curr_detail_json[0].srcIpAddr.substr(0,14);
+    }
     if(i == "subarray")continue;
     $("#left_destIP:last").append(
-      '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destIpAddr + '</option>'
+      '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destIpAddr+ '</option>'
     )
   }
   $("#left_destIP").change(function(){
@@ -555,6 +586,7 @@ function sortList(id)
 
     for(var i=0; i<lb.length; i++) 
     { 
+        
         lb.options[i].text = arrTexts[i]; 
         for(var j=0; j<lb.length; j++) 
         { 
