@@ -1,3 +1,4 @@
 # scss bug已經校正完成, register也已刪除舊版本
 # 還請多加利用
 # .vscode為visual studio code的設定值，scss complier會用到該設定值
+workspace.code-workspace
