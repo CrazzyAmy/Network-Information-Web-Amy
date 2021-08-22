@@ -188,15 +188,18 @@ function search_IpList(search_string)
         let i = IpLst[idx].IP.toString()
         if (i.substr(0,1)=='0'){
           i = i.substr(1,14);
+          if(i.substr(1,2)=='0'){
+            i = i.substr(2,14);
+          }
         }else{
           // curr_detail_json[0].srcIpAddr=curr_detail_json[0].srcIpAddr.substr(0,14);
         }
         if(idx == "subarray")continue;
         $("#IP-main-list:last").append(
-          '<li>' +
-          '<button type="button" id="IPlstEvent' + idx + '" class=" d-flex flex-row justify-content-around">' +
+          '<li >' +
+          '<button type="button" id="IPlstEvent' + idx + '" class=" d-flex flex-row justify-content-start " style="padding-right:25px;">' +
               '<div class="event-name">' + i + '</div>' +
-              '<div class="count">' + IpLst[idx].score + '</div>' +
+              '<div class="count" style="margin-right:25px;">' + IpLst[idx].score + '</div>' +
           '</button>' +
           '</li>'
         )
@@ -231,11 +234,11 @@ function draw_IP_related(index)
     if(idx == "subarray")continue;
     $("#IP-related-list:last").append(
       '<li>' +
-        '<button type="button" id="IP-related' + idx +'" class=" d-flex flex-row justify-content-around">' +
+        '<button type="button" id="IP-related' + idx +'" class=" d-flex flex-row justify-content-start" style="padding-right:25px;">' +
           '<div class="IP">' + 
            '<div>' + data[idx].IP + '</div>' +
           '</div>' +
-          '<div class="count">' + data[idx].score + '</div>' +
+          '<div class="count" style="margin-right:25px;">' + data[idx].score + '</div>' +
         '</button>' + 
       '</li>'
     )
