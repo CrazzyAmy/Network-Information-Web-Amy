@@ -20,6 +20,7 @@
   //建築顯示浮動式視窗
   var latestMouseProjection; // this is the latest projection of the mouse on object (i.e. intersection with ray)
   var hoveredObj; // this objects is hovered at the moment
+  var hide=true;
   
   // tooltip will not appear immediately. If object was hovered shortly,
   // - the timer will be canceled and tooltip will not appear at all.
@@ -78,9 +79,10 @@
         clearTimeout(tooltipDisplayTimeout);
         tooltipDisplayTimeout = undefined;
         hideTooltip();
+        hide=true;
     }
 
-    if (!tooltipDisplayTimeout && latestMouseProjection) {
+    if (!tooltipDisplayTimeout && latestMouseProjection && hide) {
         tooltipDisplayTimeout = setTimeout(function() {
             tooltipDisplayTimeout = undefined;
             showTooltip(e);
@@ -92,6 +94,7 @@
   // 於滑鼠遊標移動至建物時，顯示建物名稱
   // 將浮動視窗設定在位置(client.X, client.Y)
   function showTooltip(e) {
+    hide=false;
     var divElement = $("#tooltip");
     if(hoveredObj?.name.substring(0,2)== 'GW')return;
     if(hoveredObj?.parent.Name == "decorations")return;
@@ -143,7 +146,7 @@
       }
       //divElement.text(fullname);
       $("#tooltip_name").text(fullname);
-      
+      // $("#tooltip_name").empty();
       $("#tooltip_list").empty();
       for(let i = 1; i<= floor; i++)
       {
@@ -152,6 +155,7 @@
           '<li id="tooltip_list_element">'+
           '<div class="floor">' + i + 'F</div>' + 
           '<div class="eventCount">' + tmp +'</div>' +
+          '<div class="eventbtn">' + '<button type="button" class="btn btn-outline-secondary" style="margin-left: 5px;font-size:8px; width: 50px;">檢視</button>' +'</div>' +
           '</li>'
         );
       }
@@ -180,12 +184,15 @@
 
   // 將浮動視窗tooltip關閉
   function hideTooltip() {
-    var divElement = $("#tooltip");
-    if (divElement) {
-        divElement.css({
-            display: "none"
-        });
-    }
+    $("#tooltip_close").click(function(){
+      $("#tooltip").hide();
+    });
+    // var divElement = 
+    // if (divElement) {
+    //     divElement.css({
+    //         // display: "none"
+    //     });
+    // }
   }
 
 
