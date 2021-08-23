@@ -5,7 +5,7 @@
   import { Parabola }from './modules/Parabola.js';
   import { Trace , Scenario, MultiScenario} from './modules/Scenario.js';
   import { buildings} from "./data_control.js"
-  import { Building } from './modules/object_class.js';
+  import { Building, Site } from './modules/object_class.js';
   let scene, camera, renderer, orbitControl, spotLight;
 
   let rayCast = new THREE.Raycaster();
@@ -264,23 +264,28 @@
 
   let add_scenario = function(sites_from, sites_to, color)
   {
+    console.log(sites_from, sites_to)
     if(sites_from.length == 0) return;
     for(let i = 0; i < sites_from.length; i++){
+      console.log(sites_from[i].building_id, sites_to[i].building_id)
+      if(sites_from[i].building_id === undefined || sites_to[i].building_id == undefined)continue;
       // .match(/^[A-Z]+$/ is regular expression, to decide whether the string is all captical characters
       //all captical characters == inner buildings of school(LAW, BUS, ...), otherwise is the part of worldmap wall(GW123, ...)
-      if(sites_from[i].building_id.match(/^[A-Z]+$/)){
+      //用來統計各樓層的事件個數，與tooltip相關
+      if(sites_from[i].building_id == sites_from[i].building_id.toUpperCase()){
         let tmp = buildingcnt.get(sites_from[i].building_id)
         tmp[sites_from[i].floor_id] += 1
         buildingcnt.set(sites_from[i].building_id, tmp)
         sites_from[i].floor_id = buildingfloor[buildingname.indexOf(sites_from[i].building_id)]
       }
-      if(sites_to[i].building_id.match(/^[A-Z]+$/)){
+      if(sites_to[i].building_id == sites_to[i].building_id.toUpperCase()){
         let tmp = buildingcnt.get(sites_to[i].building_id)
         tmp[sites_to[i].floor_id] += 1
         buildingcnt.set(sites_to[i].building_id, tmp)
         sites_to[i].floor_id = buildingfloor[buildingname.indexOf(sites_to[i].building_id)]
       }
     }
+  
     let traces = [];
     for(let i=0;i<sites_from.length;i++)
        traces.push(new Trace(sites_from[i],sites_to[i]));
@@ -289,20 +294,33 @@
     for(let i=0;i<scenario.traces.length;i++)
     {
       let trace = scenario.traces[i];
-      //取得建築資料參考
-      let b_from = buildings.map.get(trace.site_from.building_id);
-      let b_to   = buildings.map.get(trace.site_to.building_id);
-      //取得位置
-      let from = b_from.get_pos(trace.site_from.floor_id);
-      let to = b_to.get_pos(trace.site_to.floor_id);
+      //取得建築資料參考及位置，如果Trace.Site有building info，則將building info轉成three.js座標
+      //否則則將經緯度轉成three.js的座標
+      let from, to;
+      if(trace.site_from.building_id != null){
+        let b_from = buildings.map.get(trace.site_from.building_id);
+        from = b_from.get_pos(trace.site_from.floor_id);
+      }
+      else{
+        from = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_from.longitude)
+                -trace.site_from.latitude, 
+                250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_from.longitude)]
+      }
+
+      if(trace.site_to.building_id != null){
+        let b_to = buildings.map.get(trace.site_to.building_id);
+        to = b_to.get_pos(trace.site_to.floor_id);
+      }
+      else{
+        to = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_to.longitude)
+          -trace.site_to.latitude, 
+          250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_to.longitude)]
+      }
+        
       let p = new Parabola();
       let Color = color[i]
       p.init(scene);
       p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
-      if(to[0] == -8 && to[2] == 60)
-      {
-        p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
-      }
       //p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       scenario.parab_list.push(p);
     }
