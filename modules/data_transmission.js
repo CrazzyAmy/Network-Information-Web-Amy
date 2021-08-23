@@ -440,41 +440,40 @@ function guess_location_detail()
     longitudecnt =  49 - Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180));
     latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90));
     
-    
-    if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
-    {
-      if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2])) // 如果srcIpAddr已經有對應的Gateway
-      {
-        curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2])
-        curr_detail_json[i]["srcbuildingTitle"] = "校外"
-        curr_detail_json[i]["srcbuildingFloor"] = "1"
-      }
-      else // 如果srcIpAddr沒有對應的Gateway
-      {
-        ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2], "GW" + nextNum)
-        curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
-      }
-      //curr_detail_json[i]["srcbuildingName"] = "GW"
-      curr_detail_json[i]["srcbuildingTitle"] = "校外"
-      curr_detail_json[i]["srcbuildingFloor"] = "1"
-    }
-    if(!(destip[0]=="120" && destip[1]=="126" || destip[0] == "10" || destip[0]=="192" && destip[1]=="168"))
-    {
-      if(ip_gateway_set.has(destip[0]+destip[1]+destip[2])) // 如果destIpAddr已經有對應的Gateway
-      {
-        curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destip[0]+destip[1]+destip[2])
-        curr_detail_json[i]["destbuildingTitle"] = "校外"
-        curr_detail_json[i]["destbuildingFloor"] = "1"
-      }
-      else // 如果destIpAddr沒有對應的Gateway
-      {
-        ip_gateway_set.set(destip[0]+destip[1]+destip[2], ("GW" + nextNum))
-        curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
-      }
-      //curr_detail_json[i]["destbuildingName"] = "GW"
-      curr_detail_json[i]["destbuildingTitle"] = "校外"
-      curr_detail_json[i]["destbuildingFloor"] = "1"
-    }
+    // if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
+    // {
+    //   if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2])) // 如果srcIpAddr已經有對應的Gateway
+    //   {
+    //     curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2])
+    //     curr_detail_json[i]["srcbuildingTitle"] = "校外"
+    //     curr_detail_json[i]["srcbuildingFloor"] = "1"
+    //   }
+    //   else // 如果srcIpAddr沒有對應的Gateway
+    //   {
+    //     ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2], "GW" + nextNum)
+    //     curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
+    //   }
+    //   //curr_detail_json[i]["srcbuildingName"] = "GW"
+    //   curr_detail_json[i]["srcbuildingTitle"] = "校外"
+    //   curr_detail_json[i]["srcbuildingFloor"] = "1"
+    // }
+    // if(!(destip[0]=="120" && destip[1]=="126" || destip[0] == "10" || destip[0]=="192" && destip[1]=="168"))
+    // {
+    //   if(ip_gateway_set.has(destip[0]+destip[1]+destip[2])) // 如果destIpAddr已經有對應的Gateway
+    //   {
+    //     curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destip[0]+destip[1]+destip[2])
+    //     curr_detail_json[i]["destbuildingTitle"] = "校外"
+    //     curr_detail_json[i]["destbuildingFloor"] = "1"
+    //   }
+    //   else // 如果destIpAddr沒有對應的Gateway
+    //   {
+    //     ip_gateway_set.set(destip[0]+destip[1]+destip[2], ("GW" + nextNum))
+    //     curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
+    //   }
+    //   //curr_detail_json[i]["destbuildingName"] = "GW"
+    //   curr_detail_json[i]["destbuildingTitle"] = "校外"
+    //   curr_detail_json[i]["destbuildingFloor"] = "1"
+    // }
   }
 }
 
