@@ -257,8 +257,11 @@
 
   let add_scenario = function(sites_from, sites_to, color)
   {
+    console.log(sites_from, sites_to)
     if(sites_from.length == 0) return;
     for(let i = 0; i < sites_from.length; i++){
+      console.log(sites_from[i].building_id, sites_to[i].building_id)
+      if(sites_from[i].building_id === undefined || sites_to[i].building_id == undefined)continue;
       // .match(/^[A-Z]+$/ is regular expression, to decide whether the string is all captical characters
       //all captical characters == inner buildings of school(LAW, BUS, ...), otherwise is the part of worldmap wall(GW123, ...)
       //用來統計各樓層的事件個數，與tooltip相關
@@ -287,25 +290,24 @@
       //取得建築資料參考及位置，如果Trace.Site有building info，則將building info轉成three.js座標
       //否則則將經緯度轉成three.js的座標
       let from, to;
-      console.log(trace)
-      if(trace.sites_from.building_id == null){
+      if(trace.site_from.building_id != null){
         let b_from = buildings.map.get(trace.site_from.building_id);
         from = b_from.get_pos(trace.site_from.floor_id);
       }
       else{
-        from = [-250 + Math.pow(Math.cos(math.PI * 40 / 180), 2) * parseFloat(trace.sites_from.longitude)
-                -trace.sites_from.latitude, 
-                250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.sites_from.longitude)]
+        from = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_from.longitude)
+                -trace.site_from.latitude, 
+                250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_from.longitude)]
       }
 
-      if(trace.sites_to.building_id == null){
+      if(trace.site_to.building_id != null){
         let b_to = buildings.map.get(trace.site_to.building_id);
         to = b_to.get_pos(trace.site_to.floor_id);
       }
       else{
-        to = [-250 + Math.pow(Math.cos(math.PI * 40 / 180), 2) * parseFloat(trace.sites_to.longitude)
-          -trace.sites_to.latitude, 
-          250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.sites_to.longitude)]
+        to = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_to.longitude)
+          -trace.site_to.latitude, 
+          250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_to.longitude)]
       }
         
       let p = new Parabola();
