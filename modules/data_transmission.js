@@ -190,7 +190,7 @@ function search_IpList(search_string)
         $("#IP-main-list:last").append(
           '<li >' +
           '<button type="button" id="IPlstEvent' + idx + '" class=" d-flex flex-row justify-content-start " style="padding-right:25px;">' +
-              '<div class="event-name">' + i + '</div>' +
+              '<div class="event-name">' + IpLst[idx].IP + '</div>' +
               '<div class="count" style="margin-right:25px;">' + IpLst[idx].score + '</div>' +
           '</button>' +
           '</li>'
@@ -215,6 +215,7 @@ function draw_IP_related(index)
   let data = curr_IpLst_json[index].connectedIP
   for(let idx in data)
   {
+    data[idx].IP = fix_ip(data[idx].IP)
     if(idx == "subarray")continue;
     $("#IP-related-list:last").append(
       '<li>' +
