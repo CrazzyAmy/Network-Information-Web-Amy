@@ -534,9 +534,10 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
   for(let i in curr_detail_json)
   {
     //alert("目標IP Select"+i)
-    curr_detail_json[0].destIpAddr = fix_ip(curr_detail_json[0].destIpAddr);
+    curr_detail_json[i].destIpAddr = fix_ip(curr_detail_json[i].destIpAddr)
     if(i == "subarray")continue;
     $("#left_destIP:last").append(
+      
       '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destIpAddr+ '</option>'
     )
   }
