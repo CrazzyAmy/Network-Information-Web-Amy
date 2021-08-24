@@ -24,8 +24,8 @@ document.querySelector("#search_first").addEventListener('click', function(){
 //開啟網頁時，做第一次的搜尋
 $(document).ready(function(){
   clear_multi_scenario()
-  let site1_from =  [new Site("SS", 0, "")];
-  let site1_to = [new Site("SS", 0, "")];
+  let site1_from =  [new Site("SS", 0, "", "")];
+  let site1_to = [new Site("SS", 0, "", "")];
   add_scenario(site1_from, site1_to , 0xFF0000);
   //將日期訂為YYYY-MM-DD
    let today = new Date
@@ -250,10 +250,7 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 
       console.log(curr_IpLst_detail_json);
       //ip_gateway_set = new Map();
-
-      
       //clear_multi_scenario() 
-
       curr_detail_json = curr_IpLst_detail_json[0]
       guess_location_detail()
       update_parabola(curr_detail_json)
@@ -339,7 +336,6 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
       //把curr_detail_json，根據IP，猜建築位置
       //ip_gateway_set = new Map();
       guess_location_detail()
-
       //將curr_detail_json裡面的資料再拆成intoout跟outtoin
       curr_detail_json.forEach(function(element){ 
         //所有大樓裡面，只有GW是G開頭，所以用這個來判斷srcName/destName是否在外面
@@ -378,8 +374,15 @@ function update_parabola(detail)
     if(i == "subarray")continue;
     //因為 JS 的 map 沒辦法用 array 當做 key
     //所以只好將 srcbuilding, srcfloor, dstbuilding, dstfloor, EventSeverCat四個字串用空白連結起來
-    let location_string = detail[i].srcbuildingName + " " +detail[i].srcbuildingFloor
-    location_string += " " + detail[i].destbuildingName + " " + detail[i].destbuildingFloor
+    let location_string;
+    if(detail[i].srcbuildingName === null)
+      location_string = detail[i].longitude + " " + detail[i].latitude
+    else
+      location_string = detail[i].srcbuildingName + " " +detail[i].srcbuildingFloor
+	if(detail[i].destbuildingName === null)
+      location_string += " " + detail[i].longitude + " " + detail[i].latitude
+	else
+	  location_string += " " + detail[i].destbuildingName + " " + detail[i].destbuildingFloor
     location_string += " " + detail[i].eventSeverityCat[0]
     if(typeof(eventlocationset.get(location_string)) == "undefined"){
       eventlocationset.set(location_string, 1)
@@ -396,8 +399,13 @@ function update_parabola(detail)
     //value代表總統計值，key代表src/dst資訊
     //(/^[A-Z]+$/)為regular expression，代表僅能出現多個大寫字母（對應到校內建築物），校外一定是 GW + number
     let detail = key.split(' ')
-    site_from.push(new Site(detail[0], detail[1],""))
-    site_to.push(new Site(detail[2], detail[3],""))
+	if(detail[0].indexOf('.') > -1){
+		site_from.push(new Site("", "", detail[0], detail[1]))
+	}
+	else{
+		site_from.push(new Site(detail[0], detail[1], "", ""))
+	}
+    site_to.push(new Site(detail[2], detail[3], "", ""))
 
     let EventSeverCat = detail[4]
     let ColorBrightness = Math.ceil(Math.log10(value + 1)) >= 3 ? 3 : Math.ceil(Math.log10(value + 1))
@@ -435,45 +443,43 @@ function guess_location_detail()
     //parseInt(String, 10)代表將字串轉成decimal num，將所有經緯度挪成正數後，再依地圖比例切割
     //地圖比例為50 * 25
     //nextNum = GW "number"
-    longitudecnt =  49 - Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180) / 7.2)
-    latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90) / 7.2)
-
-    nextNum = longitudecnt * 25 + latitudecnt
+    longitudecnt =  49 - Math.floor((parseInt(curr_detail_json[i]["longitude"], 10) + 180));
+    latitudecnt = Math.floor((parseInt(curr_detail_json[i]["latitude"], 10) + 90));
     
-    if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
-    {
-      if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2])) // 如果srcIpAddr已經有對應的Gateway
-      {
-        curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2])
-        curr_detail_json[i]["srcbuildingTitle"] = "校外"
-        curr_detail_json[i]["srcbuildingFloor"] = "1"
-      }
-      else // 如果srcIpAddr沒有對應的Gateway
-      {
-        ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2], "GW" + nextNum)
-        curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
-      }
-      //curr_detail_json[i]["srcbuildingName"] = "GW"
-      curr_detail_json[i]["srcbuildingTitle"] = "校外"
-      curr_detail_json[i]["srcbuildingFloor"] = "1"
-    }
-    if(!(destip[0]=="120" && destip[1]=="126" || destip[0] == "10" || destip[0]=="192" && destip[1]=="168"))
-    {
-      if(ip_gateway_set.has(destip[0]+destip[1]+destip[2])) // 如果destIpAddr已經有對應的Gateway
-      {
-        curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destip[0]+destip[1]+destip[2])
-        curr_detail_json[i]["destbuildingTitle"] = "校外"
-        curr_detail_json[i]["destbuildingFloor"] = "1"
-      }
-      else // 如果destIpAddr沒有對應的Gateway
-      {
-        ip_gateway_set.set(destip[0]+destip[1]+destip[2], ("GW" + nextNum))
-        curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
-      }
-      //curr_detail_json[i]["destbuildingName"] = "GW"
-      curr_detail_json[i]["destbuildingTitle"] = "校外"
-      curr_detail_json[i]["destbuildingFloor"] = "1"
-    }
+    // if(!(srcip[0]=="120" && srcip[1]=="126" || srcip[0] == "10" || srcip[0]=="192" && srcip[1]=="168"))
+    // {
+    //   if(ip_gateway_set.has(srcip[0]+srcip[1]+srcip[2])) // 如果srcIpAddr已經有對應的Gateway
+    //   {
+    //     curr_detail_json[i]["srcbuildingName"] = ip_gateway_set.get(srcip[0]+srcip[1]+srcip[2])
+    //     curr_detail_json[i]["srcbuildingTitle"] = "校外"
+    //     curr_detail_json[i]["srcbuildingFloor"] = "1"
+    //   }
+    //   else // 如果srcIpAddr沒有對應的Gateway
+    //   {
+    //     ip_gateway_set.set(srcip[0]+srcip[1]+srcip[2], "GW" + nextNum)
+    //     curr_detail_json[i]["srcbuildingName"] = "GW" + nextNum
+    //   }
+    //   //curr_detail_json[i]["srcbuildingName"] = "GW"
+    //   curr_detail_json[i]["srcbuildingTitle"] = "校外"
+    //   curr_detail_json[i]["srcbuildingFloor"] = "1"
+    // }
+    // if(!(destip[0]=="120" && destip[1]=="126" || destip[0] == "10" || destip[0]=="192" && destip[1]=="168"))
+    // {
+    //   if(ip_gateway_set.has(destip[0]+destip[1]+destip[2])) // 如果destIpAddr已經有對應的Gateway
+    //   {
+    //     curr_detail_json[i]["destbuildingName"] = ip_gateway_set.get(destip[0]+destip[1]+destip[2])
+    //     curr_detail_json[i]["destbuildingTitle"] = "校外"
+    //     curr_detail_json[i]["destbuildingFloor"] = "1"
+    //   }
+    //   else // 如果destIpAddr沒有對應的Gateway
+    //   {
+    //     ip_gateway_set.set(destip[0]+destip[1]+destip[2], ("GW" + nextNum))
+    //     curr_detail_json[i]["destbuildingName"] = "GW" + nextNum
+    //   }
+    //   //curr_detail_json[i]["destbuildingName"] = "GW"
+    //   curr_detail_json[i]["destbuildingTitle"] = "校外"
+    //   curr_detail_json[i]["destbuildingFloor"] = "1"
+    // }
   }
 }
 
@@ -506,7 +512,7 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
   $("#left_eventSeverityCat").text(curr_detail_json[0].eventSeverityCat)
   $("#left_time").text(curr_detail_json[0].deviceTime)
   $("#left_srcbuilding").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingName[0] == "G" ? "":(curr_detail_json[0].srcbuildingFloor == 0? "B1":curr_detail_json[0].srcbuildingFloor) + "F"))
-  curr_detail_json[0].srcIpAddr = fix_ip(curr_detail_json[0].srcIpAddr);
+  curr_detail_json[0].srcIpAddr = fix_ip(curr_detail_json[0].srcIpAddr)
   $("#left_srcIP").text(curr_detail_json[0].srcIpAddr)
   $("#left_destbuilding").text(curr_detail_json[0].destbuildingTitle + (curr_detail_json[0].destbuildingName[0] == "G" ? "":(curr_detail_json[0].destbuildingFloor == 0? "B1":curr_detail_json[0].destbuildingFloor) + "F"))
   
@@ -537,8 +543,7 @@ function draw_detail(search_IP, search_eventName, search_eventSeverityCat)
     curr_detail_json[i].destIpAddr = fix_ip(curr_detail_json[i].destIpAddr)
     if(i == "subarray")continue;
     $("#left_destIP:last").append(
-      
-      '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + curr_detail_json[i].destIpAddr+ '</option>'
+      '<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' +fix_ip(curr_detail_json[i].destIpAddr)+ '</option>'
     )
   }
   $("#left_destIP").change(function(){
@@ -587,6 +592,6 @@ function update_search_string()
   console.log(curr_form_search_string)
 }
 
-function fix_ip(ip) { 
-    return ip.split(".").map(Number).join("."); 
+function fix_ip(ip){
+  return ip.split(".").map(Number).join(".")
 }
