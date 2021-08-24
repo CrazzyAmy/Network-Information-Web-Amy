@@ -1,6 +1,6 @@
 import {scene_init_meshes, t_buildings, t_decorations, add_scenario} from './map_three.js'
-import {createBuilding, createPlane} from './modules/three_helper.js';
-import {ListData, Site, JsonReader, Building, Decoration} from './modules/object_class.js'  
+import {createBuilding, createPlane} from './three_helper.js';
+import {ListData, Site, JsonReader, Building, Decoration} from './object_class.js'  
 let buildings = new ListData();
 let decorations = new ListData();
 

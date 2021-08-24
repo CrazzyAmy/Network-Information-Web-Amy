@@ -1,11 +1,11 @@
   export {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario}
-  import * as THelper from './modules/three_helper.js';
-  import * as THREE from './node_modules/three/build/three.module.js';
-  import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
-  import { Parabola }from './modules/Parabola.js';
-  import { Trace , Scenario, MultiScenario} from './modules/Scenario.js';
+  import * as THelper from './three_helper.js';
+  import * as THREE from '../node_modules/three/build/three.module.js';
+  import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
+  import { Parabola }from './Parabola.js';
+  import { Trace , Scenario, MultiScenario} from './Scenario.js';
   import { buildings} from "./data_control.js"
-  import { Building, Site } from './modules/object_class.js';
+  import { Building, Site } from './object_class.js';
   let scene, camera, renderer, orbitControl, spotLight;
 
   let rayCast = new THREE.Raycaster();
