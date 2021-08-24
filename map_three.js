@@ -190,7 +190,7 @@
     // var divElement = 
     // if (divElement) {
     //     divElement.css({
-    //         // display: "none"
+    //         display: "none"
     //     });
     // }
   }
