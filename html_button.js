@@ -94,7 +94,7 @@ document.querySelector("#selectBuilding").addEventListener('change', function(){
     '<option disabled>------------------------------------------</option>'
   )
 
-  for(let i = 1; i<floor; i++)
+  for(let i = 1; i<=floor; i++)
   {
     $("#selectFloor:last").append(
       '<option value="' + i + ' ">' + i + 'F</option>'
