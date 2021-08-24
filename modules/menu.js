@@ -12,7 +12,6 @@ let opensetting = function(){
 let menuinit = function(){
     $("#setting").hide();
     $("#setting-user").hide();
-
 }
 
 menuinit();

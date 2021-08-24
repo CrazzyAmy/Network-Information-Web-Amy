@@ -41,25 +41,6 @@
 
   </nav>
 
-
-
-  <!-- Logo/Banner/AD 和右方按鈕 -->
-  <div class="container-fluid topbar d-none">
-    <div class="row">
-      <div class="col-12 col-md-8">
-        <div style="background-color:  rgb(227, 164, 129); height: 6vh; width: 100%; border-radius: 12px;">
-          </div>
-      </div>
-      <div class="col-md-4 d-none d-md-flex justify-content-end">
-        <button class="navbar-toggler btn btn-dark" onclick="opensetting()">
-          <img src="picture/settings-icon.jpg" alt="settings-icon" height="20px">
-          <span>設定</span>
-        </button>
-        <button class="navbar-toggler btn btn-dark" onclick="openmenu('#setting-user')">User</button>
-      </div>
-    </div>
-  </div>
-
   <!-- 手機板介面 -->
   
   <div id="tooltip">
@@ -112,19 +93,6 @@
           </div>
       </div>
       </div>
-      <!-- 右側登入/使用者介面 -->
-<!--       
-      <div class="user" id="setting-user">
-        <div>使用者登入</div>
-        <form action="" id="loginForm">
-          <label for="user-ID">帳號</label>
-          <input type="text" name="user" id="user">
-          <label for="user-password">密碼</label>
-          <input type="password" name="password" id="password">
-          <input type="button" id="login" value="確認">  
-          <a href="register.html">註冊</a>
-        </form>
-      </div> -->
 
       <!-- 左側資訊列，md以上顯示 -->
       <div class="col-12 col-md-2 order-3  order-md-2 d-md-block p-0">
@@ -289,34 +257,14 @@
             <div class="" id="ip-main-list">
               <div>
                 <div class="name d-none d-md-block" id="">IP列表</div>
-                <!--  
-                <div class="sort d-flex justify-content-start align-item-stretch" style="font-size: 15px;">
-                  <button class="flex-grow-1">危險分數</button>
-                  <button class="flex-grow-1">事件總數</button>
-                  <button class="flex-grow-1">嚴重等級</button>
-                </div>
-                 -->
                 <ul class="d-none d-md-block" id="IP-main-list">
-                  
                 </ul>
                 <div class="name d-none d-md-block">相關IP列表</div>
-                <!--                 
-                <div class="sort d-flex justify-content-start align-item-stretch" style="font-size: 15px;">
-                  <button class="flex-grow-1">危險分數</button>
-                  <button class="flex-grow-1">事件總數</button>
-                  <button class="flex-grow-1">嚴重等級</button>
-                </div>
-                 -->
                 <ul class="d-none d-md-block" id="IP-related-list">
-    
                 </ul>
               </div>
             </div>
           </div>
-
-          <!-- <form action="http://120.126.151.195:5000/test" class="d-flex flex-row flex-wrap d-md-block" method="POST" name="myForm"> -->
-          
-          
         </div>
       </div>
     </div>
