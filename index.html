@@ -45,7 +45,7 @@
   
   <div id="tooltip">
     <div style="padding-left:50px; display:inline;" id="tooltip_name">Name</div>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="display: inline;" id="tooltip_close"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="display: inline;" id="tooltip_close" onclick="hideTooltip()"></button>
     <ul id="tooltip_list">
       <li id="tooltip_list_element">
         <div class="floor">1F</div>
@@ -283,9 +283,9 @@
     crossorigin="anonymous"></script>
 
   <script type="module" src = "./modules/data_control.js"></script>
-  <script type="module" src = "./modules/map_three.js"></script>
+  <script src = "./modules/map_three.js"></script>
   <script type="module" src="./modules/data_transmission.js"></script>
   <script type="module" src="./modules/html_button.js"></script>
-  <script type="module" src="./modules/menu.js"></script>
+  <script src="./modules/menu.js"></script>
 </body>
 </html>
