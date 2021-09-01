@@ -1,4 +1,4 @@
-  export {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario, hideTooltip}
+  export {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario}
   import * as THelper from './three_helper.js';
   import * as THREE from '../node_modules/three/build/three.module.js';
   import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
@@ -42,7 +42,7 @@
         ojbects.push(element);
     });
     let intersects = rayCast.intersectObjects(ojbects, true);
-    if (intersects.length > 0){
+    if (intersects.length > 0 && intersects[0].object.name.substring(0,2) != "GW"){
       if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
             "emissive" in intersects[0].object.material[0] && //指定材質可高亮
             INTERSECTED != intersects[0].object)           //重複事件確認
@@ -66,7 +66,6 @@
         INTERSECTED = null;
       }
     }
-
     //處理建築浮動視窗
     //handleManipulationUpdate();
     if (intersects.length > 0) {
@@ -83,13 +82,18 @@
         PreviousHoveredObj = HoveredObj;
       }
     }
-  };
+    else{
+      clearTimeout(tooltipDisplayTimeout);
+      tooltipDisplayTimeout = undefined;
+    }
 
-  if (tooltipDisplayTimeout || !LatestMouseProjection) {
-    clearTimeout(tooltipDisplayTimeout);
-    tooltipDisplayTimeout = undefined;
-    hideTooltip();
+    // 將浮動視窗tooltip關閉
+    $("#tooltip_close").click(function(){
+      $("#tooltip").hide();
+    });
+    
   }
+  
 
   // 於滑鼠遊標移動至建物時，顯示建物名稱
   // 將浮動視窗設定在位置(client.X, client.Y)
@@ -179,13 +183,6 @@
         });
       }, 25);
     }
-  }
-
-  // 將浮動視窗tooltip關閉
-  function hideTooltip() {
-    $("#tooltip_close").click(function(){
-      $("#tooltip").hide();
-    });
   }
 
 
