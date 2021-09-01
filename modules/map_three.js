@@ -1,4 +1,4 @@
-  export {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario}
+  export {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario, hideTooltip}
   import * as THelper from './three_helper.js';
   import * as THREE from '../node_modules/three/build/three.module.js';
   import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
@@ -18,9 +18,10 @@
   let buildingfloor = [10, 9, 10, 10, 14, 9, 8, 9, 5, 2]
 
   //建築顯示浮動式視窗
-  var latestMouseProjection; // this is the latest projection of the mouse on object (i.e. intersection with ray)
-  var hoveredObj; // this objects is hovered at the moment
-  var hide=true;
+  var LatestMouseProjection = undefined; // this is the latest projection of the mouse on object (i.e. intersection with ray)
+  var HoveredObj = undefined; // this objects is hovered at the moment
+  var PreviousHoveredObj = undefined;
+  var OpenToolTip=false;
   
   // tooltip will not appear immediately. If object was hovered shortly,
   // - the timer will be canceled and tooltip will not appear at all.
@@ -67,42 +68,40 @@
     }
 
     //處理建築浮動視窗
-    latestMouseProjection = undefined;
-    hoveredObj = undefined;
     //handleManipulationUpdate();
     if (intersects.length > 0) {
-      latestMouseProjection = intersects[0].point
-      hoveredObj = intersects[0].object;
-    }
-    
-    if (tooltipDisplayTimeout || !latestMouseProjection) {
-        clearTimeout(tooltipDisplayTimeout);
-        tooltipDisplayTimeout = undefined;
-        hideTooltip();
-        hide=true;
-    }
-
-    if (!tooltipDisplayTimeout && latestMouseProjection && hide) {
+      LatestMouseProjection = intersects[0].point
+      HoveredObj = intersects[0].object;
+      let BuildingName = HoveredObj?.name.split('_')[0];
+      let PreviousBuildingName = PreviousHoveredObj?.name.split('_')[0];
+      console.log(BuildingName, PreviousBuildingName)
+      if (!tooltipDisplayTimeout && LatestMouseProjection && BuildingName != PreviousBuildingName) {
         tooltipDisplayTimeout = setTimeout(function() {
             tooltipDisplayTimeout = undefined;
             showTooltip(e);
         }, 330);
+        PreviousHoveredObj = HoveredObj;
+      }
     }
-
   };
+
+  if (tooltipDisplayTimeout || !LatestMouseProjection) {
+    clearTimeout(tooltipDisplayTimeout);
+    tooltipDisplayTimeout = undefined;
+    hideTooltip();
+  }
 
   // 於滑鼠遊標移動至建物時，顯示建物名稱
   // 將浮動視窗設定在位置(client.X, client.Y)
   function showTooltip(e) {
-    hide=false;
     var divElement = $("#tooltip");
-    if(hoveredObj?.name.substring(0,2)== 'GW')return;
-    if(hoveredObj?.parent.Name == "decorations")return;
-    if(hoveredObj?.name.substring(0,2)!= 'GW')
+    if(HoveredObj?.name.substring(0,2)== 'GW')return;
+    if(HoveredObj?.parent.Name == "decorations")return;
+    if(HoveredObj?.name.substring(0,2)!= 'GW')
     {
-      let shortname = hoveredObj.name.split('_')[0]
+      let shortname = HoveredObj.name.split('_')[0]
       let floor = 0;
-      let selected_floor = hoveredObj.name.split('_')[1]
+      //let selected_floor = HoveredObj.name.split('_')[1]
       var fullname;
       switch(shortname){
         case "EECS":
@@ -162,14 +161,14 @@
       
       $("#tooltip_list").height( (floor * 28) );
       $("#tooltip").height( 28 + floor * 28)
-      //console.log(hoveredObj);
+      //console.log(HoveredObj);
     }
 
-    if (divElement && latestMouseProjection) {
+    if (divElement && LatestMouseProjection) {
       divElement.css({
         display: "block",
         opacity: 0.0,
-        left: `${e.clientX + 30}px`,
+        left: `${e.clientX}px`,
         top: `${e.clientY}px`,
         width: `200px`
       });
@@ -187,12 +186,6 @@
     $("#tooltip_close").click(function(){
       $("#tooltip").hide();
     });
-    // var divElement = 
-    // if (divElement) {
-    //     divElement.css({
-    //         display: "none"
-    //     });
-    // }
   }
 
 
