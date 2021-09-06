@@ -42,7 +42,9 @@
         ojbects.push(element);
     });
     let intersects = rayCast.intersectObjects(ojbects, true);
-    if (intersects.length > 0 && intersects[0].object.name.substring(0,2) != "GW"){
+    console.log(intersects[0].object.name)
+    if (intersects.length > 0 && intersects[0].object.name.substring(0,2) != "GW" &&
+        intersects[0].object.name.length > 0){
       if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
             "emissive" in intersects[0].object.material[0] && //指定材質可高亮
             INTERSECTED != intersects[0].object)           //重複事件確認
@@ -66,17 +68,19 @@
         INTERSECTED = null;
       }
     }
+
     //處理建築浮動視窗
     //handleManipulationUpdate();
-    if (intersects.length > 0) {
+    let BuildingName = HoveredObj?.name.split('_')[0];
+    let PreviousBuildingName = PreviousHoveredObj?.name.split('_')[0];
+    if (intersects.length > 1) {
       LatestMouseProjection = intersects[0].point
       HoveredObj = intersects[0].object;
-      let BuildingName = HoveredObj?.name.split('_')[0];
-      let PreviousBuildingName = PreviousHoveredObj?.name.split('_')[0];
-      console.log(BuildingName, PreviousBuildingName)
-      if (!tooltipDisplayTimeout && LatestMouseProjection && BuildingName != PreviousBuildingName) {
+     // console.log(BuildingName, PreviousBuildingName, OpenToolTip)
+      if (!tooltipDisplayTimeout && LatestMouseProjection && BuildingName != PreviousBuildingName && OpenToolTip == false) {
         tooltipDisplayTimeout = setTimeout(function() {
             tooltipDisplayTimeout = undefined;
+            OpenToolTip = true;
             showTooltip(e);
         }, 330);
         PreviousHoveredObj = HoveredObj;
@@ -85,19 +89,23 @@
     else{
       clearTimeout(tooltipDisplayTimeout);
       tooltipDisplayTimeout = undefined;
+      PreviousBuildingName = "";
+      OpenToolTip = false;
     }
 
     // 將浮動視窗tooltip關閉
     $("#tooltip_close").click(function(){
       $("#tooltip").hide();
+      OpenToolTip = false;
+      PreviousBuildingName = ""
     });
-    
   }
   
 
   // 於滑鼠遊標移動至建物時，顯示建物名稱
   // 將浮動視窗設定在位置(client.X, client.Y)
   function showTooltip(e) {
+    console.log(e.clientX, e.clientY)
     var divElement = $("#tooltip");
     if(HoveredObj?.name.substring(0,2)== 'GW')return;
     if(HoveredObj?.parent.Name == "decorations")return;
