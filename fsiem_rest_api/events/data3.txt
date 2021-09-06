@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><queryResult errorCode="0" queryId="70239" start="0" totalCount="0"><events/></queryResult>
