@@ -14,15 +14,14 @@
   let t_buildings = new THREE.Group();
   let multi_scenario = new MultiScenario([]);
   let buildingcnt = new Map();
-  let buildingname = ["EECS", "LAW", "PA", "BUS", "HUM", "SS", "ADM", "LIB", "CC", ""]
-  let buildingfloor = [10, 9, 10, 10, 14, 9, 8, 9, 5, 2]
+  let buildingname = ["EECS", "LAW", "PA", "BUS", "HUM", "SS", "ADM", "LIB", "CC", ""];
+  let buildingfloor = [10, 9, 10, 10, 14, 9, 8, 9, 5, 2];
+  let TmpBuildingName;
+  
 
   //建築顯示浮動式視窗
   var LatestMouseProjection = undefined; // this is the latest projection of the mouse on object (i.e. intersection with ray)
-  var HoveredObj = undefined; // this objects is hovered at the moment
-  var PreviousHoveredObj = undefined;
-  var OpenToolTip=false;
-  
+  var OpenToolTip = false;
   // tooltip will not appear immediately. If object was hovered shortly,
   // - the timer will be canceled and tooltip will not appear at all.
   var tooltipDisplayTimeout;
@@ -42,7 +41,6 @@
         ojbects.push(element);
     });
     let intersects = rayCast.intersectObjects(ojbects, true);
-    console.log(intersects[0].object.name)
     if (intersects.length > 0 && intersects[0].object.name.substring(0,2) != "GW" &&
         intersects[0].object.name.length > 0){
       if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
@@ -68,50 +66,42 @@
         INTERSECTED = null;
       }
     }
-
-    //處理建築浮動視窗
-    //handleManipulationUpdate();
-    let BuildingName = HoveredObj?.name.split('_')[0];
-    let PreviousBuildingName = PreviousHoveredObj?.name.split('_')[0];
-    if (intersects.length > 1) {
-      LatestMouseProjection = intersects[0].point
-      HoveredObj = intersects[0].object;
-     // console.log(BuildingName, PreviousBuildingName, OpenToolTip)
-      if (!tooltipDisplayTimeout && LatestMouseProjection && BuildingName != PreviousBuildingName && OpenToolTip == false) {
-        tooltipDisplayTimeout = setTimeout(function() {
-            tooltipDisplayTimeout = undefined;
-            OpenToolTip = true;
-            showTooltip(e);
-        }, 330);
-        PreviousHoveredObj = HoveredObj;
-      }
-    }
-    else{
-      clearTimeout(tooltipDisplayTimeout);
-      tooltipDisplayTimeout = undefined;
-      PreviousBuildingName = "";
-      OpenToolTip = false;
-    }
-
-    // 將浮動視窗tooltip關閉
-    $("#tooltip_close").click(function(){
-      $("#tooltip").hide();
-      OpenToolTip = false;
-      PreviousBuildingName = ""
-    });
   }
   
+  let onMouseDown = function (e) {
+    e.preventDefault();
+    const {top, left, width, height} = renderer.domElement.getBoundingClientRect();
+    mouse.x = -1 + 2 * (e.clientX - left) / width;
+    mouse.y = 1 - 2 * (e.clientY - top) / height;
+
+    rayCast.setFromCamera(mouse, camera);
+    let ojbects = [];
+    //Line2 不可被intersect
+    scene.children.forEach(element => {
+      if(element.type != 'Line2')
+        ojbects.push(element);
+    });
+    //處理建築浮動視窗
+    let intersects = rayCast.intersectObjects(ojbects, true);
+    if(intersects.length > 0)TmpBuildingName = intersects[0].object.name.split('_')[0];
+    console.log(TmpBuildingName, OpenToolTip);
+    if (intersects.length > 0) {
+      LatestMouseProjection = intersects[0].point;
+      if (LatestMouseProjection && OpenToolTip == false && TmpBuildingName.substring(0,2) != "GW" && TmpBuildingName.length > 0) {
+        OpenToolTip = true;
+        showTooltip(e);
+      }
+    }
+  }
 
   // 於滑鼠遊標移動至建物時，顯示建物名稱
   // 將浮動視窗設定在位置(client.X, client.Y)
   function showTooltip(e) {
     console.log(e.clientX, e.clientY)
     var divElement = $("#tooltip");
-    if(HoveredObj?.name.substring(0,2)== 'GW')return;
-    if(HoveredObj?.parent.Name == "decorations")return;
-    if(HoveredObj?.name.substring(0,2)!= 'GW')
-    {
-      let shortname = HoveredObj.name.split('_')[0]
+    if(TmpBuildingName.substring(0,2)== 'GW' || TmpBuildingName.length == 0)return;
+    else{
+      let shortname = TmpBuildingName;
       let floor = 0;
       //let selected_floor = HoveredObj.name.split('_')[1]
       var fullname;
@@ -193,6 +183,10 @@
     }
   }
 
+  $("#tooltip_close").click(function(){
+    $("#tooltip").hide();
+    OpenToolTip = false;
+  });
 
   let scene_init_meshes = function(name, listdata, t_ref, func_create)
   {
@@ -248,7 +242,7 @@
     // 將渲染器的 DOM 綁到網頁上
     document.getElementById("scene").appendChild(renderer.domElement)
     document.addEventListener("mousemove", onMouseMove, false);
-    
+    document.addEventListener("mousedown", onMouseDown, false);
   }
 
   //外打內跟內打外事件資料結構之初始化
