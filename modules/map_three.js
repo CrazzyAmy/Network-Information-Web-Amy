@@ -237,8 +237,8 @@
 
     // 將渲染器的 DOM 綁到網頁上
     document.getElementById("scene").appendChild(renderer.domElement)
-    document.addEventListener("mousemove", onMouseMove, false);
-    document.addEventListener("mousedown", onMouseDown, false);
+    renderer.domElement.addEventListener("mousemove", onMouseMove, false);
+    renderer.domElement.addEventListener("mousedown", onMouseDown, false);
   }
 
   //外打內跟內打外事件資料結構之初始化
