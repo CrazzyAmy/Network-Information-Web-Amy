@@ -16,7 +16,7 @@
   let buildingcnt = new Map();
   let buildingname = ["EECS", "LAW", "PA", "BUS", "HUM", "SS", "ADM", "LIB", "CC", ""];
   let buildingfloor = [10, 9, 10, 10, 14, 9, 8, 9, 5, 2];
-  let TmpBuildingName;
+  let tmpBuildingName;
   
 
   //建築顯示浮動式視窗
@@ -24,7 +24,6 @@
   var OpenToolTip = false;
   // tooltip will not appear immediately. If object was hovered shortly,
   // - the timer will be canceled and tooltip will not appear at all.
-  var tooltipDisplayTimeout;
     
   let onMouseMove = function (e) {
     e.preventDefault();
@@ -83,11 +82,11 @@
     });
     //處理建築浮動視窗
     let intersects = rayCast.intersectObjects(ojbects, true);
-    if(intersects.length > 0)TmpBuildingName = intersects[0].object.name.split('_')[0];
-    console.log(TmpBuildingName, OpenToolTip);
+    if(intersects.length > 0)tmpBuildingName = intersects[0].object.name.split('_')[0];
+    console.log(tmpBuildingName, OpenToolTip);
     if (intersects.length > 0) {
       LatestMouseProjection = intersects[0].point;
-      if (LatestMouseProjection && OpenToolTip == false && TmpBuildingName.substring(0,2) != "GW" && TmpBuildingName.length > 0) {
+      if (LatestMouseProjection && OpenToolTip == false && tmpBuildingName.substring(0,2) != "GW" && tmpBuildingName.length > 0) {
         OpenToolTip = true;
         showTooltip(e);
       }
@@ -97,11 +96,10 @@
   // 於滑鼠遊標移動至建物時，顯示建物名稱
   // 將浮動視窗設定在位置(client.X, client.Y)
   function showTooltip(e) {
-    console.log(e.clientX, e.clientY)
     var divElement = $("#tooltip");
-    if(TmpBuildingName.substring(0,2)== 'GW' || TmpBuildingName.length == 0)return;
+    if(tmpBuildingName.substring(0,2)== 'GW' || tmpBuildingName.length == 0)return;
     else{
-      let shortname = TmpBuildingName;
+      let shortname = tmpBuildingName;
       let floor = 0;
       //let selected_floor = HoveredObj.name.split('_')[1]
       var fullname;
@@ -162,7 +160,7 @@
       }
       
       $("#tooltip_list").height( (floor * 28) );
-      $("#tooltip").height( 28 + floor * 28)
+      $("#tooltip").height( 28 + floor * 28);
       //console.log(HoveredObj);
     }
 
