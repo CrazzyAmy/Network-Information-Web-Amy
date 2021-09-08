@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D視覺化專案</title>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="css/all.min.css">
 </head>
 
@@ -45,7 +44,7 @@
   
   <div id="tooltip">
     <div style="padding-left:50px; display:inline;" id="tooltip_name">Name</div>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="display: inline;" id="tooltip_close"></button>
+    <button type="button" class="btn-close" aria-label="Close" id="tooltip_close"></button>
     <ul id="tooltip_list">
       <li id="tooltip_list_element">
         <div class="floor">1F</div>
@@ -272,18 +271,12 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-
   <script type="module" src = "./modules/data_control.js"></script>
-  <script src = "./modules/map_three.js"></script>
+  <script type="module" src = "./modules/map_three.js"></script>
   <script type="module" src="./modules/data_transmission.js"></script>
   <script type="module" src="./modules/html_button.js"></script>
   <script src="./modules/menu.js"></script>

@@ -34,9 +34,7 @@ input {
     color: black;
     visibility:hidden;
 }
-input:focus + label {
 
-}
 .label_animtion {
     animation-fill-mode: forwards;
     animation-name: move_up;
