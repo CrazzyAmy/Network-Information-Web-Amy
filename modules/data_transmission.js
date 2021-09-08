@@ -1,5 +1,4 @@
-import {scene_init_meshes, t_buildings, t_decorations, add_scenario, clear_multi_scenario} from './map_three.js'
-import {createBuilding, createPlane} from './three_helper.js';
+import {add_scenario, clear_multi_scenario} from './map_three.js'
 import {ListData, Site, JsonReader, Building, Decoration} from './object_class.js'  
 import { buildings } from './data_control.js';
 export {send_request,search_menu, search_detail, draw_menu, search_IpList}
