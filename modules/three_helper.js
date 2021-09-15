@@ -35,7 +35,7 @@ function createBuilding(building, group)
     //世界地圖
     if(building.title == "WorldMap"){
       geometry = new THREE.PlaneGeometry(width, height)
-      let texture = new THREE.TextureLoader().load("picture/worldmap.jpg")
+      let texture = new THREE.TextureLoader().load("picture/texture/worldmap.jpg")
       for(var ii = 0; ii < geometry.faces.length; ii++){
         material.push(new THREE.MeshBasicMaterial({map:texture}));
       }
@@ -43,7 +43,16 @@ function createBuilding(building, group)
       //旋轉世界地圖至合適角度
       Mesh.rotateY(Math.PI / 180 * 40);
     }
-    //頂樓則宣告
+    
+    //GW現在定義成無關緊要的裝飾（北大岩、正門、牆壁等等），注意transparent:false
+    else if(building.id.substring(0, 2) == "GW"){
+      for(var ii = 0; ii < geometry.faces.length; ii++){
+        material.push(new THREE.MeshLambertMaterial({color: c, opacity : 0.8}))
+	    }
+      Mesh = new THREE.Mesh(geometry, material);
+    }
+
+    //頂樓則宣告畫布，並貼在長方體的頂面
     else if(i == floor - 1){
       var canvas = document.createElement("canvas")
       canvas.width = width * 20
