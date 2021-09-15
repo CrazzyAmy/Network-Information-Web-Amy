@@ -13,5 +13,4 @@ let OnDecorationLoaded = function() {
 //載入校園地板跟建築物之參數，並生成3d模型
 JsonReader.load_array(buildings, "/data/buildings.json" ,Building.fromJson, OnBuildingLoaded);
 JsonReader.load_array(decorations, "/data/decorations.json", Decoration.fromJson, OnDecorationLoaded);
-console.log(buildings.map.size)
 export{ buildings , decorations}

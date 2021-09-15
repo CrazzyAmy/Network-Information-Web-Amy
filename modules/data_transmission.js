@@ -327,9 +327,6 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 			//   else
 			//     intoout.push(element)
 			// })
-			for (let i in curr_detail_json) {
-				console.log(curr_detail_json[i]);
-			}
 			total_detail_json = curr_detail_json
 			update_parabola(curr_detail_json)
 			draw_detail(search_IP, search_eventName, search_eventSeverityCat)
