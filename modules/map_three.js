@@ -42,7 +42,8 @@
         intersects[0].object.name.length > 0){
       if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
             "emissive" in intersects[0].object.material[0] && //指定材質可高亮
-            INTERSECTED != intersects[0].object)           //重複事件確認
+            INTERSECTED != intersects[0].object               //重複事件確認
+          )           
       {
         for(let i = 0; i < INTERSECTED?.material.length; i++){
           INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
@@ -309,7 +310,6 @@
       let Color = color[i]
       p.init(scene);
       p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
-      //p.set(THelper.getRandomColor(), new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
       scenario.parab_list.push(p);
     }
     
