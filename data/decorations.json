@@ -1,8 +1,12 @@
 {
     "decorations" : [   
-        {"id":"Base","title":"校園地板", "type":"Plane", "location":[0,0,0], "size" :[150,150] , "color":"0x72a83d"},
-        {"id":"Road_LAW_ADM","title":"法政路", "type":"Plane", "location":[-21,1,0], "size" :[5,148] , "color":"0xf9f0ce"},
-        {"id":"Road_PA_ADM","title":"公政大道", "type":"Plane", "location":[0,1,-21], "size" :[148,5] , "color":"0xf9f0ce"},
-        {"id":"Road_Central","title":"中央大道", "type":"Plane", "location":[6,1,0], "size" :[5,148] , "color":"0xf9f0ce"},
-        {"id":"Road_LAW_BUS","title":"法商大道", "type":"Plane", "location":[0,1,11], "size" :[148,5] , "color":"0xf9f0ce"}
+        {"id":"Base","title":"校園地板", "type":"Plane", "location":[7,0,-5], "size" :[156,138], "color":"0x72a83d", "material":""},
+        {"id":"Road_LAW_ADM","title":"法政路", "type":"Plane", "location":[-21,1,-8], "size" :[5,130], "color":"0xf9f0ce", "material":""},
+        {"id":"Road_PA_ADM","title":"公政大道", "type":"Plane", "location":[7,1,-21], "size" :[140,5], "color":"0xf9f0ce", "material":""},
+        {"id":"Road_Central","title":"中央大道", "type":"Plane", "location":[6,1,-8], "size" :[5,130], "color":"0xf9f0ce", "material":""},
+        {"id":"Road_LAW_BUS","title":"法商大道", "type":"Plane", "location":[7,1,11], "size" :[140,5], "color":"0xf9f0ce", "material":""},
+        {"id":"Road_HUM_BUS","title":"文雅路", "type":"Plane", "location":[35,1,-8], "size" :[5,130], "color":"0xf9f0ce", "material":""},
+        {"id":"Road_KITE1","title":"鳶飛大道1", "type":"Plane", "location":[7,1,55], "size" :[140,5], "color":"0xf9f0ce", "material":""},
+        {"id":"Road_KITE2","title":"鳶飛大道2", "type":"Plane", "location":[-61,1,-8], "size" :[5,130], "color":"0xf9f0ce", "material":""},
+        {"id":"Road_KITE2","title":"鳶飛大道3", "type":"Plane", "location":[75,1,-8], "size" :[5,130], "color":"0xf9f0ce", "material":""}
 ]}

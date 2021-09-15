@@ -73,7 +73,7 @@ class Building
 }
 class Decoration
 {
-    constructor(id, title, type ,location ,size, color)
+    constructor(id, title, type ,location ,size, color, material)
     {
         this.id = id;
         this.title = title;
@@ -81,18 +81,20 @@ class Decoration
         this.location = location
         this.size = size;
         this.color = color;
+        this.material = material;
         this.toJson = function (){
             return ("{" +
                 "\"id\":\"" + this.id + "\"," +
                 "\"title\":\"" + this.title + "\"," +
                 "\"type\":\"" + this.type + "\"," +
                 "\"size\":\"" + this.size + "\"," +
-                "\"color\":" + this.color + "}");
+                "\"color\":" + this.color + 
+                "\"material\":" + this.material + "}");
         };
     }
     static fromJson = function (obj){
         let color = parseInt(obj.color.replace(/^#/, ''), 16)
-        return new Decoration (obj.id, obj.title, obj.type ,obj.location, obj.size, color);
+        return new Decoration (obj.id, obj.title, obj.type ,obj.location, obj.size, color, obj.material);
     };
 }
 class Site
