@@ -89,13 +89,13 @@ function createBuilding(building, group) {
 				let texture = new THREE.Texture(canvas);
 				texture.needsUpdate = true;
 				if (ii == 2) material.push(new THREE.MeshLambertMaterial({ map: texture }))
-				else material.push(new THREE.MeshLambertMaterial({ color: c, opacity: 0.8, transparent: true }))
+				else material.push(new THREE.MeshLambertMaterial({ color: c, opacity: 0.8, transparent: false }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}
 		else {
 			for (var ii = 0; ii < geometry.faces.length; ii++) {
-				material.push(new THREE.MeshLambertMaterial({ color: c, opacity: 0.8, transparent: true }))
+				material.push(new THREE.MeshLambertMaterial({ color: c, opacity: 0.8, transparent: false }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}

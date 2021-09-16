@@ -206,35 +206,56 @@
     camera.position.set(50, 50, 50);
     camera.lookAt(scene.position);
     
-    spotLight = new THREE.SpotLight(0xDEEDF7, 1);
-    //spotLight.position.set(15, 50, -15);
-    spotLight.position.set(0, 500, 0);
-    spotLight.angle = Math.PI;
-    spotLight.penumbra = 0.05;
-    spotLight.decay = 2;
-    spotLight.distance = 0;
-    spotLight.lookAt(0, 0, 0)
+    // spotLight = new THREE.SpotLight(0xDEEDF7, 1);
+    // //spotLight.position.set(15, 50, -15);
+    // spotLight.position.set(0, 1000, 0);
+    // spotLight.angle = Math.PI;
+    // spotLight.penumbra = 0.05;
+    // spotLight.decay = 2;
+    // spotLight.distance = 0;
+    // spotLight.lookAt(0, 0, 0)
 
-    // shadow
-    spotLight.castShadow = true;
-    spotLight.shadow = new THREE.LightShadow(new THREE.PerspectiveCamera(50, 1, 10, 2500));
-    spotLight.shadow.bias = 0.0001;
-    spotLight.shadow.mapSize.width = 2048;
-    spotLight.shadow.mapSize.height = 1024;
+    // // shadow
+    // spotLight.castShadow = true;
+    // spotLight.shadow = new THREE.LightShadow(new THREE.PerspectiveCamera(50, 1, 10, 2500));
+    // spotLight.shadow.bias = 0.0001;
+    // spotLight.shadow.mapSize.width = 2048;
+    // spotLight.shadow.mapSize.height = 1024;
+    // scene.add(spotLight);
 
-    scene.add(spotLight);
+    var hemiLight = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.6 );
+    hemiLight.position.set( 0, 500, 0 );
+    scene.add( hemiLight );
+
+    var dirLight = new THREE.DirectionalLight(0xFFFFFF, 1);
+    dirLight.position.set( -1, 0.75, 1 );
+    dirLight.position.multiplyScalar(50);
+    // dirLight.shadowCameraVisible = true;
+    dirLight.castShadow = true;
+    dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024*2;
+    var d = 300;
+    dirLight.shadowCameraLeft = -d;
+    dirLight.shadowCameraRight = d;
+    dirLight.shadowCameraTop = d;
+    dirLight.shadowCameraBottom = -d;
+
+    dirLight.shadowCameraFar = 3500;
+    dirLight.shadowBias = -0.0001;
+    dirLight.shadowDarkness = 0.35;
+    scene.add( dirLight );
     
     // 建立物體
     mouse.x = mouse.y = -1;
 
     // 建立渲染器
-    renderer = new THREE.WebGLRenderer()
+    renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
     renderer.setSize( sWidth, sHeight) // 場景大小
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
 
     // 建立 OrbitControls
     orbitControl = new OrbitControls(camera, renderer.domElement)
+    orbitControl.maxPolarAngle = Math.PI * 2 / 5;
 
     // 將渲染器的 DOM 綁到網頁上
     document.getElementById("scene").appendChild(renderer.domElement)
