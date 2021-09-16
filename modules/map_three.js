@@ -206,28 +206,14 @@
     camera.position.set(50, 50, 50);
     camera.lookAt(scene.position);
     
-    // spotLight = new THREE.SpotLight(0xDEEDF7, 1);
-    // //spotLight.position.set(15, 50, -15);
-    // spotLight.position.set(0, 1000, 0);
-    // spotLight.angle = Math.PI;
-    // spotLight.penumbra = 0.05;
-    // spotLight.decay = 2;
-    // spotLight.distance = 0;
-    // spotLight.lookAt(0, 0, 0)
+    // sunlight 不能使用 spotlight 模擬
+    // three.js 官方給的方案為 Direction light (模擬太陽直射) + Hemisphere light (模擬環境漫射)
+    // ref: https://threejs.org/examples/#webgl_lights_hemisphere
 
-    // // shadow
-    // spotLight.castShadow = true;
-    // spotLight.shadow = new THREE.LightShadow(new THREE.PerspectiveCamera(50, 1, 10, 2500));
-    // spotLight.shadow.bias = 0.0001;
-    // spotLight.shadow.mapSize.width = 2048;
-    // spotLight.shadow.mapSize.height = 1024;
-    // scene.add(spotLight);
-
-    var hemiLight = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.6 );
-    hemiLight.position.set( 0, 500, 0 );
+    var hemiLight = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.3);
     scene.add( hemiLight );
-
-    var dirLight = new THREE.DirectionalLight(0xFFFFFF, 1);
+    
+    var dirLight = new THREE.DirectionalLight(0xFFFFFF, 1.3);
     dirLight.position.set( -1, 0.75, 1 );
     dirLight.position.multiplyScalar(50);
     // dirLight.shadowCameraVisible = true;
@@ -256,6 +242,7 @@
     // 建立 OrbitControls
     orbitControl = new OrbitControls(camera, renderer.domElement)
     orbitControl.maxPolarAngle = Math.PI * 2 / 5;
+    orbitControl.maxDistance = 175;
 
     // 將渲染器的 DOM 綁到網頁上
     document.getElementById("scene").appendChild(renderer.domElement)
@@ -313,7 +300,7 @@
       }
       else{
         from = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_from.longitude)
-                -trace.site_from.latitude, 
+                -50 - trace.site_from.latitude, 
                 250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_from.longitude)]
       }
 
@@ -323,7 +310,7 @@
       }
       else{
         to = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_to.longitude)
-          -trace.site_to.latitude, 
+          - 50 -trace.site_to.latitude, 
           250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_to.longitude)]
       }
         
