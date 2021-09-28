@@ -11,11 +11,11 @@ function createPlane(plane, group) {
 	var geometry = new THREE.PlaneGeometry(width, depth);
 	console.log(plane)
 	if(plane.material.length == 0){
-		plane = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: plane.color, side: THREE.DoubleSide}));
+		plane = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({color: plane.color, side: THREE.DoubleSide}));
 	}
 	else{
 		let texture = new THREE.TextureLoader().load(plane.material);
-		plane = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({map: texture}));
+		plane = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({map: texture}));
 	}
 	plane.position.set(x, y, z);
 	plane.rotation.x = -0.5 * Math.PI; //修正size[1]為深度(depth) width, height -> width, depth 
@@ -48,7 +48,7 @@ function createBuilding(building, group) {
 		//GW現在定義成無關緊要的裝飾（北大岩、正門、牆壁等等），注意transparent : false
 		else if (building.id.substring(0, 2) == "GW") {
 			for (let ii = 0; ii < geometry.faces.length; ii++) {
-				material.push(new THREE.MeshLambertMaterial({ color: c, opacity: 0.8 }))
+				material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8 }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}
@@ -88,14 +88,14 @@ function createBuilding(building, group) {
 			for (let ii = 0; ii < geometry.faces.length; ii++) {
 				let texture = new THREE.Texture(canvas);
 				texture.needsUpdate = true;
-				if (ii == 2) material.push(new THREE.MeshLambertMaterial({ map: texture }))
-				else material.push(new THREE.MeshLambertMaterial({ color: c, opacity: 0.8, transparent: false }))
+				if (ii == 2) material.push(new THREE.MeshStandardMaterial({ map: texture }))
+				else material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}
 		else {
 			for (var ii = 0; ii < geometry.faces.length; ii++) {
-				material.push(new THREE.MeshLambertMaterial({ color: c, opacity: 0.8, transparent: false }))
+				material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}
