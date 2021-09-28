@@ -210,10 +210,10 @@
     // three.js 官方給的方案為 Direction light (模擬太陽直射) + Hemisphere light (模擬環境漫射)
     // ref: https://threejs.org/examples/#webgl_lights_hemisphere
 
-    var hemiLight = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.3);
+    var hemiLight = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.5);
     scene.add( hemiLight );
     
-    var dirLight = new THREE.DirectionalLight(0xFFFFFF, 1.3);
+    var dirLight = new THREE.DirectionalLight(0xFFFFFF, 0.8);
     dirLight.position.set( -1, 0.75, 1 );
     dirLight.position.multiplyScalar(50);
     // dirLight.shadowCameraVisible = true;
