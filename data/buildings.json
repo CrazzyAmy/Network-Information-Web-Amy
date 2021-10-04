@@ -7,14 +7,14 @@
         {"id":"ADM","title":"行政大樓","location":[20,0,-5], "size" :[20,14,25] , "color":"0xD29978", "floor":7 }, 
         {"id":"PA","title":"公共事務學院","location":[-35,0,-5], "size" :[20,18,25] , "color":"0xDCDCDE", "floor":9 }, 
         {"id":"LAW","title":"法律學院","location":[-37,0,32], "size" :[20,16,35] , "color":"0xDE5346", "floor":8 } ,
-        {"id":"BUS","title":"商學院","location":[20,0,32], "size" :[20,18,25] , "color":"0xED7155", "floor":9 } ,
+        {"id":"BUS","title":"商學院","location":[20,0,32], "size" :[20,18,25] , "color":"0xD48B71", "floor":9 } ,
         {"id":"HUM","title":"人文學院","location":[50,0,22], "size" :[25,26,15] , "color":"0xFF854B", "floor":13 } ,
         {"id":"GW0","title":"WorldMap","location":[-250,-50,-250], "size" :[360,180,1] , "color":"0xFFFFFF", "floor":1},
         {"id":"GW1","title":"NTPU_Rock","location":[-7,0,0], "size" :[2,2,2] , "color":"0xB9B4A3", "floor":1},
-        {"id":"GW20","title":"Left_Door","location":[-18,0,60], "size" :[3,6,4] , "color":"0xED7155", "floor":1},
-        {"id":"GW21","title":"Right_Door","location":[4,0,60], "size" :[3,6,4] , "color":"0xED7155", "floor":1},
-        {"id":"GW30","title":"Wall_part_1","location":[-44,0,60], "size" :[50,3,2] , "color":"0xED7155", "floor":1},
-        {"id":"GW31","title":"Wall_part_2","location":[44,0,60], "size" :[78,3,2] , "color":"0xED7155", "floor":1},
-        {"id":"GW32","title":"Wall_part_3","location":[83,0,-8], "size" :[2,3,138] , "color":"0xED7155", "floor":1},
-        {"id":"GW33","title":"Wall_part_4","location":[-70,0,-8], "size" :[2,3,138] , "color":"0xED7155", "floor":1}
+        {"id":"GW20","title":"Left_Door","location":[-18,0,60], "size" :[3,6,4] , "color":"0xEAA477", "floor":1},
+        {"id":"GW21","title":"Right_Door","location":[4,0,60], "size" :[3,6,4] , "color":"0xEAA477", "floor":1},
+        {"id":"GW30","title":"Wall_part_1","location":[-44,0,60], "size" :[50,3,2] , "color":"0xEAA477", "floor":1},
+        {"id":"GW31","title":"Wall_part_2","location":[44,0,60], "size" :[78,3,2] , "color":"0xEAA477", "floor":1},
+        {"id":"GW32","title":"Wall_part_3","location":[83,0,-8], "size" :[2,3,138] , "color":"0xEAA477", "floor":1},
+        {"id":"GW33","title":"Wall_part_4","location":[-70,0,-8], "size" :[2,3,138] , "color":"0xEAA477", "floor":1}
 ]}
