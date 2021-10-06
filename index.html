@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D視覺化專案</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="css/modify.css">
 </head>
 
 <body>
@@ -269,9 +271,59 @@
     </div>
   </div>
 
+  <script>
+    document.getElementById('dataForm').addEventListener('submit', function(e) {
+      // prevent default browser behavior
+      e.preventDefault();
+      var username = document.getElementById('users').value;
+      var password = document.getElementById('passwords').value;
+      var user = logIn(username, password);
+      if (user !== false) {
+            // reset the username input field
+            document.getElementById('users').value = '';
 
+            // reset the password input field
+            document.getElementById('passwords').value = '';
+
+            // alert the client that login was successful
+            alert('Logged in as ' + username + '.');
+      } else {
+            // reset the password input field
+            password = '';
+
+            // alert the client that login was not successful
+            alert('Invalid username and/or password.');
+      }
+    // }
+    });
+    function logIn(username, passw){
+        
+        var qs = new URLSearchParams({ user: username, passwd: passw });
+        // var payload = {user: username, passwd: passw};
+        var formData = new FormData();
+        // username = hex_sha256(username);
+        formData.set('user', username);
+        formData.set('passwd', passw);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://120.126.151.195:5001/events_form", true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.onload = function () {
+            document.body.innerHTML = xhr.responseText;
+        };
+        // var encodedData = encodeFormData(payload);
+
+        // console.log(formData);
+        // xhr.addEventListener('load', function () {
+        //     console.log(xhr); // 先看看xhr內容是什麼
+        // });
+        qs.toString();
+        xhr.send(formData);
+        console.log(xhr.readyState);
+
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
