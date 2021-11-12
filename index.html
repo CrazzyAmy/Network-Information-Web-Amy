@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D視覺化專案</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -28,7 +30,7 @@
     -->
     <!-- 導覽列標題/LOGO -->
     <div onclick="location.href='/index.html'" id="logo">
-      <img src="/picture/icon-yellow-lock.png" style="height: 8vh;" alt="">
+      <img src="/picture/logo_NSL.png" style="height: 8vh;" alt="">
       <img src="/picture/Logo-text_new.png" style="height: 6vh;" alt="">
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
@@ -37,6 +39,7 @@
         <img src="picture/settings-white-icon.jpg" alt="settings-icon" height="20px">
       </button>
       <button class="btn btn-outline-light" onclick="location.href = 'login.html'">login</button>
+      
     </div>
 
   </nav>
@@ -95,7 +98,7 @@
       </div>
 
       <!-- 左側資訊列，md以上顯示 -->
-      <div class="col-12 col-md-2 order-3  order-md-2 d-md-block p-0">
+      <!-- <div class="col-12 col-md-2 order-3  order-md-2 d-md-block p-0">
         <div class="sidebar status d-none d-md-flex">
           <div class="title">狀態-目前顯示</div>
           <div class="subtitle">Incident</div>
@@ -110,7 +113,6 @@
             <input type="checkbox" name="dir_out_in" id="dir_out_in" checked>
             <label for="dir_out_in">外打內</label>
           </form>
-
         </div>
         <div class="sidebar d-flex flex-row flex-wrap d-md-block info">
           <div class="title">詳細資料</div>
@@ -118,9 +120,7 @@
           <div class="value" id="left_srcbuilding">[大樓/數位講桌]</div>
           <div class="name">Source IP</div>
           <div class="value" id="left_srcIP">[IP位址]</div>
-          <!--<div class="value" id="left_destIP">[圖示][IP]</div>-->
           <div class="name">目標地點</div>
-          <!-- <div class="value" id="left_destbuilding">[大樓/數位講桌]</div> -->
           <select class="value" name="" id="left_destbuilding">
             <option value=""></option>
           </select>
@@ -130,25 +130,31 @@
           </select>
           <div class="name">發生時間</div>
           <div class="value" id="left_time">[日期時間]</div>  
-
         </div>
-      </div>
+      </div> -->
       <!-- 3D場景容器 -->
 
-      <div class="col-12 col-md-8 order-2 order-md-2 p-0">
-        <div class="scene-container" id="scene"></div>
+      <div class="col-12 col-md-12 order-2 order-md-2 p-0">
+        <div class="scene-container" id="scene">
+
+        </div>
+        
       </div>
-      
+      <!-- order-1 order-md-3 p-0 -->
       <!-- 右側資訊列，xs、sm顯示在上方，md以上顯示在右方 -->
-      <div class="col-12 col-md-2 order-1 order-md-3 p-0">
-        <div class="sidebar d-flex flex-row flex-wrap d-md-block">
-          <div class="title">目前範圍
+      <div class="header" name="fade">
+        <div class="sidebar rightbar d-flex flex-row flex-wrap d-md-block" style="align-items: flex-end;" id="rightbar"  v-if="show">
+          <div class="title" style="position: relative;top:   5%;">目前範圍
             <img src="" alt="" srcset="">
             共
             <span id="event-num">0</span>
             <span id="iplst-num" style="display: none;">0</span>
             筆事件
           </div>
+          <div class="closebtn" id="menubtn">
+            <a class="toggle-nav" href="#" >&#9776;</a>
+          </div>
+          
           <div>
             <!-- <div class="sort d-flex justify-content-start align-item-stretch">
               <button class="flex-grow-1 d-none d-md-flex" id="switch-event">事件列表</button>
@@ -237,10 +243,12 @@
             <!-- 事件列表 -->
             <div id="event-main-list">
               <div class="name d-none d-md-block" id="event-list">事件列表</div>
+              
               <ul class="d-none d-md-block" id="Event-name-list">
                 
               </ul>
               <div class="name d-none d-md-block">來源IP列表</div>
+              
               <!--               
               <div class="sort d-flex justify-content-start align-item-stretch">
                 <button class="flex-grow-1">Src</button>
@@ -254,7 +262,7 @@
             </div>
 
             <!-- IP列表 -->
-            <div class="" id="ip-main-list">
+            <!-- <div class="" id="ip-main-list">
               <div>
                 <div class="name d-none d-md-block" id="">IP列表</div>
                 <ul class="d-none d-md-block" id="IP-main-list">
@@ -263,66 +271,25 @@
                 <ul class="d-none d-md-block" id="IP-related-list">
                 </ul>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
+      
       </div>
     </div>
   </div>
 
   <script>
-    document.getElementById('dataForm').addEventListener('submit', function(e) {
-      // prevent default browser behavior
-      e.preventDefault();
-      var username = document.getElementById('users').value;
-      var password = document.getElementById('passwords').value;
-      var user = logIn(username, password);
-      if (user !== false) {
-            // reset the username input field
-            document.getElementById('users').value = '';
-
-            // reset the password input field
-            document.getElementById('passwords').value = '';
-
-            // alert the client that login was successful
-            alert('Logged in as ' + username + '.');
-      } else {
-            // reset the password input field
-            password = '';
-
-            // alert the client that login was not successful
-            alert('Invalid username and/or password.');
-      }
-    // }
-    });
-    function logIn(username, passw){
-        
-        var qs = new URLSearchParams({ user: username, passwd: passw });
-        // var payload = {user: username, passwd: passw};
-        var formData = new FormData();
-        // username = hex_sha256(username);
-        formData.set('user', username);
-        formData.set('passwd', passw);
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://120.126.151.195:5001/events_form", true);
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        xhr.onload = function () {
-            document.body.innerHTML = xhr.responseText;
-        };
-        // var encodedData = encodeFormData(payload);
-
-        // console.log(formData);
-        // xhr.addEventListener('load', function () {
-        //     console.log(xhr); // 先看看xhr內容是什麼
-        // });
-        qs.toString();
-        xhr.send(formData);
-        console.log(xhr.readyState);
-
-    }
+    $('#closebtn').click(function () {
+        $('.rightbar').toggleClass('active');
+    })
+    $('.closebtn').click(function () {
+        $('.rightbar').toggleClass('active');
+    })
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
