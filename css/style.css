@@ -1,0 +1,76 @@
+  .header{
+    position: relative;
+    /* background: gray; */
+    background: #3f3a37;
+  }
+
+  .ham-icon {
+    position: absolute;
+    left: 13px;
+    color: #FFFFFF;
+  }
+  .closebtn {
+    
+    position: relative;
+    margin: 8px;
+    left: -10%;
+    top:   4%;
+    height: 80px;
+    font-size: 1.5em;
+    background-color: #3f3a37;
+    border-radius: 12px;
+}
+  .rightbar{
+    display: block;
+    /* background-color: #272626;
+    color: white; */
+    height: 100%;
+    width: 40vw;
+    z-index: 1;
+    position: fixed;
+    left: 100%;
+    transition: all 1s;
+  }
+  .rightbar.active {
+    
+    position: fixed;
+        top: 0;
+        left: 60%;
+        transition: all 1s;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  .fade-enter-active {
+    transition: all 0.3s ease;
+  }
+  .fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+  .header .rightbar {
+    display: none;
+  }
+  .toggle-nav {
+    /* display: block; */
+    position: relative;
+    left: 4%;
+    top: 30%;
+    color: #ffffff;
+    
+    line-height: 40px;
+  }
+  .toggle-nav:hover{
+    text-decoration: none;
+    cursor: pointer;
+    color: #FF9900;
+  }
+
+.navbar-toggler a:hover{
+  text-decoration: none;
+  color: #FF9900;
+  cursor: pointer;
+}

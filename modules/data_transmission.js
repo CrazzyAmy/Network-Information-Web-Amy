@@ -16,6 +16,7 @@ let total_detail_json = null
 let ip_gateway_set = new Map();
 let nextNum = 0
 
+
 document.querySelector("#search_first").addEventListener('click', function () {
 	search_detail("", "", "")
 });
@@ -88,7 +89,7 @@ $('input[name=dir_out_in]').change(function () {
 //將初步搜尋資料傳給後台伺服器，並回傳json檔
 function send_request(search_string) {
 	var request = new XMLHttpRequest();
-	request.open("POST", "http://120.126.151.195:5000/test", true)
+	request.open("POST", "http://120.126.151.195:5000/events_form", true)
 	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 	request.responseType = "text"
 	request.send(search_string)
@@ -99,6 +100,7 @@ function send_request(search_string) {
 			// Typical action to be performed when the document is ready:
 			curr_json = JSON.parse(request.responseText)
 			console.log(curr_json);
+			console.log(curr_json.length)
 			if (curr_json.length == 0) return;
 			$("#Event-name-list").empty();
 			$("#IP-list").empty();
@@ -108,22 +110,39 @@ function send_request(search_string) {
 			let total_IP_count = 0
 			let idx = ''
 			let menu_data = curr_json
+			$("#Event-name-list:last").append(
+				'<li>'+
+					'<div class="row justify-content-around" style="color:black;font-size:13px;">'+
+						'<div class="col-1">'+'Lv.'+'</div>'+
+						'<div class="col-3">'+'srcip'+'</div>'+
+						'<div class="col-2">'+'數量'+ '</div>'+
+						'<div class="col-2">'+'建築'+'</div>'+
+						'<div class="col-1">'+'樓'+ '</div>'+
+					'</div>'+
+				'</li>'
+			)
 			for (idx in menu_data) {
-				if (idx == "subarray") continue;
-				$("#Event-name-list:last").append(
-					'<li>' +
-					'<button type="button" id="Event' + idx + '" class=" sever-' + menu_data[idx].eventSeverity + ' d-flex flex-row justify-content-around" style="padding-right:25px">' +
-					'<div class="event-name">' + menu_data[idx].eventName + '</div>' +
-					'<div class="count">' + menu_data[idx].totalIPCount + '</div>' +
-					'</button>' +
-					'</li>'
-				)
-				//console.log(idx)
-				//console.log(typeof(idx))
-				let para = idx
-				document.querySelector("#Event" + idx).addEventListener('click', function () { draw_menu(para); });
-				total_IP_count += menu_data[idx].totalIPCount
+				let menu_data_data = menu_data[idx]
+				let i = ''
+				
+				for (i in menu_data_data){
+					if (i == "subarray") continue;
+					$("#Event-name-list:last").append(
+						'<li>' +
+						'<button type="button" id="Event' + i + '" class=" sever-' + menu_data[idx][i].eventSeverity + ' d-flex flex-row justify-content-between" style="padding-right:25px" onclick ="draw_menu(\'' + menu_data[idx][i].source_ip + '\', ' + menu_data[idx][i].eventSeverity + ', ' + i + ')">' +
+						'<div class="severity">' + 'Lv.' + menu_data[idx][i].eventSeverity + '</div>' +
+						'<div class="source-ip">' + fix_ip(menu_data[idx][i].source_ip) + '</div>' +
+						'<div class="count">' + menu_data[idx][i].counts + '</div>' +
+						'<div class="build">' + menu_data[idx][i].building + '</div>' +
+						'<div class="floor">' + menu_data[idx][i].floor + 'F' + '</div>' +
+						'</button>' +
+						'</li>'
+					)
+					
+					total_IP_count += menu_data[idx].totalIPCount
+				}
 			}
+			
 			$("#event-num").text(total_IP_count)
 			//將小列表的資訊儲存到global variable
 			//以供未來使用
@@ -131,10 +150,6 @@ function send_request(search_string) {
 			console.log(curr_json)
 		}
 	}
-	//console.log("get responseText:")
-	//console.log(request.responseText)
-	//console.log(typeof(request.responseText))
-	//return JSON.parse(request.responseText) 
 }
 
 
@@ -142,7 +157,7 @@ function send_request(search_string) {
 function search_menu(search_string) {
 	update_search_string()
 	//傳送搜尋字串，接收json檔
-	search_string = 'searchType=MENU&timeStart=20201223&timeEnd=20201225&buildingName=ALL&bulidingFloor=ALL'
+	search_string = 'searchType=MENU&timeStart=20201223&timeEnd=20201225&buildingName=ALL&bulidingFloor=ALL&eventSeverityCat=ALL'
 	search_string = 'searchType=MENU&' + curr_form_search_string
 	let menu_data = send_request(search_string)
 	menu_data = curr_json
@@ -182,7 +197,7 @@ function search_IpList(search_string) {
 				if (idx == "subarray") continue;
 				$("#IP-main-list:last").append(
 					'<li >' +
-					'<button type="button" id="IPlstEvent' + idx + '" class=" d-flex flex-row justify-content-start " style="padding-right:25px;">' +
+					'<button type="button" id="IPlstEvent' + idx + '" class=" sever-' + menu_data[idx][i].eventSeverity + ' d-flex flex-row justify-content-start " style="padding-right:25px;">' +
 					'<div class="event-name">' + IpLst[idx].IP + '</div>' +
 					'<div class="count" style="margin-right:25px;">' + IpLst[idx].score + '</div>' +
 					'</button>' +
@@ -204,17 +219,17 @@ function draw_IP_related(index) {
 	console.log("draw_IP_related(" + index + ")")
 	search_detail(curr_IpLst_json[index].IP)
 	$("#IP-related-list").empty();
-	let data = curr_IpLst_json[index].connectedIP
-	for (let idx in data) {
-		data[idx].IP = fix_ip(data[idx].IP)
+	let datas = curr_IpLst_json[index].connectedIP
+	for (let idx in datas) {
+		datas[idx].IP = fix_ip(datas[idx].IP)
 		if (idx == "subarray") continue;
 		$("#IP-related-list:last").append(
 			'<li>' +
 			'<button type="button" id="IP-related' + idx + '" class=" d-flex flex-row justify-content-start" style="padding-right:25px;">' +
 			'<div class="IP">' +
-			'<div>' + data[idx].IP + '</div>' +
+			'<div>' + datas[idx].IP + '</div>' +
 			'</div>' +
-			'<div class="count" style="margin-right:25px;">' + data[idx].score + '</div>' +
+			'<div class="count" style="margin-right:25px;">' + datas[idx].score + '</div>' +
 			'</button>' +
 			'</li>'
 		)
@@ -250,8 +265,8 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 			update_parabola(curr_detail_json)
 
 			//clear_multi_scenario() 
-
-			draw_detail(search_IP, search_eventName, search_eventSeverityCat)
+			//等資料齊全開啟
+			//draw_detail(search_IP, search_eventName, search_eventSeverityCat)
 			/*
 				需要做對應的修正
 				將curr_detail_json改成curr_IpLst_detail_json
@@ -262,32 +277,103 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 }
 
 //點擊大列表(按鈕)，更新小列表#IP-list資訊
-function draw_menu(index) {
-	console.log(index)
-	console.log(typeof (index))
-	console.log(curr_json)
-	console.log(curr_json[index])
-	console.log(typeof (curr_json[index]))
-	let IP_list_data = curr_json[index].IP
-	$("#IP-list:last").empty()
-	for (let idx in IP_list_data) {
-		IP_list_data[idx].name = fix_ip(IP_list_data[idx].name)
-		if (idx == "subarray") continue;
-		$("#IP-list:last").append(
-			'<li>' +
-			'<button type="button" id="IP-' + idx + '" class=" sever-' + curr_json[index].eventSeverity + ' d-flex flex-row justify-content-around">' +
-			'<div class="IP">' +
-			'<div>' + IP_list_data[idx].buildingTitle + (IP_list_data[idx].buildingName == "GW" ? "" : (IP_list_data[idx].buildingFloor == 0 ? "B1" : IP_list_data[idx].buildingFloor) + "F") + '</div>' +
-			'<div>' + IP_list_data[idx].name + '</div>' +
-			'</div>' +
-			'<div class="count">' + IP_list_data[idx].count + '</div>' +
-			'</button>' +
-			'</li>'
-		)
-		let para = IP_list_data[idx].name
-		document.querySelector("#IP-" + idx).addEventListener('click', function () { search_detail(IP_list_data[idx].name, curr_json[index].eventName, curr_json[index].eventSeverityCat, idx); });
+function draw_menu(index, serv, j) {
+	var request = new XMLHttpRequest();
+	request.open("POST", "http://120.126.151.195:5000/events_form_detail", true)
+	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	// request.responseType = "text"
+	// let Search_string_destip = 'ip=' + index + "&eventSeverity=" + serv +'&date=2021-08-24'
+	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv, "date": "2021-08-24"}))
+	// request.send(Search_string_destip)
+	// console.log(Search_string_destip)
+	console.log(j)
+	request.onreadystatechange = function () {
+		//收到資料後，畫大列表
+		if (this.readyState === 4 && this.status === 200) {
+			// Typical action to be performed when the document is ready:
+			curr_json = JSON.parse(request.responseText)
+			console.log(curr_json);
+			console.log(curr_json.length)
+			if (curr_json.length == 0) return;
+			$("#IP-list").empty();
+
+
+			//用json檔的資料，更新大列表
+			let total_IP_count = 0
+			let idx = ''
+			let menu_data = curr_json
+			
+			$("#IP-list:last").append(
+				'<li>'+
+					'<div class="row justify-content-around" style="color:black;font-size:13px;">'+
+						'<div class="col-2">'+'數量'+ '</div>'+
+						'<div class="col-2">'+'事件名稱'+ '</div>'+
+						'<div class="col-3">'+'ip事件名稱'+ '</div>'+
+						'<div class="col-2">'+'destip'+'</div>'+
+					'</div>'+
+				'</li>'
+			)
+			for (idx in menu_data) {
+				
+				if(idx == 'data'){
+					console.log(idx)
+					console.log(menu_data[idx][0].counts )
+					let menu_data_data = menu_data[idx]
+					let i = ''
+					for (i in menu_data_data){
+						if(i=='subarray')continue;
+						console.log(menu_data[idx][i].eventSeverity)
+						$("#IP-list:last").append(
+							'<li>' +
+							
+							'<button type="button" id="Event' + i + '" class=" sever-' + serv + ' d-flex flex-row justify-content-between" style="padding-right:25px">' +
+							'<div class="count">' + menu_data[idx][i].counts + '</div>' +
+							'<div class="eventName">' + menu_data[idx][i].eventName + '</div>' +
+							'<div class="ipseventName">' + menu_data[idx][i].ipsEventName + '</div>' +
+							'<div class="source-ip">' + fix_ip(menu_data[idx][i].destination_ip)  + '</div>' +
+							'</button>' +
+							'</li>'
+						)
+						let para = idx
+						total_IP_count += menu_data[idx].totalIPCount
+					}
+					$("#event-num").text(total_IP_count)
+					//將小列表的資訊儲存到global variable
+					//以供未來使用
+					curr_json = menu_data
+					console.log(curr_json)
+				}
+				
+				
+			}
+		}
 	}
+	// console.log(index)
+	// console.log(typeof (index))
+	// console.log(curr_json)
+	// console.log(curr_json[index])
+	// console.log(typeof (curr_json[index]))
+	// let IP_list_data = curr_json[index].IP
+	// for (let idx in IP_list_data) {
+	// 	IP_list_data[idx].name = fix_ip(IP_list_data[idx].name)
+	// 	if (idx == "subarray") continue;
+	// 	$("#IP-list:last").append(
+	// 		'<li>' +
+	// 		'<button type="button" id="IP-' + idx + '" class=" sever-' + curr_json[index].eventSeverity + ' d-flex flex-row justify-content-around">' +
+	// 		'<div class="IP">' +
+	// 		'<div>' + IP_list_data[idx].buildingTitle + (IP_list_data[idx].buildingName == "GW" ? "" : (IP_list_data[idx].buildingFloor == 0 ? "B1" : IP_list_data[idx].buildingFloor) + "F") + '</div>' +
+	// 		'<div>' + IP_list_data[idx].name + '</div>' +
+	// 		'</div>' +
+	// 		'<div class="count">' + IP_list_data[idx].count + '</div>' +
+	// 		'</button>' +
+	// 		'</li>'
+	// 	)
+	// 	let para = IP_list_data[idx].name
+	// 	document.querySelector("#IP-" + idx).addEventListener('click', function () { search_detail(IP_list_data[idx].name, curr_json[index].eventName, curr_json[index].eventSeverityCat, idx); });
+	// }
 }
+
+window.draw_menu = draw_menu
 
 //第二步搜尋，接收資料，畫出事件線條
 function search_detail(search_IP, search_eventName, search_eventSeverityCat, id) {
@@ -401,46 +487,46 @@ function update_parabola(detail) {
 
 //點擊小列表時，更新左側sidebar的資訊
 function draw_detail(search_IP, search_eventName, search_eventSeverityCat) {
-	$("#left_eventName").text(curr_detail_json[0].eventName)
-	$("#left_eventSeverityCat").text(curr_detail_json[0].eventSeverityCat)
-	$("#left_time").text(curr_detail_json[0].deviceTime)
-	$("#left_srcbuilding").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingName[0] == "G" ? "" : (curr_detail_json[0].srcbuildingFloor == 0 ? "B1" : curr_detail_json[0].srcbuildingFloor) + "F"))
-	curr_detail_json[0].srcIpAddr = fix_ip(curr_detail_json[0].srcIpAddr)
-	$("#left_srcIP").text(curr_detail_json[0].srcIpAddr)
-	$("#left_destbuilding").text(curr_detail_json[0].destbuildingTitle + (curr_detail_json[0].destbuildingName[0] == "G" ? "" : (curr_detail_json[0].destbuildingFloor == 0 ? "B1" : curr_detail_json[0].destbuildingFloor) + "F"))
+	$("#left_eventName").text(search_eventName)
+	$("#left_eventSeverityCat").text(search_eventSeverityCat)
+	// $("#left_time").text(curr_detail_json[0].deviceTime)
+	// $("#left_srcbuilding").text(curr_detail_json[0].srcbuildingTitle + (curr_detail_json[0].srcbuildingName[0] == "G" ? "" : (curr_detail_json[0].srcbuildingFloor == 0 ? "B1" : curr_detail_json[0].srcbuildingFloor) + "F"))
+	// search_IP = fix_ip(search_IP)
+	$("#left_srcIP").text(search_IP)
+	// $("#left_destbuilding").text(curr_detail_json[0].destbuildingTitle + (curr_detail_json[0].destbuildingName[0] == "G" ? "" : (curr_detail_json[0].destbuildingFloor == 0 ? "B1" : curr_detail_json[0].destbuildingFloor) + "F"))
 
-	$("#left_destIP").text(curr_detail_json[0].destIpAddr)
-	//大樓樓層Select
-	for (let i in curr_detail_json) {
-		if (i == "subarray") continue;
-		//檢查是否有重複option
-		if ($("#left_destbuilding option[name=" + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + "]").length > 0) continue;
-		if ($("#left_destbuilding option[name=" + curr_detail_json[i].destbuildingName[0] + curr_detail_json[i].destbuildingName[1] + "]").length > 0 && curr_detail_json[i].destbuildingName[0] == "G" && curr_detail_json[i].destbuildingName[1] == "W") continue;
-		$("#left_destbuilding:last").append(
-			'<option value="' + i + '" name="' + (curr_detail_json[i].destbuildingName[0] == "G" ? "GW" : curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor) + '">' + curr_detail_json[i].destbuildingTitle + (curr_detail_json[i].destbuildingName[0] == "G" ? "" : curr_detail_json[i].destbuildingFloor + 'F') + '</option>'
-		)
-	}
-	$("#left_destbuilding").change(function () {
-		$("#left_destIP").val("");
-		$("#left_destIP option").hide();
-		$("#left_destIP option[name=" + curr_detail_json[this.value].destbuildingName + curr_detail_json[this.value].destbuildingFloor + "]").show();
-	})
+	// $("#left_destIP").text(curr_detail_json[0].destIpAddr)
+	// 大樓樓層Select
+	// for (let i in curr_detail_json) {
+	// 	if (i == "subarray") continue;
+	// 	//檢查是否有重複option
+	// 	if ($("#left_destbuilding option[name=" + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + "]").length > 0) continue;
+	// 	if ($("#left_destbuilding option[name=" + curr_detail_json[i].destbuildingName[0] + curr_detail_json[i].destbuildingName[1] + "]").length > 0 && curr_detail_json[i].destbuildingName[0] == "G" && curr_detail_json[i].destbuildingName[1] == "W") continue;
+	// 	$("#left_destbuilding:last").append(
+	// 		'<option value="' + i + '" name="' + (curr_detail_json[i].destbuildingName[0] == "G" ? "GW" : curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor) + '">' + curr_detail_json[i].destbuildingTitle + (curr_detail_json[i].destbuildingName[0] == "G" ? "" : curr_detail_json[i].destbuildingFloor + 'F') + '</option>'
+	// 	)
+	// }
+	// $("#left_destbuilding").change(function () {
+	// 	$("#left_destIP").val("");
+	// 	$("#left_destIP option").hide();
+	// 	$("#left_destIP option[name=" + curr_detail_json[this.value].destbuildingName + curr_detail_json[this.value].destbuildingFloor + "]").show();
+	// })
 
-	sortList("left_destbuilding")
+	// sortList("left_destbuilding")
 
-	//目標IP Select
-	for (let i in curr_detail_json) {
-		//alert("目標IP Select"+i)
-		curr_detail_json[i].destIpAddr = fix_ip(curr_detail_json[i].destIpAddr)
-		if (i == "subarray") continue;
-		$("#left_destIP:last").append(
-			'<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + fix_ip(curr_detail_json[i].destIpAddr) + '</option>'
-		)
-	}
-	$("#left_destIP").change(function () {
-		//$("#left_destbuilding").text(curr_detail_json[this.value].destbuildingTitle + (curr_detail_json[this.value].destbuildingName == "GW" ? "":(curr_detail_json[this.value].destbuildingFloor == 0? "B1":curr_detail_json[this.value].destbuildingFloor) + "F"))
-		$("#left_time").text(curr_detail_json[this.value].deviceTime)
-	})
+	// //目標IP Select
+	// for (let i in curr_detail_json) {
+	// 	//alert("目標IP Select"+i)
+	// 	curr_detail_json[i].destIpAddr = fix_ip(curr_detail_json[i].destIpAddr)
+	// 	if (i == "subarray") continue;
+	// 	$("#left_destIP:last").append(
+	// 		'<option value="' + i + '" name="' + curr_detail_json[i].destbuildingName + curr_detail_json[i].destbuildingFloor + '">' + fix_ip(curr_detail_json[i].destIpAddr) + '</option>'
+	// 	)
+	// }
+	// $("#left_destIP").change(function () {
+	// 	//$("#left_destbuilding").text(curr_detail_json[this.value].destbuildingTitle + (curr_detail_json[this.value].destbuildingName == "GW" ? "":(curr_detail_json[this.value].destbuildingFloor == 0? "B1":curr_detail_json[this.value].destbuildingFloor) + "F"))
+	// 	$("#left_time").text(curr_detail_json[this.value].deviceTime)
+	// })
 }
 
 function sortList(id) {

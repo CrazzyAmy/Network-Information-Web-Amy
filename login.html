@@ -28,7 +28,7 @@
     -->
     <!-- 導覽列標題/LOGO -->
     <div onclick="location.href='/index.html'" id="logo">
-      <img src="/picture/icon-yellow-lock.png" style="height: 8vh;" alt="">
+      <img src="/picture/logo_NSL.png" style="height: 8vh;" alt="">
       <img src="/picture/Logo-text_new.png" style="height: 6vh;" alt="">
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
@@ -48,11 +48,11 @@
   
 
   <!-- 電腦版介面 -->
-  <div class="row container-fluid main-container " style="  margin:0 auto; background: url(https://i0.wp.com/file06.16sucai.com/2016/0922/83ce651a1ccdf151dc14158d2dc4f1c7.jpg)no-repeat center; background-size: cover;">
-     <div class="col-0 col-md-1" style=" "></div>
-     <div class="col-12 col-md-5 mb-3  rounded border " style="margin-top: 30px; display: block; background-color:white; flex-wrap: nowrap; height: 495px; width: 380px; padding:80px; padding-top: 125px; margin-right:20px; ">
+  <div class="container-fluid main-container " style="display: flex; justify-content: center;  margin:0 auto; background: url(https://i0.wp.com/file06.16sucai.com/2016/0922/83ce651a1ccdf151dc14158d2dc4f1c7.jpg)no-repeat center; background-size: cover;">
+     
+     <div class="rounded border " style="margin-top: 60px; display: block; background-color:white; flex-wrap: nowrap; height: 495px; max-width: 380px; padding:80px; padding-top: 125px; margin-right:20px; ">
         <h3>使用者登入</h3>
-        <form action="" id="loginForm" enctype="multipart/form-data" action="/upload" method="POST">
+        <form action="" id="loginForm">
           <div class="mb-3">
             
             <input class="form-control input_text" type="text" name="users" id="users"  style="margin-top: 45px;">
@@ -70,7 +70,7 @@
           </div> 
         </form>
      </div>
-     <div class="col-12 col-md-5  rounded border " style="margin-top: 30px; display: block; background-color:white; height: 495px; width: 380px; padding:80px; margin-bottom:0px;">
+     <!-- <div class="col-12 col-md-5  rounded border " style="margin-top: 30px; display: block; background-color:white; height: 495px; max-width: 380px; padding:80px; margin-bottom:0px;">
       <div class="progress" style="margin-bottom:30px;">
           <div id="progress_bar"class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%"></div>
       </div>
@@ -101,15 +101,34 @@
               <label class="form-label" id="level_label" for="level" style="display:none;">level</label>
           </div>
           <label id="end_text" style="animation:none;display:none;margin-bottom:13px;margin-right:46px;">註冊已完成!</label>
-          <!--<input class="btn btn-dark" type="button" id="register" value="確認">-->
+          
           <button id="previous_btn" type="button" class="btn btn-primary button_previous btn-sm" onclick="move_previous()">&lt;&lt;previous</button>
           <button id="next_btn" type="button" class="btn btn-primary button_next btn-sm" onclick="move_on()">next>></button>
       </form>
-  </div>
+  </div> -->
   </div>
 
-    <!-- <script src="bundle.js"></script> -->
+  <!-- <script>
+    
+    document.querySelector("#login").addEventListener("click",function(){
+        var request = new XMLHttpRequest();
+        request.open("POST", "http://120.126.151.195:5000/login", true)
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+        request.responseType = "text"
+      
+        let search_string = $('#loginForm').serialize();
+        request.send(search_string)
+        console.log("Send request: " + search_string)
+        request.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // Typical action to be performed when the document is ready:
+            console.log(request.responseText);
+          }
+        }
+      })
+      </script> -->
     <script type="module">
+      import {hex_sha256} from './modules/sha256.js';
       // import {logIn} from './modules/data_transmission.js';
       
 
@@ -119,29 +138,29 @@
 
           var username = document.getElementById('users').value;
           var password = document.getElementById('passwords').value;
-          // const fs = require("fs");
 
-          // // STEP 1: Reading JSON file
-          // const users = require("./data/users.json");
+          // const fileSystem = require("browserify-fs");
+          // const client = {
+          // "user": username,
+          // "passwd": password
+          // }
+          // const data = JSON.stringify(client)
+          // console.log(data)  
 
-          // // Defining new user
-          // let account = {
-          //   user: username,
-          //   passwd: password
-          // };
-
-          // // STEP 2: Adding new data to users object
-          // users.push(account);
-
-          // // STEP 3: Writing to a file
-          // fs.writeFile("users.json", JSON.stringify(users), err => {
-            
-          //   // Checking for errors
-          //   if (err) throw err;
-
-          //   console.log("Done writing"); // Success
-          // });
-
+          // fileSystem.readFile("./client.json", (err, data) => {
+          // if(err) {
+          //   console.log("File can't be read", err)
+          //   return
+          // }
+          // try{
+          //   const client = JSON.parse(data)
+          //   console.log("client data is:", client)
+          // }
+          // catch(err) {
+          //   console.log("Error parsing JSON string:", err)
+          // }
+          // })
+          
           // execute the 'login' function with the username and password filled in on the client
           var user = logIn(username, password);
 
@@ -185,9 +204,16 @@
         xmlhttp.addEventListener('load', function () {
             console.log(xmlhttp); // 先看看xhr內容是什麼
         });
+        console.log("cookie");
+        document.cookie = 'user=' +  username;
+        document.cookie = 'passwd='+ passw;
+        // document.cookie = "path=/";
+
+        console.log(document.cookie);
       }
 
     </script>
+  <script type="module" src="modules/sha256.js"></script>
   <script type="module" src="modules/data_transmission.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
