@@ -261,7 +261,6 @@
 
   let add_scenario = function(sites_from, sites_to, color)
   {
-    console.log(sites_from, sites_to)
     if(sites_from.length == 0) return;
     for(let i = 0; i < sites_from.length; i++){
       console.log(sites_from[i].building_id, sites_to[i].building_id)
@@ -294,7 +293,7 @@
       //取得建築資料參考及位置，如果Trace.Site有building info，則將building info轉成three.js座標
       //否則則將經緯度轉成three.js的座標
       let from, to;
-      if(trace.site_from.building_id != null){
+      if(trace.site_from.building_id){
         let b_from = buildings.map.get(trace.site_from.building_id);
         from = b_from.get_pos(trace.site_from.floor_id);
       }
@@ -304,7 +303,7 @@
                 250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_from.longitude)]
       }
 
-      if(trace.site_to.building_id != null){
+      if(trace.site_to.building_id){
         let b_to = buildings.map.get(trace.site_to.building_id);
         to = b_to.get_pos(trace.site_to.floor_id);
       }

@@ -29,7 +29,9 @@ $(document).ready(function () {
 	add_scenario(site1_from, site1_to, 0xFF0000);
 	//將日期訂為YYYY-MM-DD
 	let today = new Date
+	// today_date format: YYYY-MM-DD
 	let today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, "0") + "-" + today.getDate().toString().padStart(2, "0")
+	today_date = "2021-08-03"
 	$("#timeStart").val(today_date)
 	$("#timeEnd").val(today_date)
 	update_search_string()
@@ -424,6 +426,7 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 
 //清除舊有線條、換新線條
 function update_parabola(detail) {
+	console.log(detail)
 	let site_from = []
 	let site_to = []
 	let color = []
@@ -439,17 +442,22 @@ function update_parabola(detail) {
 		if (i == "subarray") continue;
 		//因為 JS 的 map 沒辦法用 array 當做 key
 		//所以只好將 srcbuilding, srcfloor, dstbuilding, dstfloor, EventSeverCat四個字串用空白連結起來
-		let location_string;
-		if (detail[i].srcbuildingName === null)
-			location_string = detail[i].longitude + " " + detail[i].latitude
-		else
-			location_string = detail[i].srcbuildingName + " " + detail[i].srcbuildingFloor
-		if (detail[i].destbuildingName === null)
-			location_string += " " + detail[i].longitude + " " + detail[i].latitude
-		else
-			location_string += " " + detail[i].destbuildingName + " " + detail[i].destbuildingFloor
-		location_string += " " + detail[i].eventSeverityCat[0]
-		if (typeof (eventlocationset.get(location_string)) == "undefined") {
+		let location_string = "";
+		if(detail[i].srcbuildingName || detail[i].dstbuildingName){
+			if (detail[i].srcbuildingName === null)
+				location_string += detail[i].longitude + " " + detail[i].latitude;
+			else
+				location_string += detail[i].srcbuildingName + " " + detail[i].srcbuildingFloor;
+
+			if (detail[i].dstbuildingName === null)
+				location_string += " " + detail[i].longitude + " " + detail[i].latitude;
+			else
+				location_string += " " + detail[i].dstbuildingName + " " + detail[i].dstbuildingFloor;
+			location_string += " " + detail[i].eventSeverityCat[0]
+			console.log(location_string)
+		}
+
+		if (eventlocationset.get(location_string)) {
 			eventlocationset.set(location_string, 1)
 		}
 		else {
