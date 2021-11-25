@@ -9,7 +9,6 @@ function createPlane(plane, group) {
 	let x = plane.location[0], y = plane.location[1], z = plane.location[2];  //location
 	let width = plane.size[0], depth = plane.size[1];
 	var geometry = new THREE.PlaneGeometry(width, depth);
-	console.log(plane)
 	if(plane.material.length == 0){
 		plane = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({color: plane.color, side: THREE.DoubleSide}));
 	}
