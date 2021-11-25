@@ -454,7 +454,6 @@ function update_parabola(detail) {
 			else
 				location_string += " " + detail[i].dstbuildingName + " " + detail[i].dstbuildingFloor;
 			location_string += " " + detail[i].eventSeverityCat[0]
-			console.log(location_string)
 		}
 
 		if (eventlocationset.get(location_string)) {
@@ -470,15 +469,16 @@ function update_parabola(detail) {
 		//續上方註解，將 location_string 的空白分開成 4-tuple
 		//detail[0] 代表 srcbuilding，detail[1] 代表 srcfloor，detail[2] 代表 dstbuilding，detail[3]代表dstfloor
 		//value代表總統計值，key代表src/dst資訊
-		//(/^[A-Z]+$/)為regular expression，代表僅能出現多個大寫字母（對應到校內建築物），校外一定是 GW + number
 		let detail = key.split(' ')
 		if (detail[0].indexOf('.') > -1) {
-			site_from.push(new Site("", "", detail[0], detail[1]))
+			site_from.push(new Site("", "", detail[0], detail[1]));
+			site_to.push(new Site(detail[2], detail[3], "", ""));
 		}
 		else {
-			site_from.push(new Site(detail[0], detail[1], "", ""))
+			site_from.push(new Site(detail[0], detail[1], "", ""));
+			site_to.push(new Site("", "", detail[2], detail[3]));
 		}
-		site_to.push(new Site(detail[2], detail[3], "", ""))
+		
 
 		let EventSeverCat = detail[4]
 		let ColorBrightness = Math.ceil(Math.log10(value + 1)) >= 3 ? 3 : Math.ceil(Math.log10(value + 1))
