@@ -263,18 +263,17 @@
   {
     if(sites_from.length == 0) return;
     for(let i = 0; i < sites_from.length; i++){
-      console.log(sites_from[i].building_id, sites_to[i].building_id)
       if(sites_from[i].building_id === undefined || sites_to[i].building_id == undefined)continue;
       // .match(/^[A-Z]+$/ is regular expression, to decide whether the string is all captical characters
       //all captical characters == inner buildings of school(LAW, BUS, ...), otherwise is the part of worldmap wall(GW123, ...)
       //用來統計各樓層的事件個數，與tooltip相關
-      if(sites_from[i].building_id == sites_from[i].building_id.toUpperCase()){
+      if((/^[A-Z]*$/).test(sites_from[i].building_id)){
         let tmp = buildingcnt.get(sites_from[i].building_id)
         tmp[sites_from[i].floor_id] += 1
         buildingcnt.set(sites_from[i].building_id, tmp)
         sites_from[i].floor_id = buildingfloor[buildingname.indexOf(sites_from[i].building_id)]
       }
-      if(sites_to[i].building_id == sites_to[i].building_id.toUpperCase()){
+      if((/^[A-Z]*$/).test(sites_to[i].building_id)){
         let tmp = buildingcnt.get(sites_to[i].building_id)
         tmp[sites_to[i].floor_id] += 1
         buildingcnt.set(sites_to[i].building_id, tmp)
@@ -283,7 +282,7 @@
     }
   
     let traces = [];
-    for(let i=0;i<sites_from.length;i++)
+    for(let i = 0; i < sites_from.length; i++)
        traces.push(new Trace(sites_from[i],sites_to[i]));
     let scenario = new Scenario(traces);
     //Set Three
@@ -294,43 +293,47 @@
       //否則則將經緯度轉成three.js的座標
       let from, to;
       if(trace.site_from.building_id){
+        if(!(/^[A-Z]*$/).test(trace.site_from.building_id))continue;
         let b_from = buildings.map.get(trace.site_from.building_id);
         from = b_from.get_pos(trace.site_from.floor_id);
       }
-      else{
-        from = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_from.longitude)
-                -50 - trace.site_from.latitude, 
-                250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_from.longitude)]
+      else if(trace.site_from.latitude){
+        from = [-250 + Math.cos(Math.PI * 40 / 180) * parseFloat(trace.site_from.longitude),
+                 40 + parseFloat(trace.site_from.latitude), 
+                -250 - Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_from.longitude)]
       }
+      else{continue;}
 
       if(trace.site_to.building_id){
+        if(!(/^[A-Z]*$/).test(trace.site_to.building_id))continue;
         let b_to = buildings.map.get(trace.site_to.building_id);
         to = b_to.get_pos(trace.site_to.floor_id);
       }
-      else{
-        to = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_to.longitude)
-          - 50 -trace.site_to.latitude, 
-          250 + Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_to.longitude)]
+      else if(trace.site_to.latitude){
+        to = [-250 + Math.pow(Math.cos(Math.PI * 40 / 180), 2) * parseFloat(trace.site_to.longitude),
+               40 + parseFloat(trace.site_to.latitude), 
+              -250 - Math.cos(Math.PI * 40 / 180) * Math.sin(Math.PI * 40 / 180) * parseFloat(trace.site_to.longitude)]
       }
-        
+      else{continue;}
       let p = new Parabola();
       let Color = color[i]
       p.init(scene);
-      p.set(Color, new THREE.Vector3(from[0],from[1],from[2]), new THREE.Vector3(to[0],to[1],to[2]), -0.003);
+      p.set(Color, new THREE.Vector3(from[0], from[1], from[2]), new THREE.Vector3(to[0], to[1], to[2]), -0.003);
       scenario.parab_list.push(p);
     }
     
     multi_scenario.scenarios.push(scenario);
     //完成一次動畫後要做的事件
     scenario.parab_list[0].OnAnimated = function() {
-      //換下一個scenario
+      //換下一個scenario，到last scenario則循環
       multi_scenario.scenario_id++;
       multi_scenario.scenario_id %= multi_scenario.scenarios.length;
       //去建築高亮
       t_buildings?.children.forEach( mesh =>{
+        console.log(mesh);
         const words = mesh.name.split('_'); // "buildingId_floorID"
         let color = new THREE.Color(buildings.map.get(words[0]).color);
-        //mesh?.material.emissive.setHex(color.getHex);
+        mesh?.material.emissive.setHex(0xFFFF00);
       });
     }
   }
@@ -367,8 +370,8 @@
     multi_scenario.get_display_scenario()?.traces.forEach( trace =>{
       let bFrom = t_buildings.getObjectByName(trace.site_from.building_id + "_" + trace.site_from.floor_id)
       let bTo = t_buildings.getObjectByName(trace.site_to.building_id + "_" + trace.site_to.floor_id)
-      let cFrom =  new THREE.Color(buildings.map.get(trace.site_from.building_id).color).getHex()
-      let cTo =  new THREE.Color(buildings.map.get(trace.site_to.building_id).color).getHex()
+     // let cFrom =  new THREE.Color(buildings.map.get(trace.site_from.building_id).color).getHex()
+     // let cTo =  new THREE.Color(buildings.map.get(trace.site_to.building_id).color).getHex()
       for(let i = 0; i < bFrom?.material[i].length; i++)
         bFrom?.material[i].emissive.setHex(0xFFFF22); 
       for(let i = 0; i < bTo?.material[i].length; i++)
