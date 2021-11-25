@@ -95,50 +95,13 @@
               </div>
           </div>
       </div>
-      </div>
-
-      <!-- 左側資訊列，md以上顯示 -->
-      <!-- <div class="col-12 col-md-2 order-3  order-md-2 d-md-block p-0">
-        <div class="sidebar status d-none d-md-flex">
-          <div class="title">狀態-目前顯示</div>
-          <div class="subtitle">Incident</div>
-          <div class="name">Name</div>
-          <div class="value" id="left_eventName">[事件名稱]</div>
-          <div class="name">Severity Category</div>
-          <div class="value" id="left_eventSeverityCat">[嚴重等級]</div>
-          <div class="name">顯示方向</div>
-          <form action="" class="name">
-            <input type="checkbox" name="dir_in_out" id="dir_in_out" checked>
-            <label for="dir_in_out">內打外</label><br>
-            <input type="checkbox" name="dir_out_in" id="dir_out_in" checked>
-            <label for="dir_out_in">外打內</label>
-          </form>
-        </div>
-        <div class="sidebar d-flex flex-row flex-wrap d-md-block info">
-          <div class="title">詳細資料</div>
-          <div class="name">來源地點</div>
-          <div class="value" id="left_srcbuilding">[大樓/數位講桌]</div>
-          <div class="name">Source IP</div>
-          <div class="value" id="left_srcIP">[IP位址]</div>
-          <div class="name">目標地點</div>
-          <select class="value" name="" id="left_destbuilding">
-            <option value=""></option>
-          </select>
-          <div class="name">Target IP</div>
-          <select class="value" name="" id="left_destIP">
-            <option value=""></option>
-          </select>
-          <div class="name">發生時間</div>
-          <div class="value" id="left_time">[日期時間]</div>  
-        </div>
-      </div> -->
+    </div>
       <!-- 3D場景容器 -->
 
       <div class="col-12 col-md-12 order-2 order-md-2 p-0">
         <div class="scene-container" id="scene">
 
         </div>
-        
       </div>
       <!-- order-1 order-md-3 p-0 -->
       <!-- 右側資訊列，xs、sm顯示在上方，md以上顯示在右方 -->
@@ -156,33 +119,28 @@
           </div>
           
           <div>
-            <!-- <div class="sort d-flex justify-content-start align-item-stretch">
-              <button class="flex-grow-1 d-none d-md-flex" id="switch-event">事件列表</button>
-              <button class="flex-grow-1 d-none d-md-flex" id="switch-ip">IP列表</button>
-              <button class="flex-grow-1 d-none d-md-flex" id="switch-search">搜尋</button>
-            </div> -->
 
-          <!-- 搜尋欄位 -->
+            <!-- 搜尋欄位 -->
 
-          <div id="search">
-            <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
+            <div id="search">
+              <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
-            <div class="row justify-content-center">
-              <div class="col-12 col-md-10 search-name">時間</div>
-            </div>
-            
-            <div class="row justify-content-center">
-              <input type="date" name="timeStart" id="timeStart" class="timevalue col-12 col-md-5">
-              <input type="date" name="timeEnd" id="timeEnd" class="timevalue col-12 col-md-5">
-            </div>
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-10 search-name">時間</div>
+              </div>
+              
+              <div class="row justify-content-center">
+                <input type="date" name="timeStart" id="timeStart" class="timevalue col-12 col-md-5">
+                <input type="date" name="timeEnd" id="timeEnd" class="timevalue col-12 col-md-5">
+              </div>
 
-            <div class="row justify-content-center">
-              <div class="col-12 col-md-6 search-name">地點</div>
-              <div class="col-12 col-md-4 search-name">樓層</div>
-            </div>
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-6 search-name">地點</div>
+                <div class="col-12 col-md-4 search-name">樓層</div>
+              </div>
 
-            <div class="row justify-content-center">
-              <select name="buildingName" id="selectBuilding" class="timevalue col-12 col-md-6">
+              <div class="row justify-content-center">
+                <select name="buildingName" id="selectBuilding" class="timevalue col-12 col-md-6">
                   <option value="ALL">ALL</option>
                   <option disabled>------------------------------------------</option>
                   <option value="EECS">電資大樓</option>
@@ -212,33 +170,33 @@
                   <option value="10">10F</option>
                   <option value="11">11F</option>
                   <option value="12">12F</option>
-              </select>
-            </div>
-
-            <div class="row justify-content-center">
-              <div class="col-12 col-md-6" style="padding-right: 0%;">
-                <div class="search-name">事件嚴重等級</div>
-                <select name="eventSeverityCat" id="" class="timevalue">
-                  <option value="ALL">ALL</option>
-                  <option disabled>------------------------------------------</option>
-                  <option value="LOW">LOW</option>
-                  <option value="MID">MID</option>
-                  <option value="HIGH">HIGH</option>
                 </select>
               </div>
-              <div class="col-12 col-md-5" style="padding-left: 0%;">
-                <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
-              </div>
-            </div>
-            
-            
-            
 
-            <!-- <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;"> -->
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-6" style="padding-right: 0%;">
+                  <div class="search-name">事件嚴重等級</div>
+                  <select name="eventSeverityCat" id="" class="timevalue">
+                    <option value="ALL">ALL</option>
+                    <option disabled>------------------------------------------</option>
+                    <option value="LOW">LOW</option>
+                    <option value="MID">MID</option>
+                    <option value="HIGH">HIGH</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-5" style="padding-left: 0%;">
+                  <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
+                </div>
+              </div>
               
+              
+              
+
+              <!-- <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;"> -->
+                
+              </div>
+            </form>
             </div>
-          </form>
-          </div>
 
             <!-- 事件列表 -->
             <div id="event-main-list">
@@ -260,18 +218,6 @@
   
               </ul>
             </div>
-
-            <!-- IP列表 -->
-            <!-- <div class="" id="ip-main-list">
-              <div>
-                <div class="name d-none d-md-block" id="">IP列表</div>
-                <ul class="d-none d-md-block" id="IP-main-list">
-                </ul>
-                <div class="name d-none d-md-block">相關IP列表</div>
-                <ul class="d-none d-md-block" id="IP-related-list">
-                </ul>
-              </div>
-            </div> -->
           </div>
         </div>
       

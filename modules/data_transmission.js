@@ -115,35 +115,41 @@ function send_request(search_string) {
 					'<div class="row justify-content-around" style="color:black;font-size:13px;">'+
 						'<div class="col-1">'+'Lv.'+'</div>'+
 						'<div class="col-3">'+'srcip'+'</div>'+
-						'<div class="col-2">'+'數量'+ '</div>'+
-						'<div class="col-2">'+'建築'+'</div>'+
+						'<div class="col-3">'+'數量'+ '</div>'+
+						'<div class="col-3">'+'建築'+'</div>'+
 						'<div class="col-1">'+'樓'+ '</div>'+
 					'</div>'+
 				'</li>'
 			)
 			for (idx in menu_data) {
 				let menu_data_data = menu_data[idx]
+				console.log(idx)
 				let i = ''
-				
-				for (i in menu_data_data){
-					if (i == "subarray") continue;
-					$("#Event-name-list:last").append(
-						'<li>' +
-						'<button type="button" id="Event' + i + '" class=" sever-' + menu_data[idx][i].eventSeverity + ' d-flex flex-row justify-content-between" style="padding-right:25px" onclick ="draw_menu(\'' + menu_data[idx][i].source_ip + '\', ' + menu_data[idx][i].eventSeverity + ', ' + i + ')">' +
-						'<div class="severity">' + 'Lv.' + menu_data[idx][i].eventSeverity + '</div>' +
-						'<div class="source-ip">' + fix_ip(menu_data[idx][i].source_ip) + '</div>' +
-						'<div class="count">' + menu_data[idx][i].counts + '</div>' +
-						'<div class="build">' + menu_data[idx][i].building + '</div>' +
-						'<div class="floor">' + menu_data[idx][i].floor + 'F' + '</div>' +
-						'</button>' +
-						'</li>'
-					)
-					
-					total_IP_count += menu_data[idx].totalIPCount
+				if(idx=='counts'){
+					$("#event-num").text(menu_data[idx]);
+					console.log(menu_data[idx])
+				}else{
+					for (i in menu_data_data){
+						if (i == "subarray") continue;
+						$("#Event-name-list:last").append(
+							'<li style="background-color: white;">' +
+							'<button type="button" id="Event' + i + '" class="row sever-' + menu_data[idx][i].eventSeverity + ' align-item-center list-group-item-action list-group-item-warning" style="padding-right:50px; " onclick ="draw_menu(\'' + menu_data[idx][i].source_ip + '\', ' + menu_data[idx][i].eventSeverity + ', ' + i + ')">' +
+							'<div class="severity col-1">' + 'Lv.' + menu_data[idx][i].eventSeverity + '</div>' +
+							'<div class="source-ip col-3">' + fix_ip(menu_data[idx][i].source_ip) + '</div>' +
+							'<div class="count col-3">' + menu_data[idx][i].counts + '</div>' +
+							'<div class="build col-4">' + menu_data[idx][i].building + '</div>' +
+							'<div class="floor col-1">' + menu_data[idx][i].floor + 'F' + '</div>' +
+							'</button>' +
+							'</li>'
+						)
+						
+						total_IP_count += menu_data[idx].totalIPCount
+					}
 				}
+				
 			}
 			
-			$("#event-num").text(total_IP_count)
+			// $("#event-num").text(total_IP_count)
 			//將小列表的資訊儲存到global variable
 			//以供未來使用
 			curr_json = menu_data
@@ -314,8 +320,11 @@ function draw_menu(index, serv, j) {
 				'</li>'
 			)
 			for (idx in menu_data) {
-				
-				if(idx == 'data'){
+				if(idx=='counts'){
+					$("#event-num").text(menu_data[idx]);
+					console.log(menu_data[idx])
+				}
+				else if(idx == 'data'){
 					console.log(idx)
 					console.log(menu_data[idx][0].counts )
 					let menu_data_data = menu_data[idx]
@@ -337,7 +346,7 @@ function draw_menu(index, serv, j) {
 						let para = idx
 						total_IP_count += menu_data[idx].totalIPCount
 					}
-					$("#event-num").text(total_IP_count)
+					// $("#event-num").text(total_IP_count)
 					//將小列表的資訊儲存到global variable
 					//以供未來使用
 					curr_json = menu_data
