@@ -481,14 +481,16 @@ function update_parabola(detail) {
 		
 
 		let EventSeverCat = detail[4]
-		let ColorBrightness = Math.ceil(Math.log10(value + 1)) >= 3 ? 3 : Math.ceil(Math.log10(value + 1))
+
+		//let ColorBrightness = Math.ceil(Math.log10(value + 1)) >= 3 ? 3 : Math.ceil(Math.log10(value + 1))
+		let ColorBrightness = 0;
 		if (EventSeverCat == "H") tmpcolor = colorR[ColorBrightness]
 		else if (EventSeverCat == "M") tmpcolor = colorY[ColorBrightness]
 		else tmpcolor = colorG[ColorBrightness]
-		//console.log(key + " " + value + " " +tmpcolor)
+		console.log(key + " " + value + " " +tmpcolor)
 		color.push(tmpcolor)
 	})
-
+	console.log(color)
 	add_scenario(site_from, site_to, color)
 	clear_multi_scenario()
 }

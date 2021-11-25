@@ -316,7 +316,7 @@
       }
       else{continue;}
       let p = new Parabola();
-      let Color = color[i]
+      let Color = color[i];
       p.init(scene);
       p.set(Color, new THREE.Vector3(from[0], from[1], from[2]), new THREE.Vector3(to[0], to[1], to[2]), -0.003);
       scenario.parab_list.push(p);
