@@ -113,6 +113,8 @@
             <span id="event-num">0</span>
             <span id="iplst-num" style="display: none;">0</span>
             筆事件
+            <button id="daily" type="button" onclick="Go()">每日表格</button>
+            <!-- <a id="daily" href="http://127.0.0.1:5500/dailydata.html?today_date_st=(document.getElementById("timeStart").value)+"&today_date_end"+" role="button")>每日表格</a> -->
           </div>
           <div class="closebtn" id="menubtn">
             <a class="toggle-nav" href="#" >&#9776;</a>
@@ -176,7 +178,7 @@
               <div class="row justify-content-center">
                 <div class="col-12 col-md-6" style="padding-right: 0%;">
                   <div class="search-name">事件嚴重等級</div>
-                  <select name="eventSeverityCat" id="" class="timevalue">
+                  <select name="eventSeverityCat" id="eventSeverityCat" class="timevalue">
                     <option value="ALL">ALL</option>
                     <option disabled>------------------------------------------</option>
                     <option value="LOW">LOW</option>
@@ -188,8 +190,10 @@
                   <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
                 </div>
               </div>
-              
-              
+              <label for="customRange3" class="form-label">資料筆數</label>
+              <input type="range" id="dataCount" placeholder="400" class="form-range" min="100" max="400" step="100" id="customRange3">
+              <label for="customRange3" class="form-label">上限值</label>
+              <input type="range" id="upfloor" placeholder="100" class="form-range" min="100" max="400" step="100" id="customRange3">
               
 
               <!-- <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;"> -->
@@ -200,12 +204,12 @@
 
             <!-- 事件列表 -->
             <div id="event-main-list">
-              <div class="name d-none d-md-block" id="event-list">事件列表</div>
+              <div class="name d-none d-md-block" id="event-list">來源IP列表</div>
               
               <ul class="d-none d-md-block" id="Event-name-list">
                 
               </ul>
-              <div class="name d-none d-md-block">來源IP列表</div>
+              <div class="name d-none d-md-block">事件列表</div>
               
               <!--               
               <div class="sort d-flex justify-content-start align-item-stretch">
@@ -214,9 +218,11 @@
                 <button class="flex-grow-1">全部</button>
               </div>
                -->
+               <div>
               <ul class="d-none d-md-block" id="IP-list">
   
               </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -224,7 +230,11 @@
       </div>
     </div>
   </div>
-
+  <script type="text/javascript">  
+    function Go() {  
+        window.open("http://127.0.0.1:5500/dailydata.html?L_date="+ document.getElementById("timeStart").value +"&R_date="+document.getElementById("timeEnd").value)  
+    }  
+</script>  
   <script>
     $('#closebtn').click(function () {
         $('.rightbar').toggleClass('active');
