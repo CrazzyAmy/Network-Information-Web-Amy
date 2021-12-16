@@ -184,8 +184,7 @@
         // }
       });
 
-      function logIn(username, passw){
-        
+      function logIn(username, passw){        
         var qs = new URLSearchParams({ user: username, passwd: passw });
         // var payload = {user: username, passwd: passw};
         var formData = new FormData();
@@ -197,7 +196,7 @@
         });
         console.log(object)
         var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-        var theUrl = "http://120.126.151.195:5001/login";
+        var theUrl = "http://120.126.151.195:5000/login";
         xmlhttp.open("POST", theUrl);
         xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xmlhttp.send(JSON.stringify({ "user": "test", "passwd": "test" }));
@@ -205,11 +204,31 @@
             console.log(xmlhttp); // 先看看xhr內容是什麼
         });
         console.log("cookie");
-        document.cookie = 'user=' +  username;
-        document.cookie = 'passwd='+ passw;
+        // document.cookie = 'user=' +  username;
+        // document.cookie = 'passwd='+ passw;
         // document.cookie = "path=/";
 
-        console.log(document.cookie);
+        // console.log(document.cookie);
+        xmlhttp.onreadystatechange = function () {
+          let curr_json = JSON.parse(xmlhttp.responseText)
+          let idx = ''
+          let menu_data = curr_json
+          console.log(menu_data)
+          for (idx in menu_data)
+          {
+            let menu_data_data = menu_data[idx]
+            console.log(idx)
+            let i = ''
+            if(idx=='session'){
+              document.cookie = 'session='+ menu_data_data;
+              console.log(menu_data[idx])
+            }
+            if(idx=='userId'){
+              document.cookie = 'userId='+ menu_data_data;
+              console.log(menu_data[idx])
+            }
+          }
+        }
       }
 
     </script>

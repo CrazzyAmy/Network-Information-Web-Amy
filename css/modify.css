@@ -10,6 +10,7 @@ label {
     animation-duration: 1s;
     bottom: 32px;
     position: relative;
+    color: black;
 }
 input {
     animation-duration: 1s;

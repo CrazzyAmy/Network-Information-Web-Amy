@@ -23,17 +23,13 @@ document.querySelector("#search_first").addEventListener('click', function () {
 
 //開啟網頁時，做第一次的搜尋
 $(document).ready(function () {
-<<<<<<< HEAD
 	console.log("start")
 	console.log(document.location.href)
-=======
->>>>>>> f74511cf30374bcd32745fcb88ef08f86a966228
 	clear_multi_scenario()
 	let site1_from = [new Site("SS", 0, "", "")];
 	let site1_to = [new Site("SS", 0, "", "")];
 	add_scenario(site1_from, site1_to, 0xFF0000);
 	//將日期訂為YYYY-MM-DD
-<<<<<<< HEAD
 	let today = new Date(document.getElementById("timeStart").value)
 	// today_date format: YYYY-MM-DD
 	let today_date_st = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, "0") + "-" + today.getDate().toString().padStart(2, "0")
@@ -44,14 +40,6 @@ $(document).ready(function () {
 	$("#timeEnd").val(today_date_end)
 	today_date_st = document.getElementById("timeStart").value
 	today_date_end = document.getElementById("timeEnd").value
-=======
-	let today = new Date
-	// today_date format: YYYY-MM-DD
-	let today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, "0") + "-" + today.getDate().toString().padStart(2, "0")
-	today_date = "2021-08-03"
-	$("#timeStart").val(today_date)
-	$("#timeEnd").val(today_date)
->>>>>>> f74511cf30374bcd32745fcb88ef08f86a966228
 	update_search_string()
 	//發送搜尋請求
 	//search_menu()第一步搜尋，search_detail第二步搜尋
@@ -59,7 +47,6 @@ $(document).ready(function () {
 	search_menu()
 	search_IpList()
 	//將 curr_detail_json分成內打外跟外打內
-<<<<<<< HEAD
 	// document.querySelector("#daily").addEventListener('click', function () {
 	// 	search_detail_daily(today_date_st, today_date_end)
 		
@@ -68,8 +55,6 @@ $(document).ready(function () {
 	// 	console.log(document.getElementById("timeEnd").value)
 	// });
 	// search_detail_daily(document.getElementById("timeStart").value,document.getElementById("timeEnd").value)
-=======
->>>>>>> f74511cf30374bcd32745fcb88ef08f86a966228
 })
 
 window.onload = function () {
