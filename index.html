@@ -13,8 +13,9 @@
 </head>
 
 <body>
+  <div class="section">
   <!-- 上方導覽列Navbar -->
-  <nav class="navbar navbar-light">
+  <nav class="navbar navbar-light top_navbar">
     <!-- 導覽列左側選單，md消失 -->
     <!-- 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -34,12 +35,14 @@
       <img src="/picture/Logo-text_new.png" style="height: 6vh;" alt="">
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
-    <div class="navbar-toggler">
+    <div class="navbar-toggler" style="display:flex;">
       <button class="btn btn-outline-light" onclick="opensetting()">
         <img src="picture/settings-white-icon.jpg" alt="settings-icon" height="20px">
       </button>
       <button class="btn btn-outline-light" onclick="location.href = 'login.html'">login</button>
-      
+      <button class="btn btn-outline-light closebtn" id="menubtn">
+        <a class="toggle-nav" href="#" >&#9776;</a>
+      </button>
     </div>
 
   </nav>
@@ -97,17 +100,18 @@
       </div>
     </div>
       <!-- 3D場景容器 -->
-
+    <!-- -->
       <div class="col-12 col-md-12 order-2 order-md-2 p-0">
-        <div class="scene-container" id="scene">
+        <div  class="scene-container" id="scene" >
 
         </div>
       </div>
+    </div>
       <!-- order-1 order-md-3 p-0 -->
       <!-- 右側資訊列，xs、sm顯示在上方，md以上顯示在右方 -->
-      <div class="header" name="fade">
+      <!--  -->
         <div class="sidebar rightbar d-flex flex-row flex-wrap d-md-block" style="align-items: flex-end;" id="rightbar"  v-if="show">
-          <div class="title" style="position: relative;top:   5%;">目前範圍
+          <div class="title" style="position: relative;top:   0;">目前範圍
             <img src="" alt="" srcset="">
             共
             <span id="event-num">0</span>
@@ -116,15 +120,15 @@
             <button id="daily" type="button" onclick="Go()">每日表格</button>
             <!-- <a id="daily" href="http://127.0.0.1:5500/dailydata.html?today_date_st=(document.getElementById("timeStart").value)+"&today_date_end"+" role="button")>每日表格</a> -->
           </div>
-          <div class="closebtn" id="menubtn">
+          <!-- <div class="closebtn" id="menubtn">
             <a class="toggle-nav" href="#" >&#9776;</a>
-          </div>
+          </div> -->
           
           <div>
 
             <!-- 搜尋欄位 -->
-          <div class="parallax">
-          </div>
+            <div class="parallax" style="width: 614px;">
+            </div>
             <div id="search">
               <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
@@ -177,7 +181,7 @@
               </div>
 
               <div class="row justify-content-center">
-                <div class="col-12 col-md-6" style="padding-right: 0%;">
+                <div class="col-6" style="padding-right: 0%;">
                   <div class="search-name">事件嚴重等級</div>
                   <select name="eventSeverityCat" id="eventSeverityCat" class="timevalue">
                     <option value="ALL">ALL</option>
@@ -187,15 +191,18 @@
                     <option value="HIGH">HIGH</option>
                   </select>
                 </div>
-                <div class="col-12 col-md-5" style="padding-left: 0%;">
+                <div class="col-5" style="padding-left: 0%;">
                   <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
                 </div>
               </div>
-              <label for="customRange3" class="form-label">資料筆數</label>
-              <input type="range" id="dataCount" placeholder="400" class="form-range" min="100" max="400" step="100" id="customRange3">
-              <label for="customRange3" class="form-label">上限值</label>
-              <input type="range" id="upfloor" placeholder="100" class="form-range" min="100" max="400" step="100" id="customRange3">
-              
+              <div class="justify-content-center" style="margin: 0 20px;">
+                <label for="customRange3" class="form-label">資料筆數</label>
+                <input type="range" id="dataCount" placeholder="400" class="form-range" min="100" max="400" step="100" id="customRange3">
+              </div>
+              <div class="justify-content-center" style="margin: 0 20px;">
+                <label for="customRange3" class="form-label">上限值</label>
+                <input type="range" id="upfloor" placeholder="10" class="form-range" min="10" max="40" step="10" id="customRange3">
+              </div>
 
               <!-- <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;"> -->
                 
@@ -230,19 +237,22 @@
       
       </div>
     </div>
-  </div>
   <script type="text/javascript">  
     function Go() {  
         window.open("http://127.0.0.1:5500/dailydata.html?L_date="+ document.getElementById("timeStart").value +"&R_date="+document.getElementById("timeEnd").value)  
     }  
 </script>  
   <script>
-    $('#closebtn').click(function () {
-        $('.rightbar').toggleClass('active');
-    })
-    $('.closebtn').click(function () {
-        $('.rightbar').toggleClass('active');
-    })
+      var hamburger = document.querySelector(".closebtn");
+	hamburger.addEventListener("click", function(){
+		document.querySelector("body").classList.toggle("active");
+	})
+    // $('#closebtn').click(function () {
+    //     $('.rightbar').toggleClass('active');
+    // })
+    // $('.closebtn').click(function () {
+    //     $('.rightbar').toggleClass('active');
+    // })
   </script>
   
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>

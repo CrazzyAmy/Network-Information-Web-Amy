@@ -131,9 +131,9 @@ function send_request(search_string) {
 					'<div class="row justify-content-around" style="color:black;font-size:13px;">'+
 						'<div class="col-1">'+'Lv.'+'</div>'+
 						'<div class="col-3">'+'srcip'+'</div>'+
-						'<div class="col-3">'+'數量'+ '</div>'+
-						'<div class="col-3">'+'主目的地'+'</div>'+
-						'<div class="col-3">'+'建築'+'</div>'+
+						'<div class="col-2">'+'數量'+ '</div>'+
+						'<div class="col-2">'+'主目的地'+'</div>'+
+						'<div class="col-2">'+'建築'+'</div>'+
 						'<div class="col-1">'+'樓'+ '</div>'+
 					'</div>'+
 				'</li>'
