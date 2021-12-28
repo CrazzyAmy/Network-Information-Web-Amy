@@ -101,14 +101,13 @@ $('input[name=dir_out_in]').change(function () {
 		}
 	}
 });
-
 //將初步搜尋資料傳給後台伺服器，並回傳json檔
 function send_request(search_string) {
 	var request = new XMLHttpRequest();
 	request.open("POST", "http://120.126.151.195:5000/events_form", true)
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
-	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "Building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "floornumber": document.getElementById("upfloor").value}))
+	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value}))
 	// console.log("Send request: " + search_string)
 	request.onreadystatechange = function () {
 		//收到資料後，畫大列表
