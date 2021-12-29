@@ -183,7 +183,13 @@
           }
         // }
       });
-
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        console.log(value);
+        console.log(parts);
+      }
       function logIn(username, passw){        
         var qs = new URLSearchParams({ user: username, passwd: passw });
         // var payload = {user: username, passwd: passw};
@@ -228,6 +234,11 @@
               console.log(menu_data[idx])
             }
           }
+          const value1 = (document.cookie).split('=')[1]
+          const value4 = (document.cookie).split('=')[4]
+          console.log(value1)
+          console.log(value4)
+          // console.log(value2)
         }
       }
 

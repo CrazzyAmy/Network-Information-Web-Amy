@@ -59,6 +59,11 @@ $(document).ready(function () {
 
 window.onload = function () {
 }
+function getCookie(name) {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+  }
 //監聽Checkbox，檢查顯示方向是內打外、外打內
 $('input[name=dir_in_out]').change(function () {
 	console.log('detect in to out checkbox changed!')
@@ -107,7 +112,10 @@ function send_request(search_string) {
 	request.open("POST", "http://120.126.151.195:5000/events_form", true)
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
-	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value}))
+	//
+	const value1 = (document.cookie).split('=')[1]
+	const value4 = (document.cookie).split('=')[4]
+	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value, "session":value4,"userId":value1}))
 	// console.log("Send request: " + search_string)
 	request.onreadystatechange = function () {
 		//收到資料後，畫大列表
@@ -265,7 +273,8 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 	request.open("POST", "http://120.126.151.195:5000/ip_lst_detail", true)
 	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 	request.responseType = "text"
-
+	const value1 = (document.cookie).split('=')[1]
+	const value4 = (document.cookie).split('=')[4]
 	request.send(detail_search_string)
 	console.log("Send request: " + detail_search_string)
 	//收到資料後，畫出3D場景中的線條
@@ -301,11 +310,13 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 //點擊大列表(按鈕)，更新小列表#IP-list資訊
 function draw_menu(index, serv, j) {
 	var request = new XMLHttpRequest();
+	const value1 = (document.cookie).split('=')[1]
+	const value4 = (document.cookie).split('=')[4]
 	request.open("POST", "http://120.126.151.195:5000/events_form_detail", true)
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
 	// let Search_string_destip = 'ip=' + index + "&eventSeverity=" + serv +'&date=2021-08-24'
-	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv, "date": "2021-08-24"}))
+	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv, "date": "2021-08-24", "session": value4, "userId": value1}))
 	// request.send(Search_string_destip)
 	// console.log(Search_string_destip)
 	console.log(j)
