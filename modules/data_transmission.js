@@ -316,7 +316,7 @@ function draw_menu(index, serv, j) {
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
 	// let Search_string_destip = 'ip=' + index + "&eventSeverity=" + serv +'&date=2021-08-24'
-	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv, "date": "2021-08-24", "session": value4, "userId": value1}))
+	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv,"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "session": value4, "userId": value1}))
 	// request.send(Search_string_destip)
 	// console.log(Search_string_destip)
 	console.log(j)
