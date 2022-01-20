@@ -205,7 +205,7 @@
         var theUrl = "http://120.126.151.195:5000/login";
         xmlhttp.open("POST", theUrl);
         xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xmlhttp.send(JSON.stringify({ "user": "test", "passwd": "test" }));
+        xmlhttp.send(JSON.stringify({ "user": username, "passwd": passw }));
         xmlhttp.addEventListener('load', function () {
             console.log(xmlhttp); // 先看看xhr內容是什麼
         });
@@ -233,11 +233,19 @@
               document.cookie = 'userId='+ menu_data_data;
               console.log(menu_data[idx])
             }
+            if(idx=='error'){
+              document.cookie = 'error='+ menu_data_data;
+              console.log(menu_data[idx])
+            }
           }
           const value1 = (document.cookie).split('=')[1]
-          const value4 = (document.cookie).split('=')[4]
+          const value = (document.cookie).split('=')[4]
+          const value4 = (value).split(';')[0]
+          const value5 = (document.cookie).split('=')[5]
+          console.log((document.cookie).split('='))
           console.log(value1)
           console.log(value4)
+          console.log(value5)
           // console.log(value2)
         }
       }

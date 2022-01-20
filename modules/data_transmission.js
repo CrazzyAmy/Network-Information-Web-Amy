@@ -114,8 +114,10 @@ function send_request(search_string) {
 	// request.responseType = "text"
 	//
 	const value1 = (document.cookie).split('=')[1]
-	const value4 = (document.cookie).split('=')[4]
-	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value, "session":value4,"userId":value1}))
+	const value = (document.cookie).split('=')[4]
+	const value4 = (value).split(';')[0]
+	const value5 = (document.cookie).split('=')[5]
+	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value, "session":value5,"userId":value1,"error":value4}))
 	// console.log("Send request: " + search_string)
 	request.onreadystatechange = function () {
 		//收到資料後，畫大列表
@@ -311,12 +313,14 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 function draw_menu(index, serv, j) {
 	var request = new XMLHttpRequest();
 	const value1 = (document.cookie).split('=')[1]
-	const value4 = (document.cookie).split('=')[4]
+	const value = (document.cookie).split('=')[4]
+	const value4 = (value).split(';')[0]
+	const value5 = (document.cookie).split('=')[5]
 	request.open("POST", "http://120.126.151.195:5000/events_form_detail", true)
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
 	// let Search_string_destip = 'ip=' + index + "&eventSeverity=" + serv +'&date=2021-08-24'
-	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv,"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "session": value4, "userId": value1}))
+	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv,"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "session": value5, "userId": value1, "error": value4}))
 	// request.send(Search_string_destip)
 	// console.log(Search_string_destip)
 	console.log(j)
