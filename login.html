@@ -70,63 +70,7 @@
           </div> 
         </form>
      </div>
-     <!-- <div class="col-12 col-md-5  rounded border " style="margin-top: 30px; display: block; background-color:white; height: 495px; max-width: 380px; padding:80px; margin-bottom:0px;">
-      <div class="progress" style="margin-bottom:30px;">
-          <div id="progress_bar"class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%"></div>
-      </div>
-      <h3>使用者註冊</h3>
-      <form action="" id="registerForm" style=" padding-top:20px;padding-bottom:30px;">
-          <div class="mb-3">
-              <input class="form-control  input_text" type="text" name="user" id="user" maxlength="15" style="margin-top:15px;">
-              <label class="form-label" id="user_label" for="user">帳號</label>
-          </div>
-          <div class="mb-3">
-              <input class="form-control input_text" type="password" name="password" id="password" maxlength="15">
-              <label class="form-label " id="password_label" for="password">密碼</label>
-          </div>
-          <div class="mb-3">
-              <input class="form-control input_text" type="text" name="fortseim_account" maxlength="15" id="fortseim_account" style="display:none;">
-              <label class="form-label" id="fortseim_account_label" for="fortseim_account" style="display:none">fortseim帳號</label>
-          </div>
-          <div class="mb-3">
-              <input class="form-control input_text" type="password" name="fortseim_password" maxlength="15" id="fortseim_password" style="display:none">
-              <label class="form-label" id="fortseim_password_label" for="fortseim_password" style="display:none" >fortseim密碼</label>
-          </div>
-          <div class="mb-3">
-              <input class="form-control input_text" type="text" name="IP" id="IP" style="display:none;">
-              <label class="form-label" id="IP_label" for="IP" style="display:none">IP</label>
-          </div>
-          <div class="mb-3">
-              <input class="form-control input_text" type="text" name="level" id="level" style="display:none">
-              <label class="form-label" id="level_label" for="level" style="display:none;">level</label>
-          </div>
-          <label id="end_text" style="animation:none;display:none;margin-bottom:13px;margin-right:46px;">註冊已完成!</label>
-          
-          <button id="previous_btn" type="button" class="btn btn-primary button_previous btn-sm" onclick="move_previous()">&lt;&lt;previous</button>
-          <button id="next_btn" type="button" class="btn btn-primary button_next btn-sm" onclick="move_on()">next>></button>
-      </form>
-  </div> -->
   </div>
-
-  <!-- <script>
-    
-    document.querySelector("#login").addEventListener("click",function(){
-        var request = new XMLHttpRequest();
-        request.open("POST", "http://120.126.151.195:5000/login", true)
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-        request.responseType = "text"
-      
-        let search_string = $('#loginForm').serialize();
-        request.send(search_string)
-        console.log("Send request: " + search_string)
-        request.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            // Typical action to be performed when the document is ready:
-            console.log(request.responseText);
-          }
-        }
-      })
-      </script> -->
     <script type="module">
       import {hex_sha256} from './modules/sha256.js';
       // import {logIn} from './modules/data_transmission.js';
@@ -138,29 +82,6 @@
 
           var username = document.getElementById('users').value;
           var password = document.getElementById('passwords').value;
-
-          // const fileSystem = require("browserify-fs");
-          // const client = {
-          // "user": username,
-          // "passwd": password
-          // }
-          // const data = JSON.stringify(client)
-          // console.log(data)  
-
-          // fileSystem.readFile("./client.json", (err, data) => {
-          // if(err) {
-          //   console.log("File can't be read", err)
-          //   return
-          // }
-          // try{
-          //   const client = JSON.parse(data)
-          //   console.log("client data is:", client)
-          // }
-          // catch(err) {
-          //   console.log("Error parsing JSON string:", err)
-          // }
-          // })
-          
           // execute the 'login' function with the username and password filled in on the client
           var user = logIn(username, password);
 
@@ -210,11 +131,7 @@
             console.log(xmlhttp); // 先看看xhr內容是什麼
         });
         console.log("cookie");
-        // document.cookie = 'user=' +  username;
-        // document.cookie = 'passwd='+ passw;
-        // document.cookie = "path=/";
-
-        // console.log(document.cookie);
+        console.log(document.cookie);
         xmlhttp.onreadystatechange = function () {
           let curr_json = JSON.parse(xmlhttp.responseText)
           let idx = ''
@@ -227,26 +144,49 @@
             let i = ''
             if(idx=='session'){
               document.cookie = 'session='+ menu_data_data;
-              console.log(menu_data[idx])
             }
             if(idx=='userId'){
               document.cookie = 'userId='+ menu_data_data;
-              console.log(menu_data[idx])
             }
             if(idx=='error'){
               document.cookie = 'error='+ menu_data_data;
-              console.log(menu_data[idx])
             }
           }
-          const value1 = (document.cookie).split('=')[1]
-          const value = (document.cookie).split('=')[4]
-          const value4 = (value).split(';')[0]
-          const value5 = (document.cookie).split('=')[5]
-          console.log((document.cookie).split('='))
-          console.log(value1)
-          console.log(value4)
-          console.log(value5)
-          // console.log(value2)
+          const v0 = (document.cookie).split(';')[0]
+          const v1 = (document.cookie).split(';')[1]
+          const v2 = (document.cookie).split(';')[2]
+          let strerror=v0, struser=v1, strsession=v2
+          if(v0.search("error=")!= -1){
+            strerror = v0.replace("error=","")
+          }
+          if(v0.search(" userId=")!= -1){
+            struser = v0.replace(" userId=","")
+          }
+          if(v0.search(" session=")!= -1){
+            strsession = v0.replace(" session=","")
+          }
+          if(v1.search("error=")!= -1){
+            strerror = v1.replace("error=","")
+          }
+          if(v1.search(" userId=")!= -1){
+            struser = v1.replace(" userId=","")
+          }
+          if(v1.search(" session=")!= -1){
+            strsession = v1.replace(" session=","")
+          }
+          if(v2.search("error=")!= -1){
+            strerror = v2.replace("error=","")
+          }
+          if(v2.search(" userId=")!= -1){
+            struser = v2.replace(" userId=","")
+          }
+          if(v2.search(" session=")!= -1){
+            strsession = v2.replace(" session=","")
+          }
+          
+          console.log(strerror)
+          console.log(struser)
+          console.log(strsession)
         }
       }
 

@@ -113,11 +113,38 @@ function send_request(search_string) {
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
 	//
-	const value1 = (document.cookie).split('=')[1]
-	const value = (document.cookie).split('=')[4]
-	const value4 = (value).split(';')[0]
-	const value5 = (document.cookie).split('=')[5]
-	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value, "session":value5,"userId":value1,"error":value4}))
+	const v0 = (document.cookie).split(';')[0]
+	const v1 = (document.cookie).split(';')[1]
+	const v2 = (document.cookie).split(';')[2]
+	let strerror=v0, struser=v1, strsession=v2
+	if(v0.search("error=")!= -1){
+	strerror = v0.replace("error=","")
+	}
+	if(v0.search(" userId=")!= -1){
+	struser = v0.replace(" userId=","")
+	}
+	if(v0.search(" session=")!= -1){
+	strsession = v0.replace(" session=","")
+	}
+	if(v1.search("error=")!= -1){
+	strerror = v1.replace("error=","")
+	}
+	if(v1.search(" userId=")!= -1){
+	struser = v1.replace(" userId=","")
+	}
+	if(v1.search(" session=")!= -1){
+	strsession = v1.replace(" session=","")
+	}
+	if(v2.search("error=")!= -1){
+	strerror = v2.replace("error=","")
+	}
+	if(v2.search(" userId=")!= -1){
+	struser = v2.replace(" userId=","")
+	}
+	if(v2.search(" session=")!= -1){
+	strsession = v2.replace(" session=","")
+	}
+	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value, "session":strsession,"userId":struser,"error":strerror}))
 	// console.log("Send request: " + search_string)
 	request.onreadystatechange = function () {
 		//收到資料後，畫大列表
@@ -312,15 +339,42 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 //點擊大列表(按鈕)，更新小列表#IP-list資訊
 function draw_menu(index, serv, j) {
 	var request = new XMLHttpRequest();
-	const value1 = (document.cookie).split('=')[1]
-	const value = (document.cookie).split('=')[4]
-	const value4 = (value).split(';')[0]
-	const value5 = (document.cookie).split('=')[5]
+	const v0 = (document.cookie).split(';')[0]
+	const v1 = (document.cookie).split(';')[1]
+	const v2 = (document.cookie).split(';')[2]
+	let strerror=v0, struser=v1, strsession=v2
+	if(v0.search("error=")!= -1){
+	strerror = v0.replace("error=","")
+	}
+	if(v0.search(" userId=")!= -1){
+	struser = v0.replace(" userId=","")
+	}
+	if(v0.search(" session=")!= -1){
+	strsession = v0.replace(" session=","")
+	}
+	if(v1.search("error=")!= -1){
+	strerror = v1.replace("error=","")
+	}
+	if(v1.search(" userId=")!= -1){
+	struser = v1.replace(" userId=","")
+	}
+	if(v1.search(" session=")!= -1){
+	strsession = v1.replace(" session=","")
+	}
+	if(v2.search("error=")!= -1){
+	strerror = v2.replace("error=","")
+	}
+	if(v2.search(" userId=")!= -1){
+	struser = v2.replace(" userId=","")
+	}
+	if(v2.search(" session=")!= -1){
+	strsession = v2.replace(" session=","")
+	}
 	request.open("POST", "http://120.126.151.195:5000/events_form_detail", true)
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
 	// let Search_string_destip = 'ip=' + index + "&eventSeverity=" + serv +'&date=2021-08-24'
-	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv,"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "session": value5, "userId": value1, "error": value4}))
+	request.send(JSON.stringify({ "ip": index, "eventSeverity": serv,"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "session": strsession, "userId": struser, "error": strerror}))
 	// request.send(Search_string_destip)
 	// console.log(Search_string_destip)
 	console.log(j)
