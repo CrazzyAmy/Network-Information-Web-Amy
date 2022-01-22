@@ -224,8 +224,7 @@
     dirLight.shadow.camera.right = d;
     dirLight.shadow.camera.top = d;
     dirLight.shadow.camera.bottom = -d;
-
-    dirLight.shadowCameraFar = 3500;
+    dirLight.shadow.camera.far = 3500;
     dirLight.shadow.bias = -0.0001;
     scene.add( dirLight );
     

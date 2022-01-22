@@ -557,7 +557,6 @@ function update_parabola(detail) {
 		if (EventSeverCat == "H") tmpcolor = colorR[ColorBrightness]
 		else if (EventSeverCat == "M") tmpcolor = colorY[ColorBrightness]
 		else tmpcolor = colorG[ColorBrightness]
-		console.log(key + " " + value + " " +tmpcolor)
 		color.push(tmpcolor)
 	})
 	add_scenario(site_from, site_to, color);
