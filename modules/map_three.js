@@ -82,7 +82,6 @@
     //處理建築浮動視窗
     let intersects = rayCast.intersectObjects(ojbects, true);
     if(intersects.length > 0)tmpBuildingName = intersects[0].object.name.split('_')[0];
-    console.log(tmpBuildingName, OpenToolTip);
     if (intersects.length > 0) {
       LatestMouseProjection = intersects[0].point;
       if (LatestMouseProjection && OpenToolTip == false && tmpBuildingName.substring(0,2) != "GW" && tmpBuildingName.length > 0) {
@@ -218,16 +217,16 @@
     dirLight.position.multiplyScalar(50);
     // dirLight.shadowCameraVisible = true;
     dirLight.castShadow = true;
-    dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024*2;
+    dirLight.shadow.mapSize.Width = 2048
+    dirLight.shadow.mapSize.Height = 2048;
     var d = 300;
-    dirLight.shadowCameraLeft = -d;
-    dirLight.shadowCameraRight = d;
-    dirLight.shadowCameraTop = d;
-    dirLight.shadowCameraBottom = -d;
+    dirLight.shadow.camera.left = -d;
+    dirLight.shadow.camera.right = d;
+    dirLight.shadow.camera.top = d;
+    dirLight.shadow.camera.bottom = -d;
 
     dirLight.shadowCameraFar = 3500;
-    dirLight.shadowBias = -0.0001;
-    dirLight.shadowDarkness = 0.35;
+    dirLight.shadow.bias = -0.0001;
     scene.add( dirLight );
     
     // 建立物體
@@ -259,8 +258,7 @@
     }
   }
 
-  let add_scenario = function(sites_from, sites_to, color)
-  {
+  let add_scenario = function(sites_from, sites_to, color){
     if(sites_from.length == 0) return;
     for(let i = 0; i < sites_from.length; i++){
       if(sites_from[i].building_id === undefined || sites_to[i].building_id == undefined)continue;
@@ -286,8 +284,7 @@
        traces.push(new Trace(sites_from[i],sites_to[i]));
     let scenario = new Scenario(traces);
     //Set Three
-    for(let i=0;i<scenario.traces.length;i++)
-    {
+    for(let i=0;i<scenario.traces.length;i++){
       let trace = scenario.traces[i];
       //取得建築資料參考及位置，如果Trace.Site有building info，則將building info轉成three.js座標
       //否則則將經緯度轉成three.js的座標
@@ -321,8 +318,8 @@
       p.set(Color, new THREE.Vector3(from[0], from[1], from[2]), new THREE.Vector3(to[0], to[1], to[2]), -0.003);
       scenario.parab_list.push(p);
     }
-    
     multi_scenario.scenarios.push(scenario);
+    console.log(multi_scenario);
     //完成一次動畫後要做的事件
     scenario.parab_list[0].OnAnimated = function() {
       //換下一個scenario，到last scenario則循環
@@ -330,31 +327,28 @@
       multi_scenario.scenario_id %= multi_scenario.scenarios.length;
       //去建築高亮
       t_buildings?.children.forEach( mesh =>{
-        console.log(mesh);
         const words = mesh.name.split('_'); // "buildingId_floorID"
         let color = new THREE.Color(buildings.map.get(words[0]).color);
-        mesh?.material.emissive.setHex(0xFFFF00);
       });
     }
   }
 
   //清除scenario，事件拋物線條
-  let clear_multi_scenario = function()
-  {
+  let clear_multi_scenario = function(){
     //在parabola.OnAnimated清除，才不會殘留線條痕跡
     multi_scenario.scenarios[0]?multi_scenario.scenarios[0].parab_list[0].OnAnimated = function(){
         //將multi_scenario的所有scenarios清空
-        let tmp_scenario = multi_scenario.scenarios[1]
-        multi_scenario.scenarios = []
-        multi_scenario.scenarios.push(tmp_scenario)
-        multi_scenario.scenario_id = 0
+        let tmp_scenario = multi_scenario.scenarios[1];
+        multi_scenario.scenarios = [];
+        multi_scenario.scenarios.push(tmp_scenario);
+        multi_scenario.scenario_id = 0;
         //去建築高亮
-        t_buildings?.children.forEach( mesh =>{
-        const words = mesh.name.split('_'); // "buildingId_floorID"
-        let color = new THREE.Color(buildings.map.get(words[0]).color );
-        for(let i = 0; i < mesh?.material.length; i++)
-        mesh?.material[i].emissive.setHex(color.getHex);
-      });
+        // t_buildings?.children.forEach( mesh =>{
+        //   const words = mesh.name.split('_'); 
+        //   let color = new THREE.Color(buildings.map.get(words[0]).color );
+        //   for(let i = 0; i < mesh?.material.length; i++)
+        //   mesh?.material[i].emissive.setHex(color.getHex);
+        // });
     }:null;
   }
 

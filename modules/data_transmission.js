@@ -448,6 +448,7 @@ window.draw_menu = draw_menu
 
 //第二步搜尋，接收資料，畫出事件線條
 function search_detail(search_IP, search_eventName, search_eventSeverityCat, id) {
+	
 	update_search_string();
 	let detail_search_string = 'searchType=DETAIL&' + curr_form_search_string + '&IpAddr=' + search_IP + '&eventName=' + search_eventName
 	var request = new XMLHttpRequest();
@@ -487,7 +488,7 @@ function search_detail(search_IP, search_eventName, search_eventSeverityCat, id)
 			total_detail_json = curr_detail_json
 			update_parabola(curr_detail_json)
 			// draw_detail(search_IP, search_eventName, search_eventSeverityCat, curr_detail_json)
-			clear_multi_scenario()
+			clear_multi_scenario();
 			//$("#IP-"+id).children().toggle()
 		}
 	}
@@ -559,9 +560,9 @@ function update_parabola(detail) {
 		console.log(key + " " + value + " " +tmpcolor)
 		color.push(tmpcolor)
 	})
-	console.log(color)
-	add_scenario(site_from, site_to, color)
-	clear_multi_scenario()
+	add_scenario(site_from, site_to, color);
+	console.log(site_from, site_to, color);
+	clear_multi_scenario();
 }
 
 //點擊小列表時，更新左側sidebar的資訊
