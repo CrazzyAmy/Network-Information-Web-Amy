@@ -54,10 +54,10 @@ function createBuilding(building, group) {
 
 		//頂樓則宣告畫布，並貼在長方體的頂面
 		else if (i == floor - 1) {
-			let canvas = document.createElement("canvas")
-			canvas.width = width * 20
-			canvas.height = depth * 20
-			let context = canvas.getContext("2d");
+			let textCanvas = document.createElement("Canvas")
+			textCanvas.width = width * 20
+			textCanvas.height = depth * 20
+			let context = textCanvas.getContext("2d");
 			context.textAlign = "center";
 			context.textBaseline = "middle";
 			context.fillStyle = "#" + c.toString(16);
@@ -68,33 +68,38 @@ function createBuilding(building, group) {
 			//之後如果有多行需求，則將文字先 split 成 list，然後用迴圈逐一對 list 中的 element 手動調整位置
 			if (building.title.length < 6) {
 				context.font = "50pt Arial";
-				context.fillText(building.title, canvas.width / 2, canvas.height / 2 - 30);
+				context.fillText(building.title, textCanvas.width / 2, textCanvas.height / 2 - 30);
 				context.font = "40pt Arial";
-				context.fillText("(" + building.floor + "F)", canvas.width / 2, canvas.height / 2 + 30);
+				context.fillText("(" + building.floor + "F)", textCanvas.width / 2, textCanvas.height / 2 + 30);
 			}
 			else {
 				let buildingSubtitle0 = building.title.substring(0, building.title.length / 2);
 				let buildingSubtitle1 = building.title.substring(building.title.length / 2);
 				context.font = "50pt Arial";
-				context.fillText(buildingSubtitle0, canvas.width / 2, canvas.height / 2 - 70);
+				context.fillText(buildingSubtitle0, textCanvas.width / 2, textCanvas.height / 2 - 70);
 				context.font = "50pt Arial";
-				context.fillText(buildingSubtitle1, canvas.width / 2, canvas.height / 2);
+				context.fillText(buildingSubtitle1, textCanvas.width / 2, textCanvas.height / 2);
 				context.font = "40pt Arial";
-				context.fillText("(" + building.floor + "F)", canvas.width / 2, canvas.height / 2 + 60);
+				context.fillText("(" + building.floor + "F)", textCanvas.width / 2, textCanvas.height / 2 + 60);
 			}
 
 			material = []
 			for (let ii = 0; ii < geometry.faces.length; ii++) {
-				let texture = new THREE.Texture(canvas);
-				texture.needsUpdate = true;
-				if (ii == 2) material.push(new THREE.MeshStandardMaterial({ map: texture }))
+				let textureTop = new THREE.Texture(textCanvas);
+				textureTop.needsUpdate = true;
+				if (ii == 2) material.push(new THREE.MeshStandardMaterial({ map: textureTop }));
 				else material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}
 		else {
 			for (var ii = 0; ii < geometry.faces.length; ii++) {
-				material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
+				let textureFront = new THREE.TextureLoader().load("picture/texture/LAW_1.png");
+				textureFront.offset = new THREE.Vector2(0, i / (floor - 1));
+				textureFront.repeat = new THREE.Vector2(1, 1 / (floor - 1));
+				textureFront.needsUpdate = true;
+				if (ii == 4) material.push(new THREE.MeshBasicMaterial({ map: textureFront }));
+				else material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}
