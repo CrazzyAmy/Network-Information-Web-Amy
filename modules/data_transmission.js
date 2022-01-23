@@ -15,8 +15,37 @@ let outtoin = []
 let total_detail_json = null
 let ip_gateway_set = new Map();
 let nextNum = 0
-
-
+var v0 = (document.cookie).split(';')[0]
+var v1 = (document.cookie).split(';')[1]
+var v2 = (document.cookie).split(';')[2]
+var strerror=v0, struser=v1, strsession=v2
+if(v0.search("error=")!= -1){
+	strerror = v0.replace("error=","")
+}
+if(v0.search(" userId=")!= -1){
+	struser = v0.replace(" userId=","")
+}
+if(v0.search(" session=")!= -1){
+	strsession = v0.replace(" session=","")
+}
+if(v1.search("error=")!= -1){
+	strerror = v1.replace("error=","")
+}
+if(v1.search(" userId=")!= -1){
+	struser = v1.replace(" userId=","")
+}
+if(v1.search(" session=")!= -1){
+	strsession = v1.replace(" session=","")
+}
+if(v2.search("error=")!= -1){
+	strerror = v2.replace("error=","")
+}
+if(v2.search(" userId=")!= -1){
+	struser = v2.replace(" userId=","")
+}
+if(v2.search(" session=")!= -1){
+	strsession = v2.replace(" session=","")
+}
 document.querySelector("#search_first").addEventListener('click', function () {
 	search_detail("", "", "")
 });
@@ -63,7 +92,7 @@ function getCookie(name) {
 	const value = `; ${document.cookie}`;
 	const parts = value.split(`; ${name}=`);
 	if (parts.length === 2) return parts.pop().split(';').shift();
-  }
+}
 //監聽Checkbox，檢查顯示方向是內打外、外打內
 $('input[name=dir_in_out]').change(function () {
 	console.log('detect in to out checkbox changed!')
@@ -112,38 +141,7 @@ function send_request(search_string) {
 	request.open("POST", "http://120.126.151.195:5000/events_form", true)
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"
-	//
-	const v0 = (document.cookie).split(';')[0]
-	const v1 = (document.cookie).split(';')[1]
-	const v2 = (document.cookie).split(';')[2]
-	let strerror=v0, struser=v1, strsession=v2
-	if(v0.search("error=")!= -1){
-	strerror = v0.replace("error=","")
-	}
-	if(v0.search(" userId=")!= -1){
-	struser = v0.replace(" userId=","")
-	}
-	if(v0.search(" session=")!= -1){
-	strsession = v0.replace(" session=","")
-	}
-	if(v1.search("error=")!= -1){
-	strerror = v1.replace("error=","")
-	}
-	if(v1.search(" userId=")!= -1){
-	struser = v1.replace(" userId=","")
-	}
-	if(v1.search(" session=")!= -1){
-	strsession = v1.replace(" session=","")
-	}
-	if(v2.search("error=")!= -1){
-	strerror = v2.replace("error=","")
-	}
-	if(v2.search(" userId=")!= -1){
-	struser = v2.replace(" userId=","")
-	}
-	if(v2.search(" session=")!= -1){
-	strsession = v2.replace(" session=","")
-	}
+	
 	request.send(JSON.stringify({"L_date": document.getElementById("timeStart").value, "R_date": document.getElementById("timeEnd").value, "eventServerity": document.getElementById("eventSeverityCat").value, "building": document.getElementById("selectBuilding").value, "floor": document.getElementById("selectFloor").value, "dataCount":document.getElementById("dataCount").value, "eventSeverityLimit": document.getElementById("upfloor").value, "session":strsession,"userId":struser,"error":strerror}))
 	// console.log("Send request: " + search_string)
 	request.onreadystatechange = function () {
@@ -167,10 +165,9 @@ function send_request(search_string) {
 					'<div class="row justify-content-around" style="color:black;font-size:13px;">'+
 						'<div class="col-1">'+'Lv.'+'</div>'+
 						'<div class="col-3">'+'srcip'+'</div>'+
-						'<div class="col-2">'+'數量'+ '</div>'+
-						'<div class="col-2">'+'主目的地'+'</div>'+
+						'<div class="col-3">'+'數量'+ '</div>'+
 						'<div class="col-2">'+'建築'+'</div>'+
-						'<div class="col-1">'+'樓'+ '</div>'+
+						'<div class="col-2">'+'樓'+ '</div>'+
 					'</div>'+
 				'</li>'
 			)
@@ -339,37 +336,7 @@ function search_detail_IP(search_IP, search_eventName, search_eventSeverityCat, 
 //點擊大列表(按鈕)，更新小列表#IP-list資訊
 function draw_menu(index, serv, j) {
 	var request = new XMLHttpRequest();
-	const v0 = (document.cookie).split(';')[0]
-	const v1 = (document.cookie).split(';')[1]
-	const v2 = (document.cookie).split(';')[2]
-	let strerror=v0, struser=v1, strsession=v2
-	if(v0.search("error=")!= -1){
-	strerror = v0.replace("error=","")
-	}
-	if(v0.search(" userId=")!= -1){
-	struser = v0.replace(" userId=","")
-	}
-	if(v0.search(" session=")!= -1){
-	strsession = v0.replace(" session=","")
-	}
-	if(v1.search("error=")!= -1){
-	strerror = v1.replace("error=","")
-	}
-	if(v1.search(" userId=")!= -1){
-	struser = v1.replace(" userId=","")
-	}
-	if(v1.search(" session=")!= -1){
-	strsession = v1.replace(" session=","")
-	}
-	if(v2.search("error=")!= -1){
-	strerror = v2.replace("error=","")
-	}
-	if(v2.search(" userId=")!= -1){
-	struser = v2.replace(" userId=","")
-	}
-	if(v2.search(" session=")!= -1){
-	strsession = v2.replace(" session=","")
-	}
+	
 	request.open("POST", "http://120.126.151.195:5000/events_form_detail", true)
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 	// request.responseType = "text"

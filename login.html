@@ -78,15 +78,52 @@
 
       document.getElementById('loginForm').addEventListener('submit', function(e) {
         // prevent default browser behavior
+        console.log("click")
         e.preventDefault();
 
           var username = document.getElementById('users').value;
           var password = document.getElementById('passwords').value;
           // execute the 'login' function with the username and password filled in on the client
           var user = logIn(username, password);
-
+        // }
+      });
+      function distinguish(){
+        console.log('1')
+          const v0 = (document.cookie).split(';')[0]
+          const v1 = (document.cookie).split(';')[1]
+          const v2 = (document.cookie).split(';')[2]
+          let strerror=v0, struser=v1, strsession=v2
+          if(v0.search("error=")!= -1){
+            strerror = v0.replace("error=","")
+          }
+          if(v0.search(" userId=")!= -1){
+            struser = v0.replace(" userId=","")
+          }
+          if(v0.search(" session=")!= -1){
+            strsession = v0.replace(" session=","")
+          }
+          if(v1.search("error=")!= -1){
+            strerror = v1.replace("error=","")
+          }
+          if(v1.search(" userId=")!= -1){
+            struser = v1.replace(" userId=","")
+          }
+          if(v1.search(" session=")!= -1){
+            strsession = v1.replace(" session=","")
+          }
+          if(v2.search("error=")!= -1){
+            strerror = v2.replace("error=","")
+          }
+          if(v2.search(" userId=")!= -1){
+            struser = v2.replace(" userId=","")
+          }
+          if(v2.search(" session=")!= -1){
+            strsession = v2.replace(" session=","")
+          }
+          console.log('strerror='+strerror)
           // check whether the login was successful
-          if (user !== false) {
+          if (strerror != 'true') {
+            var user= document.getElementById('users').value;
             // reset the username input field
             document.getElementById('users').value = '';
 
@@ -94,16 +131,16 @@
             document.getElementById('passwords').value = '';
 
             // alert the client that login was successful
-            alert('Logged in as ' + username + '.');
+            alert('Logged in as ' + user + '.');
+            window.location.href='/index.html';
           } else {
             // reset the password input field
-            password = '';
-
+            document.getElementById('passwords').value = '';
+            document.cookie = 'error='+ strerror;
             // alert the client that login was not successful
             alert('Invalid username and/or password.');
           }
-        // }
-      });
+      }
       function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -111,7 +148,8 @@
         console.log(value);
         console.log(parts);
       }
-      function logIn(username, passw){        
+      function logIn(username, passw){  
+        console.log('2')      
         var qs = new URLSearchParams({ user: username, passwd: passw });
         // var payload = {user: username, passwd: passw};
         var formData = new FormData();
@@ -152,42 +190,13 @@
               document.cookie = 'error='+ menu_data_data;
             }
           }
-          const v0 = (document.cookie).split(';')[0]
-          const v1 = (document.cookie).split(';')[1]
-          const v2 = (document.cookie).split(';')[2]
-          let strerror=v0, struser=v1, strsession=v2
-          if(v0.search("error=")!= -1){
-            strerror = v0.replace("error=","")
-          }
-          if(v0.search(" userId=")!= -1){
-            struser = v0.replace(" userId=","")
-          }
-          if(v0.search(" session=")!= -1){
-            strsession = v0.replace(" session=","")
-          }
-          if(v1.search("error=")!= -1){
-            strerror = v1.replace("error=","")
-          }
-          if(v1.search(" userId=")!= -1){
-            struser = v1.replace(" userId=","")
-          }
-          if(v1.search(" session=")!= -1){
-            strsession = v1.replace(" session=","")
-          }
-          if(v2.search("error=")!= -1){
-            strerror = v2.replace("error=","")
-          }
-          if(v2.search(" userId=")!= -1){
-            struser = v2.replace(" userId=","")
-          }
-          if(v2.search(" session=")!= -1){
-            strsession = v2.replace(" session=","")
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+              distinguish();
           }
           
-          console.log(strerror)
-          console.log(struser)
-          console.log(strsession)
         }
+        
       }
 
     </script>
