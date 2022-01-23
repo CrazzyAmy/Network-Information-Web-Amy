@@ -87,8 +87,8 @@ function createBuilding(building, group) {
 			for (let ii = 0; ii < geometry.faces.length; ii++) {
 				let textureTop = new THREE.Texture(textCanvas);
 				textureTop.needsUpdate = true;
-				if (ii == 2) material.push(new THREE.MeshStandardMaterial({ map: textureTop }));
-				else material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
+				if (ii == 2) material.push(new THREE.MeshPhongMaterial({ map: textureTop }));
+				else material.push(new THREE.MeshPhongMaterial({color: c, transparent: true, opacity: 1 }));
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}
@@ -104,11 +104,11 @@ function createBuilding(building, group) {
 			}
 
 			for (var ii = 0; ii < geometry.faces.length; ii++) {	
-				if (ii == 4) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[0] }));
-				else if (ii == 0) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[1] }));
-				else if (ii == 5) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[2] }));
-				else if (ii == 1) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[3] }));
-				else material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
+				if (ii == 4) material.push(new THREE.MeshPhongMaterial({ map: textureBundle[0], transparent: true, opacity: 1 }));
+				else if (ii == 0) material.push(new THREE.MeshPhongMaterial({ map: textureBundle[1], transparent: true, opacity: 1 }));
+				else if (ii == 5) material.push(new THREE.MeshPhongMaterial({ map: textureBundle[2], transparent: true, opacity: 1 }));
+				else if (ii == 1) material.push(new THREE.MeshPhongMaterial({ map: textureBundle[3], transparent: true, opacity: 1}));
+				else material.push(new THREE.MeshPhongMaterial({transparent: true, opacity: 1 }));
 			}
 			Mesh = new THREE.Mesh(geometry, material);
 		}

@@ -40,11 +40,9 @@
     let intersects = rayCast.intersectObjects(ojbects, true);
     if (intersects.length > 0 && intersects[0].object.name.substring(0,2) != "GW" &&
         intersects[0].object.name.length > 0){
-      if (intersects[0].object.parent == t_buildings &&  //只有建物需要高亮
-            "emissive" in intersects[0].object.material[0] && //指定材質可高亮
-            INTERSECTED != intersects[0].object               //重複事件確認
-          )           
-      {
+      // Check whether the object is a building
+      // and whether the nearest building is same as the previous highlighted building
+      if (intersects[0].object.parent == t_buildings && INTERSECTED != intersects[0].object){                  
         for(let i = 0; i < INTERSECTED?.material.length; i++){
           INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
         }
@@ -52,7 +50,7 @@
         for(let i = 0; i < INTERSECTED.material.length; i++){
           INTERSECTED?.material[i].emissive.setHex(INTERSECTED.currentHex);
           INTERSECTED.currentHex = INTERSECTED.material[i].emissive.getHex();
-          INTERSECTED.material[i].emissive.setHex(INTERSECTED.currentHex + 0x882222); //高亮
+          INTERSECTED.material[i].emissive.setHex(0x882222);
         }
       }
     }
