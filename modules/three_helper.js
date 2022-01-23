@@ -93,12 +93,21 @@ function createBuilding(building, group) {
 			Mesh = new THREE.Mesh(geometry, material);
 		}
 		else {
-			for (var ii = 0; ii < geometry.faces.length; ii++) {
-				let textureFront = new THREE.TextureLoader().load("picture/texture/LAW_1.png");
-				textureFront.offset = new THREE.Vector2(0, i / (floor - 1));
-				textureFront.repeat = new THREE.Vector2(1, 1 / (floor - 1));
-				textureFront.needsUpdate = true;
-				if (ii == 4) material.push(new THREE.MeshBasicMaterial({ map: textureFront }));
+			let textureBundle = [];
+			// Load four sides of the each building
+			for (var ii = 1; ii <= 4; ii++){
+				let textureTmp = new THREE.TextureLoader().load("picture/texture/" + building.id + "_" + ii.toString() + ".png");
+				textureTmp.offset = new THREE.Vector2(0, i / (floor - 1));
+				textureTmp.repeat = new THREE.Vector2(1, 1 / (floor - 1));
+				textureTmp.needsUpdate = true;
+				textureBundle.push(textureTmp);
+			}
+
+			for (var ii = 0; ii < geometry.faces.length; ii++) {	
+				if (ii == 4) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[0] }));
+				else if (ii == 0) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[1] }));
+				else if (ii == 5) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[2] }));
+				else if (ii == 1) material.push(new THREE.MeshBasicMaterial({ map: textureBundle[3] }));
 				else material.push(new THREE.MeshStandardMaterial({ color: c, opacity: 0.8, transparent: false }))
 			}
 			Mesh = new THREE.Mesh(geometry, material);
