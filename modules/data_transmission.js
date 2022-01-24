@@ -1,7 +1,7 @@
 import { add_scenario, clear_multi_scenario } from './map_three.js'
 import { ListData, Site, JsonReader, Building, Decoration } from './object_class.js'
 import { buildings } from './data_control.js';
-export { send_request, search_menu, search_detail, draw_menu, search_IpList }
+export { send_request, search_menu, search_detail, draw_menu, search_IpList, clearAllCookie }
 
 //將要畫的線條畫出來
 
@@ -18,33 +18,55 @@ let nextNum = 0
 var v0 = (document.cookie).split(';')[0]
 var v1 = (document.cookie).split(';')[1]
 var v2 = (document.cookie).split(';')[2]
-var strerror=v0, struser=v1, strsession=v2
+var v3 = (document.cookie).split(';')[3]
+let strerror=v0, struser=v1, strsession=v2, strname=v3;
 if(v0.search("error=")!= -1){
-	strerror = v0.replace("error=","")
+strerror = v0.replace("error=","")
 }
 if(v0.search(" userId=")!= -1){
-	struser = v0.replace(" userId=","")
+struser = v0.replace(" userId=","")
 }
 if(v0.search(" session=")!= -1){
-	strsession = v0.replace(" session=","")
+strsession = v0.replace(" session=","")
+}
+if(v0.search(" username=")!= -1){
+strname = v0.replace(" username=","")
 }
 if(v1.search("error=")!= -1){
-	strerror = v1.replace("error=","")
+strerror = v1.replace("error=","")
 }
 if(v1.search(" userId=")!= -1){
-	struser = v1.replace(" userId=","")
+struser = v1.replace(" userId=","")
 }
 if(v1.search(" session=")!= -1){
-	strsession = v1.replace(" session=","")
+strsession = v1.replace(" session=","")
+}
+if(v1.search(" username=")!= -1){
+strname = v1.replace(" username=","")
 }
 if(v2.search("error=")!= -1){
-	strerror = v2.replace("error=","")
+strerror = v2.replace("error=","")
 }
 if(v2.search(" userId=")!= -1){
-	struser = v2.replace(" userId=","")
+struser = v2.replace(" userId=","")
 }
 if(v2.search(" session=")!= -1){
-	strsession = v2.replace(" session=","")
+strsession = v2.replace(" session=","")
+}
+if(v2.search(" username=")!= -1){
+strname = v2.replace(" username=","")
+}
+if(v3.search("error=")!= -1){
+strerror = v3.replace("error=","")
+}
+if(v3.search(" userId=")!= -1){
+struser = v3.replace(" userId=","")
+}
+if(v3.search(" session=")!= -1){
+strsession = v3.replace(" session=","")
+}
+if(v3.search(" username=")!= -1){
+strname = v3.replace(" username=","")
 }
 document.querySelector("#search_first").addEventListener('click', function () {
 	search_detail("", "", "")
@@ -620,4 +642,11 @@ function update_search_string() {
 
 function fix_ip(ip) {
 	return ip.split(".").map(Number).join(".")
+}
+function clearAllCookie() {
+	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+	if(keys) {
+		for(var i = keys.length; i--;)
+			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+	}
 }

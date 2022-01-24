@@ -36,10 +36,12 @@
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
     <div class="navbar-toggler" style="display:flex;">
+      <h2 class="navbar-toggler-name" id="navbar-toggler-name" style="margin-right: 5px;"></h2>
       <button class="btn btn-outline-light" onclick="opensetting()">
         <img src="picture/settings-white-icon.jpg" alt="settings-icon" height="20px">
       </button>
-      <button class="btn btn-outline-light" onclick="location.href = 'login.html'">login</button>
+      <button class="btn btn-outline-light loginbtn" onclick="location.href = 'login.html'">login</button>
+      <button class="btn btn-outline-light logoutbtn" onclick="clearAllCookie()">logout</button>
       <button class="btn btn-outline-light closebtn" id="menubtn">
         <a class="toggle-nav" href="#" >&#9776;</a>
       </button>
@@ -129,7 +131,7 @@
             <!-- 搜尋欄位 -->
             <div class="parallax" style="width: 614px;">
             </div>
-            <div id="search">
+            <div class="search" id="search">
               <form action="" class="d-flex flex-row flex-wrap d-md-block" method="" name="myForm" id="dataForm">
 
               <div class="row justify-content-center">
@@ -195,14 +197,17 @@
                   <input class="btn btn-dark search-button" id="search_first" type="button" value="搜尋">
                 </div>
               </div>
-              <div class="justify-content-center" style="margin: 0 20px;">
-                <label for="customRange3" class="form-label">資料筆數</label>
-                <input type="range" id="dataCount" placeholder="400" class="form-range" min="100" max="400" step="100" id="customRange3">
+              <div class="data">
+                <div class="justify-content-center" style="margin: 0 20px;">
+                  <label for="customRange3" class="form-label">資料筆數</label>
+                  <input type="range" id="dataCount" placeholder="400" class="form-range" min="100" max="400" step="100" id="customRange3">
+                </div>
+                <div class="justify-content-center" style="margin: 0 20px;">
+                  <label for="customRange3" class="form-label">上限值</label>
+                  <input type="range" id="upfloor" placeholder="10" class="form-range" min="10" max="40" step="10" id="customRange3">
+                </div>
               </div>
-              <div class="justify-content-center" style="margin: 0 20px;">
-                <label for="customRange3" class="form-label">上限值</label>
-                <input type="range" id="upfloor" placeholder="10" class="form-range" min="10" max="40" step="10" id="customRange3">
-              </div>
+              
 
               <!-- <div class="d-flex d-md-flex justify-content-around flex-wrap" style="width: 100%;"> -->
                 
@@ -241,12 +246,85 @@
     function Go() {  
         window.open("http://127.0.0.1:5500/dailydata.html?L_date="+ document.getElementById("timeStart").value +"&R_date="+document.getElementById("timeEnd").value)  
     }  
+    function clearAllCookie() {
+        var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+        if(keys) {
+          for(var i = keys.length; i--;)
+            document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+        }
+        window.location.reload();
+    }
 </script>  
   <script>
       var hamburger = document.querySelector(".closebtn");
-	hamburger.addEventListener("click", function(){
-		document.querySelector("body").classList.toggle("active");
-	})
+      hamburger.addEventListener("click", function(){
+        document.querySelector("body").classList.toggle("active");
+      })
+      var v0 = (document.cookie).split(';')[0]
+      var v1 = (document.cookie).split(';')[1]
+      var v2 = (document.cookie).split(';')[2]
+      var v3 = (document.cookie).split(';')[3]
+      let strerror=v0, struser=v1, strsession=v2, strname=v3;
+      if(v0.search("error=")!= -1){
+        strerror = v0.replace("error=","")
+      }
+      if(v0.search(" userId=")!= -1){
+        struser = v0.replace(" userId=","")
+      }
+      if(v0.search(" session=")!= -1){
+        strsession = v0.replace(" session=","")
+      }
+      if(v0.search(" username=")!= -1){
+        strname = v0.replace(" username=","")
+      }
+      if(v1.search("error=")!= -1){
+        strerror = v1.replace("error=","")
+      }
+      if(v1.search(" userId=")!= -1){
+        struser = v1.replace(" userId=","")
+      }
+      if(v1.search(" session=")!= -1){
+        strsession = v1.replace(" session=","")
+      }
+      if(v1.search(" username=")!= -1){
+        strname = v1.replace(" username=","")
+      }
+      if(v2.search("error=")!= -1){
+        strerror = v2.replace("error=","")
+      }
+      if(v2.search(" userId=")!= -1){
+        struser = v2.replace(" userId=","")
+      }
+      if(v2.search(" session=")!= -1){
+        strsession = v2.replace(" session=","")
+      }
+      if(v2.search(" username=")!= -1){
+        strname = v2.replace(" username=","")
+      }
+      if(v3.search("error=")!= -1){
+        strerror = v3.replace("error=","")
+      }
+      if(v3.search(" userId=")!= -1){
+        struser = v3.replace(" userId=","")
+      }
+      if(v3.search(" session=")!= -1){
+        strsession = v3.replace(" session=","")
+      }
+      if(v3.search(" username=")!= -1){
+        strname = v3.replace(" username=","")
+      }
+      console.log(strerror)
+      console.log(struser)
+      console.log(strsession)
+      if(strerror=='false'){
+        $('.search').toggleClass('active');
+        $('.navbar-toggler').toggleClass('active');
+        var demo = document.getElementById("navbar-toggler-name"); 
+        demo.innerHTML = 'Hi! '+strname+", welcome!" ;
+        demo.style.color = "white"; 
+        demo.style.fontSize = "medium"; 
+        // document.getElementById('.navbar-toggler-name').value = 'Hi!'+strname;
+      }
     // $('#closebtn').click(function () {
     //     $('.rightbar').toggleClass('active');
     // })

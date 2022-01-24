@@ -18,35 +18,11 @@
     color: #FFFFFF;
   }
   .closebtn {
+    display: flex;
     align-items: center;
-    /* position: relative; */
-    /* margin: 8px; */
-    /* left: -10%; */
-    /* top:   4%; */
-    /* height: 80px; */
     font-size: 1em;
-    /* background-color: #3f3a37; */
-    border-radius: 12px;
+    border-radius: 6px;
 }
-/* .rightbar{
-    display: block; */
-    /* background-color: #272626;
-    color: white; */
-    /* height: 100%;
-    width: 40vw;
-    z-index: 1;
-    position: fixed;
-    left: 100%;
-    transition: all 1s;
-  }  */
-  /* .rightbar.active {
-    
-    position: fixed;
-        top: 0;
-        left: 60%;
-        transition: all 1s;
-  } */
-
   .fade-enter,
   .fade-leave-to {
     opacity: 0;
@@ -64,9 +40,9 @@
   } */
   .toggle-nav {
     /* display: block; */
-    position: relative;
+    /* position: relative;
     left: 4%;
-    top: 30%;
+    top: 30%; */
     color: #ffffff;
     
     line-height: 40px;
@@ -76,13 +52,25 @@
     cursor: pointer;
     color: #FF9900;
   }
-
+  .navbar-toggler{
+    color: #ffffff;
+  }
+  .navbar-toggler-name{
+    display: flex;
+    align-items: center;
+    height: 54px;
+    /* font-size: small; */
+  }
+  .navbar-toggler button{
+    margin-right: 4px;
+  }
 .navbar-toggler a:hover{
   text-decoration: none;
   color: #FF9900;
   cursor: pointer;
 }
 .section{
+  position: relative;
   margin-right: 0;
 	width: 100%;
   
@@ -108,4 +96,36 @@ body.active .section{
 	width: calc(100% - 614px);
 	margin-right: 614px;
 	transition: all 0.5s ease;
+}
+
+.data{
+  position: absolute;
+  left: 0;
+  top: -100%;
+  width: 100%;
+  max-height: 0px;
+  transition: all 0.8s;
+  overflow: hidden;
+  z-index: 120;
+}
+.search.active .data{
+  top: 27%;
+  max-height: 130px;
+}
+.search.active{
+  padding-bottom: 130px;
+}
+.loginbtn{
+  display: flex;
+  align-items: center;
+}
+.navbar-toggler.active .loginbtn{
+  display: none;
+}
+.logoutbtn{
+  display: none;
+}
+.navbar-toggler.active .logoutbtn{
+  display: flex;
+  align-items: center;
 }
