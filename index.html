@@ -259,6 +259,14 @@
       var hamburger = document.querySelector(".closebtn");
       hamburger.addEventListener("click", function(){
         document.querySelector("body").classList.toggle("active");
+        $('.closebtn').toggleClass('active');
+        var demo = document.getElementById("navbar-toggler-name");
+        if(demo.style.display=="none"){
+          demo.style.display="flex";
+        }else{
+          demo.style.display="none";
+        }
+        
       })
       console.log((document.cookie).split('; '))
       var v0 = (document.cookie).split('; ')[0]

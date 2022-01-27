@@ -141,3 +141,6 @@ body.active .section{
 .navbar-toggler-name:hover{
   background-size: 100% 2.5px;
 }
+.closebtn.active .navbar-toggler-name{
+  display: none;
+}
