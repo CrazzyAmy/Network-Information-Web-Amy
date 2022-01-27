@@ -36,7 +36,7 @@
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
     <div class="navbar-toggler" style="display:flex;">
-      <h2 class="navbar-toggler-name" id="navbar-toggler-name" style="margin-right: 5px;"></h2>
+      <span class="navbar-toggler-name" id="navbar-toggler-name" style="margin-right: 5px;color: white;font-size: large;">You have not logged in!!</span>
       <button class="btn btn-outline-light" onclick="opensetting()">
         <img src="picture/settings-white-icon.jpg" alt="settings-icon" height="20px">
       </button>
@@ -321,8 +321,8 @@
         $('.navbar-toggler').toggleClass('active');
         var demo = document.getElementById("navbar-toggler-name"); 
         demo.innerHTML = 'Hi! '+strname+", welcome!" ;
-        demo.style.color = "white"; 
-        demo.style.fontSize = "medium"; 
+        // demo.style.color = "white"; 
+        // demo.style.fontSize = "medium"; 
         // document.getElementById('.navbar-toggler-name').value = 'Hi!'+strname;
       }
     // $('#closebtn').click(function () {
