@@ -15,58 +15,58 @@ let outtoin = []
 let total_detail_json = null
 let ip_gateway_set = new Map();
 let nextNum = 0
-var v0 = (document.cookie).split(';')[0]
-var v1 = (document.cookie).split(';')[1]
-var v2 = (document.cookie).split(';')[2]
-var v3 = (document.cookie).split(';')[3]
+var v0 = (document.cookie).split('; ')[0]
+var v1 = (document.cookie).split('; ')[1]
+var v2 = (document.cookie).split('; ')[2]
+var v3 = (document.cookie).split('; ')[3]
 let strerror=v0, struser=v1, strsession=v2, strname=v3;
 if(v0.search("error=")!= -1){
 strerror = v0.replace("error=","")
 }
-if(v0.search(" userId=")!= -1){
-struser = v0.replace(" userId=","")
+if(v0.search("userId=")!= -1){
+struser = v0.replace("userId=","")
 }
-if(v0.search(" session=")!= -1){
-strsession = v0.replace(" session=","")
+if(v0.search("session=")!= -1){
+strsession = v0.replace("session=","")
 }
-if(v0.search(" username=")!= -1){
-strname = v0.replace(" username=","")
+if(v0.search("username=")!= -1){
+strname = v0.replace("username=","")
 }
 if(v1.search("error=")!= -1){
 strerror = v1.replace("error=","")
 }
-if(v1.search(" userId=")!= -1){
-struser = v1.replace(" userId=","")
+if(v1.search("userId=")!= -1){
+struser = v1.replace("userId=","")
 }
-if(v1.search(" session=")!= -1){
-strsession = v1.replace(" session=","")
+if(v1.search("session=")!= -1){
+strsession = v1.replace("session=","")
 }
-if(v1.search(" username=")!= -1){
-strname = v1.replace(" username=","")
+if(v1.search("username=")!= -1){
+strname = v1.replace("username=","")
 }
 if(v2.search("error=")!= -1){
 strerror = v2.replace("error=","")
 }
-if(v2.search(" userId=")!= -1){
-struser = v2.replace(" userId=","")
+if(v2.search("userId=")!= -1){
+struser = v2.replace("userId=","")
 }
-if(v2.search(" session=")!= -1){
-strsession = v2.replace(" session=","")
+if(v2.search("session=")!= -1){
+strsession = v2.replace("session=","")
 }
-if(v2.search(" username=")!= -1){
-strname = v2.replace(" username=","")
+if(v2.search("username=")!= -1){
+strname = v2.replace("username=","")
 }
 if(v3.search("error=")!= -1){
 strerror = v3.replace("error=","")
 }
-if(v3.search(" userId=")!= -1){
-struser = v3.replace(" userId=","")
+if(v3.search("userId=")!= -1){
+struser = v3.replace("userId=","")
 }
-if(v3.search(" session=")!= -1){
-strsession = v3.replace(" session=","")
+if(v3.search("session=")!= -1){
+strsession = v3.replace("session=","")
 }
-if(v3.search(" username=")!= -1){
-strname = v3.replace(" username=","")
+if(v3.search("username=")!= -1){
+strname = v3.replace("username=","")
 }
 document.querySelector("#search_first").addEventListener('click', function () {
 	search_detail("", "", "")

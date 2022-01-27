@@ -214,6 +214,8 @@
             }
           }
           document.cookie = 'username='+ document.getElementById('users').value;
+          console.log(document.cookie)
+          console.log(document.getElementById('users').value)
           if (xmlhttp.readyState==4 && xmlhttp.status==200)
           {
               distinguish();
