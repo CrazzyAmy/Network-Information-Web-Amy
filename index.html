@@ -35,8 +35,12 @@
       <img src="/picture/Logo-text_new.png" style="height: 6vh;" alt="">
     </div>
     <!-- 導覽列右側按鈕，md消失 -->
-    <div class="navbar-toggler" style="display:flex;">
-      <h2 class="navbar-toggler-name" id="navbar-toggler-name" style="margin-right: 5px;"></h2>
+    <div class="navbar-toggler" id="menu-box" style="display:flex;">
+      <!-- <a href=""> -->
+        <span class="navbar-toggler-name menu-txt" id="navbar-toggler-name " style="margin-right: 5px;color: white;font-size: large;padding: 10px;margin-right: 10px;">You have not logged in!!</span>
+        <!-- <span class="menu-line"></span> -->
+      <!-- </a> -->
+      <!-- outline: 4px dotted #fff; -->
       <button class="btn btn-outline-light" onclick="opensetting()">
         <img src="picture/settings-white-icon.jpg" alt="settings-icon" height="20px">
       </button>
@@ -320,9 +324,9 @@
         $('.search').toggleClass('active');
         $('.navbar-toggler').toggleClass('active');
         var demo = document.getElementById("navbar-toggler-name"); 
-        demo.innerHTML = 'Hi! '+strname+", welcome!" ;
-        demo.style.color = "white"; 
-        demo.style.fontSize = "medium"; 
+        demo.innerHTML = 'Hi! '+strname+" ";
+        // demo.style.color = "white"; 
+        // demo.style.fontSize = "medium"; 
         // document.getElementById('.navbar-toggler-name').value = 'Hi!'+strname;
       }
     // $('#closebtn').click(function () {

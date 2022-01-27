@@ -62,7 +62,7 @@
     /* font-size: small; */
   }
   .navbar-toggler button{
-    margin-right: 4px;
+    margin-right: 10px;
   }
 .navbar-toggler a:hover{
   text-decoration: none;
@@ -129,3 +129,32 @@ body.active .section{
   display: flex;
   align-items: center;
 }
+/* #menu-box a{
+  display: block;text-align: center;
+} */
+#menu-box .menu-txt{
+  color: #00174d;
+  font-size: 19px;
+  text-decoration: none;
+  background-image: linear-gradient(#fff, #fff);
+  background-position: left bottom;
+  background-size: 0 2.5px;
+  background-repeat: no-repeat;
+  transition: background-size 0.15s;
+  /* display: block; */
+}
+#menu-box .menu-txt:hover{
+  background-size: 100% 2.5px;
+}
+/* #menu-box .menu-line{
+  width: 0;padding: 0;height: 2px;
+  background: #00b3e1;display: inline-block;
+  -webkit-transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  -ms-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+#menu-box a:hover .menu-line{
+  padding: 0 40%;
+} */
