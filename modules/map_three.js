@@ -17,6 +17,20 @@
   let tmpBuildingName;
   
 
+  // var mybuild="ALL"
+  // var myflr="ALL"
+  function searchBF(mybuild, myflr){
+    // var str = myObj;
+    // console.log((str).split("-"))
+    // var Buildshortname=(myObj).split("-")[1]
+    // var flr=(myObj).split("-")[2]
+    document.getElementById("menubtn").click();
+    document.getElementById('selectBuilding').value = mybuild;
+    document.getElementById('selectFloor').value = myflr;
+    document.getElementById('eventSeverityCat').value = "ALL";
+    document.getElementById("menubtn").click();
+  }
+  window.searchBF=searchBF
   //建築顯示浮動式視窗
   var LatestMouseProjection = undefined; // this is the latest projection of the mouse on object (i.e. intersection with ray)
   var OpenToolTip = false;
@@ -145,14 +159,16 @@
       $("#tooltip_list").empty();
       for(let i = 1; i<= floor; i++)
       {
+        let tmpi = i;
         let tmp = buildingcnt.get(shortname)[i]
         $("#tooltip_list").append(
           '<li id="tooltip_list_element">'+
           '<div class="floor">' + i + 'F</div>' + 
           '<div class="eventCount">' + tmp +'</div>' +
-          '<div class="eventbtn">' + '<button type="button" class="btn btn-outline-secondary" style="margin-left: 5px;font-size:8px; width: 50px;">檢視</button>' +'</div>' +
+          '<div class="eventbtn">' + '<button type="button" class="btn btn-outline-secondary" id="b-'+shortname+'-'+tmpi+'" style="margin-left: 5px;font-size:8px; width: 50px;" onclick="searchBF(\''+shortname+'\','+tmpi+')">檢視</button>' +'</div>' +
           '</li>'
         );
+        console.log('b-'+shortname+'-'+tmpi)
       }
       
       $("#tooltip_list").height( (floor * 28) );
@@ -181,6 +197,7 @@
     $("#tooltip").hide();
     OpenToolTip = false;
   });
+  
 
   let scene_init_meshes = function(name, listdata, t_ref, func_create)
   {

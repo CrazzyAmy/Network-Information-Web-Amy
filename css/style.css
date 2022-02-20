@@ -144,3 +144,13 @@ body.active .section{
 .closebtn.active .navbar-toggler-name{
   display: none;
 }
+@media (max-width: 1008px) {
+  .navbar-toggler-name{
+    display: none;
+  }
+}
+@media (max-width: 625px) {
+  .navbar{
+    height: auto;
+  }
+}
